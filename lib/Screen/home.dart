@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Text("Welcome:-${FirebaseAuth.instance.currentUser!.uid}"),
       ),
+
     );
   }
 }

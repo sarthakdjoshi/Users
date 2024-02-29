@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:users/Screen/Signup.dart';
 import 'package:users/Screen/home.dart';
 import 'package:users/Splash.dart';
+import 'Screen/bottomnavidate.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -44,9 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
   var email = TextEditingController();
   var pass = TextEditingController();
   bool passkey = true;
-
-  Future<void> signin() async {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(
                   prefixIcon: IconButton(
                     onPressed: () {
-                      passkey == !passkey;
+                      passkey = !passkey;
                       setState(() {});
                     },
                     icon: Icon(Icons.key),
@@ -115,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Home(),
+                                builder: (context) => Bottomnavigate(),
                               ));
                         }
                       } on FirebaseAuthException catch (e) {
@@ -125,6 +123,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               const SnackBar(
                                   content:
                                       Text("Enter User email or password")));
+                        }
+                        if (e.code.toString() == "invalid-credential") {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text("Enter Valid User email or password")));
                         }
                       }
                     },

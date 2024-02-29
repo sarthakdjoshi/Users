@@ -21,26 +21,25 @@ class _SignupState extends State<Signup> {
   var pass = TextEditingController();
 
   bool abc = true;
+  bool passkey = true;
 
   Future<void> add() async {
     try {
-      setState(() {
-        abc = false;
-      });
-      FirebaseAuth.instance
+     await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text, password: pass.text)
           .then((value) {
         FirebaseFirestore.instance
             .collection("User")
-            .doc(FirebaseAuth.instance.currentUser?.uid.toString())
+            .doc(value.user?.uid)
             .set({
           "Name": name.text.trim().toString(),
           "Mobile": mobile.text.trim().toString(),
           "email": email.text.trim().toString(),
           "Address": address.text.trim().toString(),
-          "documentid": FirebaseAuth.instance.currentUser?.uid.toString()
-        }).then((value) => setState(() {
+          "Uid": FirebaseAuth.instance.currentUser?.uid.toString()
+        });
+        setState(() {
                   name.clear();
                   mobile.clear();
                   email.clear();
@@ -49,10 +48,18 @@ class _SignupState extends State<Signup> {
                   abc = true;
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Register Successfully")));
-                }));
+                });
       });
-    } catch (e) {
-      print(e.toString());
+    } on FirebaseAuthException catch (e) {
+     print(e.code.toString());
+      if (e.code == "weak-password") {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Password Is Weak")));
+      }
+      if (e.code == "email-already-in-use") {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Email Is Already In USed")));
+      }
     }
   }
 
@@ -76,6 +83,7 @@ class _SignupState extends State<Signup> {
                   TextField(
                     controller: email,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email),
                       hintText: "Enter Email",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -89,6 +97,7 @@ class _SignupState extends State<Signup> {
                     controller: name,
                     decoration: InputDecoration(
                       hintText: "Enter Name",
+                      prefixIcon: Icon(Icons.person),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -100,7 +109,9 @@ class _SignupState extends State<Signup> {
                   TextField(
                     controller: mobile,
                     keyboardType: TextInputType.number,
+                    maxLength: 10,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.phone),
                       hintText: "Enter Mobile",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -113,6 +124,7 @@ class _SignupState extends State<Signup> {
                   TextField(
                     controller: address,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.location_city),
                       hintText: "Enter Address",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -124,9 +136,16 @@ class _SignupState extends State<Signup> {
                   ),
                   TextField(
                     controller: pass,
-                    obscureText: (abc) ? true : false,
+                    obscureText: passkey,
                     obscuringCharacter: "*",
                     decoration: InputDecoration(
+                      prefixIcon: IconButton(
+                        onPressed: () {
+                          passkey = !passkey;
+                          setState(() {});
+                        },
+                        icon: Icon(Icons.key),
+                      ),
                       hintText: "Enter Password",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -152,7 +171,9 @@ class _SignupState extends State<Signup> {
                                 "Register",
                                 style: TextStyle(color: Colors.white),
                               )
-                            : const CircularProgressIndicator()),
+                            : const CircularProgressIndicator(
+                                color: Colors.white,
+                              )),
                   )
                 ],
               ),
