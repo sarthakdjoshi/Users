@@ -21,19 +21,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const Splash()
-    );
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const Splash());
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -41,12 +41,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var email=TextEditingController();
-  var pass=TextEditingController();
+  var email = TextEditingController();
+  var pass = TextEditingController();
+  bool passkey = true;
 
-  Future<void> signin()async{
+  Future<void> signin() async {}
 
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         centerTitle: true,
-
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -64,10 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 300,
+                  height: 300,
                   width: 300,
                   child: Image.asset("assets/images/l-1.jpg")),
-
               TextField(
                 controller: email,
                 decoration: InputDecoration(
@@ -83,11 +81,17 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               TextField(
                 controller: pass,
-                obscureText: true,
+                obscureText: passkey,
                 obscuringCharacter: "*",
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.key),
+                  prefixIcon: IconButton(
+                    onPressed: () {
+                      passkey == !passkey;
+                      setState(() {});
+                    },
+                    icon: Icon(Icons.key),
+                  ),
                   hintText: "Enter Password",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -104,17 +108,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       var email2 = email.text.trim().toString();
                       var password = pass.text.trim().toString();
                       try {
-                        UserCredential user=await  FirebaseAuth.instance.signInWithEmailAndPassword(
-                            email: email2, password: password);
-                        if(user!=null){
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),));
+                        UserCredential user = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: email2, password: password);
+                        if (user != null) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(),
+                              ));
                         }
-
                       } on FirebaseAuthException catch (e) {
                         print(e.code.toString());
-                        if(e.code.toString()=="channel-error"){
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Enter User email or password")));
-
+                        if (e.code.toString() == "channel-error") {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text("Enter User email or password")));
                         }
                       }
                     },
@@ -143,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>  Signup(),
+                              builder: (context) => Signup(),
                             ));
                       }),
                 ],
@@ -152,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-     // This trailing comma makes auto-formatting nicer for build methods.
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
