@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +22,7 @@ class _SignupState extends State<Signup> {
   var pass = TextEditingController();
 
   bool abc = true;
+  var right="";
   bool passkey = true;
 
   Future<void> add() async {
@@ -159,8 +161,20 @@ class _SignupState extends State<Signup> {
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
-                          add();
-                        },
+                          final bool isValid =
+                          EmailValidator.validate(email.text.toString());
+                          if (isValid) {
+                            right = "Valid";
+                          } else {
+                            right = "Invalid";
+                          }
+                          if(right=="Valid") {
+                            add();
+                          }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter Vaild Email")));
+                          }
+                          },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.indigo,
                             shape: const RoundedRectangleBorder(
