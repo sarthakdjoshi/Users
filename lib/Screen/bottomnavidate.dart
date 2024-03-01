@@ -16,10 +16,10 @@ class Bottomnavigate extends StatefulWidget {
 
 class _BottomnavigateState extends State<Bottomnavigate> {
   List<Widget> screen = [
-     Home(),
-     Fav(),
-     Cart(),
-    Account(),
+     const Home(),
+     const Fav(),
+     const Cart(),
+    const Account(),
   ];
 
   void ontap(int index) {
