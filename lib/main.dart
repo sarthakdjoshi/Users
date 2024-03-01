@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Screen/Signup.dart';
-import 'package:users/Screen/home.dart';
 import 'package:users/Splash.dart';
 import 'Screen/bottomnavidate.dart';
 import 'firebase_options.dart';
@@ -45,11 +44,12 @@ class _MyHomePageState extends State<MyHomePage> {
   var email = TextEditingController();
   var pass = TextEditingController();
   bool passkey = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.indigo,
         title: Text(widget.title),
         centerTitle: true,
       ),
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       passkey = !passkey;
                       setState(() {});
                     },
-                    icon: Icon(Icons.key),
+                    icon: const Icon(Icons.key),
                   ),
                   hintText: "Enter Password",
                   border: OutlineInputBorder(
@@ -109,26 +109,42 @@ class _MyHomePageState extends State<MyHomePage> {
                         UserCredential user = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: email2, password: password);
-                        if (user != null) {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Bottomnavigate(),
-                              ));
-                        }
+
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Bottomnavigate(),
+                            ));
                       } on FirebaseAuthException catch (e) {
                         print(e.code.toString());
-                        if (e.code.toString() == "channel-error") {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text("Enter User email or password")));
-                        }
                         if (e.code.toString() == "invalid-credential") {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text("Enter Valid User email or password")));
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Username or password is NotCorrect"),
+                            duration: Duration(seconds: 2),
+                          ));
+                        }
+                        if (e.code.toString() == "channel-error") {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Email or Password Must Be Filled"),
+                            duration: Duration(seconds: 2),
+                          ));
+                        }
+                        if (e.code.toString() == "user-disabled") {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text(
+                                "Your Account Has Been Lock  Contact Your Principal"),
+                            duration: Duration(seconds: 2),
+                          ));
+                        }
+                        if (e.code.toString() == "invalid-email") {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Provide Valid Email "),
+                            duration: Duration(seconds: 2),
+                          ));
                         }
                       }
                     },
@@ -157,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Signup(),
+                              builder: (context) => const Signup(),
                             ));
                       }),
                 ],

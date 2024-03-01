@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Fav extends StatefulWidget{
+  const Fav({super.key});
+
   @override
   State<Fav> createState() => _FavState();
 }
@@ -16,7 +17,7 @@ class _FavState extends State<Fav> {
          backgroundColor: Colors.indigo,
 
        ),
-       body: Center(
+       body: const Center(
          child: Text("Favorites"),
        ),
      );

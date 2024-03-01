@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:users/main.dart';
 
 class Home extends StatefulWidget {
+  const Home({super.key});
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -12,7 +14,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: const Text("Home"),
         centerTitle: true,
         backgroundColor: Colors.indigo,
         actions: [
@@ -22,12 +24,12 @@ class _HomeState extends State<Home> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyHomePage(
+                      builder: (context) => const MyHomePage(
                         title: "login",
                       ),
                     ));
               },
-              icon: Icon(Icons.logout_sharp))
+              icon: const Icon(Icons.logout_sharp))
         ],
       ),
       body: Center(

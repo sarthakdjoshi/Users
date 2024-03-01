@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Cart extends StatefulWidget{
+  const Cart({super.key});
+
   @override
   State<Cart> createState() => _CartState();
 }
@@ -16,7 +17,7 @@ class _CartState extends State<Cart> {
         backgroundColor: Colors.indigo,
 
       ),
-      body: Center(
+      body: const Center(
         child: Text("Cart"),
       ),
     );

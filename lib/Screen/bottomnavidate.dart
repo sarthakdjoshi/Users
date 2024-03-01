@@ -4,6 +4,7 @@ import 'package:users/Screen/cart.dart';
 import 'package:users/Screen/fav.dart';
 import 'package:users/Screen/home.dart';
 
+// ignore: must_be_immutable
 class Bottomnavigate extends StatefulWidget {
   int selectedindex;
 
@@ -15,9 +16,9 @@ class Bottomnavigate extends StatefulWidget {
 
 class _BottomnavigateState extends State<Bottomnavigate> {
   List<Widget> screen = [
-    Home(),
-    Fav(),
-    Cart(),
+     Home(),
+     Fav(),
+     Cart(),
     Account(),
   ];
 

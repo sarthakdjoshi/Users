@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Account extends StatefulWidget{
+  const Account({super.key});
+
   @override
   State<Account> createState() => _AccountState();
 }
@@ -16,7 +17,7 @@ class _AccountState extends State<Account> {
         backgroundColor: Colors.indigo,
 
       ),
-      body: Center(
+      body: const Center(
         child: Text("Account"),
       ),
     );

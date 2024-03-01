@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {
-  Signup({super.key});
+  const Signup({super.key});
 
   @override
   State<Signup> createState() => _SignupState();
@@ -22,19 +22,16 @@ class _SignupState extends State<Signup> {
   var pass = TextEditingController();
 
   bool abc = true;
-  var right="";
+  var right = "";
   bool passkey = true;
 
   Future<void> add() async {
     try {
-     await FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text, password: pass.text)
           .then((value) {
-        FirebaseFirestore.instance
-            .collection("User")
-            .doc(value.user?.uid)
-            .set({
+        FirebaseFirestore.instance.collection("User").doc(value.user?.uid).set({
           "Name": name.text.trim().toString(),
           "Mobile": mobile.text.trim().toString(),
           "email": email.text.trim().toString(),
@@ -42,18 +39,18 @@ class _SignupState extends State<Signup> {
           "Uid": FirebaseAuth.instance.currentUser?.uid.toString()
         });
         setState(() {
-                  name.clear();
-                  mobile.clear();
-                  email.clear();
-                  address.clear();
-                  pass.clear();
-                  abc = true;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Register Successfully")));
-                });
+          name.clear();
+          mobile.clear();
+          email.clear();
+          address.clear();
+          pass.clear();
+          abc = true;
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Register Successfully")));
+        });
       });
     } on FirebaseAuthException catch (e) {
-     print(e.code.toString());
+      print(e.code.toString());
       if (e.code == "weak-password") {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Password Is Weak")));
@@ -85,7 +82,7 @@ class _SignupState extends State<Signup> {
                   TextField(
                     controller: email,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: const Icon(Icons.email),
                       hintText: "Enter Email",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -99,7 +96,7 @@ class _SignupState extends State<Signup> {
                     controller: name,
                     decoration: InputDecoration(
                       hintText: "Enter Name",
-                      prefixIcon: Icon(Icons.person),
+                      prefixIcon: const Icon(Icons.person),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -113,7 +110,7 @@ class _SignupState extends State<Signup> {
                     keyboardType: TextInputType.number,
                     maxLength: 10,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.phone),
+                      prefixIcon: const Icon(Icons.phone),
                       hintText: "Enter Mobile",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -126,7 +123,7 @@ class _SignupState extends State<Signup> {
                   TextField(
                     controller: address,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.location_city),
+                      prefixIcon: const Icon(Icons.location_city),
                       hintText: "Enter Address",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -146,7 +143,7 @@ class _SignupState extends State<Signup> {
                           passkey = !passkey;
                           setState(() {});
                         },
-                        icon: Icon(Icons.key),
+                        icon: const Icon(Icons.key),
                       ),
                       hintText: "Enter Password",
                       border: OutlineInputBorder(
@@ -162,19 +159,21 @@ class _SignupState extends State<Signup> {
                     child: ElevatedButton(
                         onPressed: () {
                           final bool isValid =
-                          EmailValidator.validate(email.text.toString());
+                              EmailValidator.validate(email.text.toString());
                           if (isValid) {
                             right = "Valid";
                           } else {
                             right = "Invalid";
                           }
-                          if(right=="Valid") {
+                          if (right == "Valid") {
                             add();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Enter Vaild Email")));
+                            email.clear();
                           }
-                          else{
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter Vaild Email")));
-                          }
-                          },
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.indigo,
                             shape: const RoundedRectangleBorder(
