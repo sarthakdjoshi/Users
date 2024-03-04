@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:users/Model/Banner_model.dart';
 import 'package:users/Model/Product_Model.dart';
 import 'package:users/main.dart';
-
 import '../Model/category-model.dart';
 
 class Home extends StatefulWidget {
@@ -49,7 +48,9 @@ class _HomeState extends State<Home> {
             children: [
               Expanded(
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: FirebaseFirestore.instance.collection("Category").snapshots(),
+                  stream: FirebaseFirestore.instance
+                      .collection("Category")
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -90,7 +91,9 @@ class _HomeState extends State<Home> {
               ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: FirebaseFirestore.instance.collection("Banner").snapshots(),
+                  stream: FirebaseFirestore.instance
+                      .collection("Banner")
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -102,28 +105,28 @@ class _HomeState extends State<Home> {
                           .map((doc) => Banner_Model.fromFirestore(doc))
                           .toList();
                       return ListView.builder(
-                        itemCount: users.length,
+                        itemCount: 1,
                         itemBuilder: (context, index) {
-                          return CarouselSlider.builder(itemCount: users.length,
+                          return CarouselSlider.builder(
+                              itemCount: users.length,
                               itemBuilder: (context, index, realIndex) {
                                 var user = users[index];
                                 return SizedBox(
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(user.Image,
+                                    child: Image.network(
+                                      user.Image,
                                       height: 200,
                                       fit: BoxFit.cover,
                                     ),
-
                                   ),
                                 );
                               },
                               options: CarouselOptions(
-                             autoPlay: true,
-                             aspectRatio: 2.0,
+                                autoPlay: true,
+                                aspectRatio: 2.0,
                                 enlargeCenterPage: true,
-                              )
-                          );
+                              ));
                         },
                       );
                     }
@@ -132,7 +135,9 @@ class _HomeState extends State<Home> {
               ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: FirebaseFirestore.instance.collection("Product").snapshots(),
+                  stream: FirebaseFirestore.instance
+                      .collection("Product")
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -149,18 +154,23 @@ class _HomeState extends State<Home> {
                           mainAxisSpacing: 20.0,
                           crossAxisSpacing: 20.0,
                           children: List.generate(users.length, (index) {
-                            var user=users[index];
+                            var user = users[index];
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.network(user.images[0],height: 100,),
-                                Text(user.product_price,style: const TextStyle(color: Colors.green,fontSize: 30),),
+                                Image.network(
+                                  user.images[0],
+                                  height: 100,
+                                ),
+                                Text(
+                                  user.product_price,
+                                  style: const TextStyle(
+                                      color: Colors.green, fontSize: 30),
+                                ),
                               ],
                             );
-                          })
-                      );
-
+                          }));
                     }
                   },
                 ),
