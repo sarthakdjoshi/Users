@@ -1,20 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Model/Banner_model.dart';
 import 'package:users/Model/Product_Model.dart';
-import 'package:users/main.dart';
-import '../Model/category-model.dart';
+import 'package:users/Model/category-model.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({super.key});
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,31 +17,33 @@ class _HomeState extends State<Home> {
         title: const Text("Home"),
         centerTitle: true,
         backgroundColor: Colors.indigo,
-        actions: [
-          IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MyHomePage(
-                    title: "login",
-                  ),
-                ),
-              );
-            },
-            icon: const Icon(Icons.logout_sharp),
-            color: Colors.red,
-          )
-        ],
       ),
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+        child: Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                Colors.white,
+                Colors.deepPurpleAccent,
+                Colors.grey
+              ])),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "Categories",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 120,
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: FirebaseFirestore.instance
                       .collection("Category")
@@ -56,28 +53,29 @@ class _HomeState extends State<Home> {
                       return const Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.hasError) {
-                      return Text("Error:${snapshot.hasError}");
+                      return Text("Error: ${snapshot.error}");
                     } else {
-                      final List<CategoryModel> users = snapshot.data!.docs
+                      final List<CategoryModel> categories = snapshot.data!.docs
                           .map((doc) => CategoryModel.fromFirestore(doc))
                           .toList();
                       return ListView.builder(
-                        itemCount: users.length,
+                        itemCount: categories.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          var user = users[index];
-                          return Card(
+                          var category = categories[index];
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Column(
                               children: [
                                 CircleAvatar(
-                                  backgroundImage: NetworkImage((user.Image)),
-                                  radius: 100.0,
+                                  backgroundImage: NetworkImage(category.Image),
+                                  radius: 45.0,
                                 ),
                                 Text(
-                                  user.Category_Name,
+                                  category.Category_Name,
                                   style: const TextStyle(
-                                    fontSize: 25,
-                                    color: Colors.indigo,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ],
@@ -89,7 +87,18 @@ class _HomeState extends State<Home> {
                   },
                 ),
               ),
-              Expanded(
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "Discount Banner",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 250,
                 child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: FirebaseFirestore.instance
                       .collection("Banner")
@@ -99,81 +108,139 @@ class _HomeState extends State<Home> {
                       return const Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.hasError) {
-                      return Text("Error:${snapshot.hasError}");
+                      return Text("Error: ${snapshot.error}");
                     } else {
-                      final List<Banner_Model> users = snapshot.data!.docs
+                      final List<Banner_Model> banners = snapshot.data!.docs
                           .map((doc) => Banner_Model.fromFirestore(doc))
                           .toList();
-                      return ListView.builder(
-                        itemCount: 1,
-                        itemBuilder: (context, index) {
-                          return CarouselSlider.builder(
-                              itemCount: users.length,
-                              itemBuilder: (context, index, realIndex) {
-                                var user = users[index];
-                                return SizedBox(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                      user.Image,
-                                      height: 200,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              },
-                              options: CarouselOptions(
-                                autoPlay: true,
-                                aspectRatio: 2.0,
-                                enlargeCenterPage: true,
-                              ));
+                      return CarouselSlider.builder(
+                        itemCount: banners.length,
+                        itemBuilder: (context, index, realIndex) {
+                          var banner = banners[index];
+                          return Image.network(
+                            banner.Image,
+                            fit: BoxFit.cover,
+                          );
                         },
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          aspectRatio: 2.0,
+                          enlargeCenterPage: true,
+                        ),
                       );
                     }
                   },
                 ),
               ),
-              Expanded(
-                child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: FirebaseFirestore.instance
-                      .collection("Product")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.hasError) {
-                      return Text("Error:${snapshot.hasError}");
-                    } else {
-                      final List<Product_Model> users = snapshot.data!.docs
-                          .map((doc) => Product_Model.fromFirestore(doc))
-                          .toList();
-                      return GridView.count(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1.0,
-                          mainAxisSpacing: 20.0,
-                          crossAxisSpacing: 20.0,
-                          children: List.generate(users.length, (index) {
-                            var user = users[index];
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.network(
-                                  user.images[0],
-                                  height: 100,
-                                ),
-                                Text(
-                                  user.product_price,
-                                  style: const TextStyle(
-                                      color: Colors.green, fontSize: 30),
-                                ),
-                              ],
-                            );
-                          }));
-                    }
-                  },
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "Products",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+              ),
+              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance
+                    .collection("Product")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else {
+                    final List<Product_Model> products = snapshot.data!.docs
+                        .map((doc) => Product_Model.fromFirestore(doc))
+                        .toList();
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.7,
+                      ),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        var product = products[index];
+                        return Card(
+                          elevation: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Image.network(
+                                  product.images[0],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  product.product_name,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0, bottom: 8.0),
+                                child: Text(
+                                  product.product_price,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0, bottom: 8.0),
+                                  child: Row(
+                                    children: [
+                                      CupertinoButton(
+                                          child: const Icon(Icons.favorite_border),
+                                          onPressed: () {
+                                            FirebaseFirestore.instance.collection("Fav").doc(FirebaseAuth.instance.currentUser?.uid).set(
+                                                {
+                                                  "User_id":FirebaseAuth.instance.currentUser?.uid,
+                                                  "Product_Price":product.product_price,
+                                                  "Product_Name":product.product_name,
+                                                  "Product_Image":product.images,
+
+                                                }).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Fav Added"))));
+                                          }
+                                          ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      CupertinoButton(
+                                          child: const Icon(Icons.shopping_cart),
+                                          onPressed:() {
+                                            FirebaseFirestore.instance.collection("Cart").doc(FirebaseAuth.instance.currentUser?.uid).set(
+                                                {
+                                                  "User_id":FirebaseAuth.instance.currentUser?.uid,
+                                                  "Product_Price":product.product_price,
+                                                  "Product_Name":product.product_name,
+                                                  "Product_Image":product.images,
+
+                                                }).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Cart Added"))));
+                                          }),
+                                    ],
+                                  )),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ],
           ),

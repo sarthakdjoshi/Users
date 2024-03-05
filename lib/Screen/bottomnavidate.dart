@@ -17,7 +17,7 @@ class Bottomnavigate extends StatefulWidget {
 class _BottomnavigateState extends State<Bottomnavigate> {
   List<Widget> screen = [
      const Home(),
-     const Fav(),
+    const Fav(),
      const Cart(),
     const Account(),
   ];
