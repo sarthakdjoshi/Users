@@ -33,20 +33,20 @@ class _BottomnavigateState extends State<Bottomnavigate> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Exit"),
-              content: Text("Are you sure you want to exit?"),
+              title: const Text("Exit"),
+              content: const Text("Are you sure you want to exit?"),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
-                  child: Text("No"),
+                  child: const Text("No"),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  child: Text("Yes"),
+                  child: const Text("Yes"),
                 ),
               ],
             );

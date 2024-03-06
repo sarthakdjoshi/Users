@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:users/main.dart';
 
 import 'Screen/bottomnavidate.dart';
-import 'Screen/home.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -28,7 +27,7 @@ class _SplashState extends State<Splash> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => MyHomePage(title: "Login"),
+            builder: (context) => const MyHomePage(title: "Login"),
           ));
     } else {
       Navigator.pushReplacement(

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../Model/Sub-Category-Model.dart';
-import '../Model/category-model.dart';
 
 class Category_Detail extends StatefulWidget{
   final String category;
@@ -17,7 +16,7 @@ class _Category_DetailState extends State<Category_Detail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:Text("Brands") ,
+        title:const Text("Brands") ,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
