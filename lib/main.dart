@@ -52,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.indigo,
         title: Text(widget.title),
         centerTitle: true,
+
       ),
       body: SingleChildScrollView(
         child: Padding(

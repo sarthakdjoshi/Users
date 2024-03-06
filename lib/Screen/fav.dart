@@ -139,7 +139,7 @@ class _FavState extends State<Fav> {
                                               return AlertDialog(
                                                 title: const Text(
                                                     'Are You Sure To Move To Cart'),
-                                                content: const Text('Moveve?'),
+                                                content: const Text('Move?'),
                                                 actions: <Widget>[
                                                   TextButton(
                                                     child: const Text('No'),

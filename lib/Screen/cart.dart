@@ -11,8 +11,6 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  var id = FirebaseAuth.instance.currentUser?.uid;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
