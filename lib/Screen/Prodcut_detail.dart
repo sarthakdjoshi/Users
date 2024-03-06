@@ -76,7 +76,9 @@ class Product_Detail extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(width:10,),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 Text(
                                   product.product_name,
                                   style: const TextStyle(
@@ -95,15 +97,117 @@ class Product_Detail extends StatelessWidget {
                                 const Text(
                                   "Product Price",
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 20,
                                     color: Colors.green,
                                   ),
                                 ),
-                                const SizedBox(width:10,),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 Text(
                                   product.product_price,
                                   style: const TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 8.0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "Product Discount",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  product.discount,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 8.0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "Product Category",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  product.category,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 8.0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "Product description",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  product.product_desc,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 8.0, right: 8.0, bottom: 8.0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  "Product Color",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  product.product_color,
+                                  style: const TextStyle(
+                                    fontSize: 20,
                                     color: Colors.green,
                                   ),
                                 ),

@@ -14,7 +14,10 @@ class Account_Detail extends StatelessWidget {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance.collection("User").where("Uid",isEqualTo: FirebaseAuth.instance.currentUser?.uid).snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection("User")
+            .where("Uid", isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -33,6 +36,7 @@ class Account_Detail extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Card(
