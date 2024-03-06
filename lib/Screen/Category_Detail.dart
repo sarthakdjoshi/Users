@@ -22,17 +22,7 @@ class _Category_DetailState extends State<Category_Detail> {
       body: SingleChildScrollView(
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              "Sub-Categories",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(
+           SizedBox(
             height: 120,
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: FirebaseFirestore.instance
