@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:users/Model/Banner_model.dart';
 import 'package:users/Model/Product_Model.dart';
 import 'package:users/Model/category-model.dart';
+import 'package:users/Screen/Category_Detail.dart';
+import 'package:users/Screen/Prodcut_detail.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -35,7 +37,7 @@ class Home extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "Categories",
+                  "Category",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -66,19 +68,22 @@ class Home extends StatelessWidget {
                           return Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Column(
-                              children: [
-                                CircleAvatar(
-                                  backgroundImage: NetworkImage(category.Image),
-                                  radius: 45.0,
-                                ),
-                                Text(
-                                  category.Category_Name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                            child: InkWell(
+                              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Category_Detail(category: category.Category_Name),));},
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(category.Image),
+                                    radius: 45.0,
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    category.Category_Name,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -167,74 +172,42 @@ class Home extends StatelessWidget {
                       itemCount: products.length,
                       itemBuilder: (context, index) {
                         var product = products[index];
-                        return Card(
-                          elevation: 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Image.network(
-                                  product.images[0],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  product.product_name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                        return InkWell(
+                          onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context) => Product_Detail(productname: product.product_name),));},
+                          child: Card(
+                            elevation: 4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Image.network(
+                                    product.images[0],
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0, bottom: 8.0),
-                                child: Text(
-                                  product.product_price,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.green,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    product.product_name,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Padding(
+                                Padding(
                                   padding: const EdgeInsets.only(
                                       left: 8.0, right: 8.0, bottom: 8.0),
-                                  child: Row(
-                                    children: [
-                                      CupertinoButton(
-                                          child: const Icon(Icons.favorite_border),
-                                          onPressed: () {
-                                            FirebaseFirestore.instance.collection("Fav").doc(FirebaseAuth.instance.currentUser?.uid).set(
-                                                {
-                                                  "User_id":FirebaseAuth.instance.currentUser?.uid,
-                                                  "Product_Price":product.product_price,
-                                                  "Product_Name":product.product_name,
-                                                  "Product_Image":product.images,
-
-                                                }).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Fav Added"))));
-                                          }
-                                          ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      CupertinoButton(
-                                          child: const Icon(Icons.shopping_cart),
-                                          onPressed:() {
-                                            FirebaseFirestore.instance.collection("Cart").doc(FirebaseAuth.instance.currentUser?.uid).set(
-                                                {
-                                                  "User_id":FirebaseAuth.instance.currentUser?.uid,
-                                                  "Product_Price":product.product_price,
-                                                  "Product_Name":product.product_name,
-                                                  "Product_Image":product.images,
-
-                                                }).then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Cart Added"))));
-                                          }),
-                                    ],
-                                  )),
-                            ],
+                                  child: Text(
+                                    product.product_price,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
