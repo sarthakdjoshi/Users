@@ -1,228 +1,162 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+
 
 import '../Model/Product_Model.dart';
 
-class Product_Detail extends StatelessWidget {
+class ProductDetail extends StatefulWidget {
   final String productname;
 
-  const Product_Detail({super.key, required this.productname});
+
+  const ProductDetail({super.key, required this.productname});
 
   @override
+  State<ProductDetail> createState() => _ProductDetailState();
+}
+
+class _ProductDetailState extends State<ProductDetail> {
+  @override
   Widget build(BuildContext context) {
+    int qty = 1; //dropdown
+    List<int> options = [
+     1,2,3,4,5,6
+    ];
     return Scaffold(
       appBar: AppBar(
-        title: Text(productname),
+        title: Text(widget.productname),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              "Products",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 16),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: FirebaseFirestore.instance
+                    .collection("Product")
+                    .where("product_name", isEqualTo: widget.productname)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else {
+                    final List<Product_Model> products = snapshot.data!.docs
+                        .map((doc) => Product_Model.fromFirestore(doc))
+                        .toList();
+                    return ListView.builder(
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        var product = products[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CarouselSlider.builder(
+                              itemCount: product.images.length,
+
+                              itemBuilder: (context, index, realIndex) {
+                                return Image.network(
+                                  product.images[index],
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                              options: CarouselOptions(
+                                autoPlay: true,
+                                aspectRatio: 2.0,
+                                enlargeCenterPage: true,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              "Product Name: ${product.product_name}",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Price: ${product.product_price}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Discount: ${product.discount}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Category: ${product.category}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            DropdownButton<int>(
+                              value: qty,
+                              onChanged: (int? newValue) {
+                                qty = newValue!;
+                                setState(() {
+
+                                });
+                              },
+                              items: options.map<DropdownMenuItem<int>>((int value) {
+                                return DropdownMenuItem<int>(
+                                  value: value,
+                                  child: Text(value.toString()),
+                                );
+                              }).toList(),
+                            ),
+                            SizedBox(width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: (){},
+                              child: Text("Add To Cart",style: TextStyle(color: Colors.black),),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.yellow),
+                            ),),
+                            SizedBox(width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: (){},
+                              child: Text("Buy Now",style: TextStyle(color: Colors.black),),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                            ),),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Description: ${product.product_desc}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Color: ${product.product_color}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ),
-          ),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance
-                  .collection("Product")
-                  .where("product_name", isEqualTo: productname)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return Text("Error: ${snapshot.error}");
-                } else {
-                  final List<Product_Model> products = snapshot.data!.docs
-                      .map((doc) => Product_Model.fromFirestore(doc))
-                      .toList();
-                  return ListView.builder(
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      var product = products[index];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CarouselSlider.builder(
-                            itemCount: product.images.length,
-                            itemBuilder: (context, index, realIndex) {
-                              return Image.network(
-                                product.images[index],
-                                fit: BoxFit.cover,
-                              );
-                            },
-                            options: CarouselOptions(
-                              autoPlay: true,
-                              aspectRatio: 2.0,
-                              enlargeCenterPage: true,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Product Name=",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  product.product_name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Product Price",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  product.product_price,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Product Discount",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  product.discount,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Product Category",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  product.category,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Product description",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  product.product_desc,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  "Product Color",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  product.product_color,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

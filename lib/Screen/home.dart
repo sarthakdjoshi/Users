@@ -154,7 +154,7 @@ class Home extends StatelessWidget {
                       itemBuilder: (context, index) {
                         var product = products[index];
                         return InkWell(
-                          onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context) => Product_Detail(productname: product.product_name),));},
+                          onTap: (){Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetail(productname: product.product_name),));},
                           child: Card(
                             elevation: 4,
                             child: Column(
