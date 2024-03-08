@@ -122,14 +122,14 @@ class _ProductDetailState extends State<ProductDetail> {
                             SizedBox(width: double.infinity,
                             child: ElevatedButton(
                               onPressed: (){},
-                              child: Text("Add To Cart",style: TextStyle(color: Colors.black),),
                               style: ElevatedButton.styleFrom(backgroundColor: Colors.yellow),
+                              child: const Text("Add To Cart",style: TextStyle(color: Colors.black),),
                             ),),
                             SizedBox(width: double.infinity,
                             child: ElevatedButton(
                               onPressed: (){},
-                              child: Text("Buy Now",style: TextStyle(color: Colors.black),),
                               style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                              child: const Text("Buy Now",style: TextStyle(color: Colors.black),),
                             ),),
                             const SizedBox(height: 8),
                             Text(

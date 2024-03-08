@@ -75,7 +75,7 @@ class _Category_DetailState extends State<Category_Detail> {
               },
             ),
           ),
-          (sub.isEmpty)?Text(""):Text("Product Of ${sub}",style: TextStyle(fontSize: 20,color: Colors.indigo),),
+          (sub.isEmpty)?const Text(""):Text("Product Of $sub",style: const TextStyle(fontSize: 20,color: Colors.indigo),),
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
                 .collection("Product").where("Sub_category",isEqualTo: sub)
