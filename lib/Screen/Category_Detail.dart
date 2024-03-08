@@ -14,6 +14,7 @@ class Category_Detail extends StatefulWidget{
 }
 
 class _Category_DetailState extends State<Category_Detail> {
+  var sub="";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,19 +49,24 @@ class _Category_DetailState extends State<Category_Detail> {
                       return Padding(
                         padding:
                         const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(category.Image),
-                              radius: 45.0,
-                            ),
-                            Text(
-                              category.Sub_Category,
-                              style: const TextStyle(
-                                fontSize: 16,
+                        child: InkWell(
+                          onTap: (){sub=category.Sub_Category;setState(() {
+
+                          });},
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: NetworkImage(category.Image),
+                                radius: 45.0,
                               ),
-                            ),
-                          ],
+                              Text(
+                                category.Sub_Category,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -69,9 +75,10 @@ class _Category_DetailState extends State<Category_Detail> {
               },
             ),
           ),
+          (sub.isEmpty)?Text(""):Text("Product Of ${sub}",style: TextStyle(fontSize: 20,color: Colors.indigo),),
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
-                .collection("Product").where("category",isEqualTo: widget.category)
+                .collection("Product").where("Sub_category",isEqualTo: sub)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

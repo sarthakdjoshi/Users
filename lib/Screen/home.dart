@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Main Screen"),
+        title: const Text("Home"),
         centerTitle: true,
         backgroundColor: Colors.indigo,
       ),
