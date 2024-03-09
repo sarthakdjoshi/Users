@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
-
-
 import '../Model/Product_Model.dart';
 
 class ProductDetail extends StatefulWidget {
   final String productname;
-
 
   const ProductDetail({super.key, required this.productname});
 
@@ -20,9 +16,7 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     int qty = 1; //dropdown
-    List<int> options = [
-     1,2,3,4,5,6
-    ];
+    List<int> options = [1, 2, 3, 4, 5, 6];
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.productname),
@@ -59,7 +53,6 @@ class _ProductDetailState extends State<ProductDetail> {
                           children: [
                             CarouselSlider.builder(
                               itemCount: product.images.length,
-
                               itemBuilder: (context, index, realIndex) {
                                 return Image.network(
                                   product.images[index],
@@ -108,29 +101,40 @@ class _ProductDetailState extends State<ProductDetail> {
                               value: qty,
                               onChanged: (int? newValue) {
                                 qty = newValue!;
-                                setState(() {
-
-                                });
+                                setState(() {});
                               },
-                              items: options.map<DropdownMenuItem<int>>((int value) {
+                              items: options
+                                  .map<DropdownMenuItem<int>>((int value) {
                                 return DropdownMenuItem<int>(
                                   value: value,
                                   child: Text(value.toString()),
                                 );
                               }).toList(),
                             ),
-                            SizedBox(width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: (){},
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.yellow),
-                              child: const Text("Add To Cart",style: TextStyle(color: Colors.black),),
-                            ),),
-                            SizedBox(width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: (){},
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                              child: const Text("Buy Now",style: TextStyle(color: Colors.black),),
-                            ),),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.yellow),
+                                child: const Text(
+                                  "Add To Cart",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.orange),
+                                child: const Text(
+                                  "Buy Now",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ),
                             const SizedBox(height: 8),
                             Text(
                               "Description: ${product.product_desc}",
