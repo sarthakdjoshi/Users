@@ -15,9 +15,9 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   int qty = 1; //dropdown
   List<int> options = [1, 2, 3, 4, 5, 6];
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.productname),
@@ -152,7 +152,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 color: Colors.green,
                               ),
                             ),
-                          const SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                               "title1: ${product.product_title1}",
                               style: const TextStyle(
@@ -167,8 +167,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                 fontSize: 16,
                                 color: Colors.green,
                               ),
-                            )
-                            ,const SizedBox(height: 8),
+                            ),
+                            const SizedBox(height: 8),
                             Text(
                               "title2: ${product.product_title2}",
                               style: const TextStyle(
@@ -200,8 +200,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                 color: Colors.green,
                               ),
                             ),
-
-
                           ],
                         );
                       },
