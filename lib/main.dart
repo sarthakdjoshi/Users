@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Login',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
                             content: Text(
-                                "Your Account Has Been Lock  Contact Your Principal"),
+                                "Your Account Has Been Lock"),
                             duration: Duration(seconds: 2),
                           ));
                         }

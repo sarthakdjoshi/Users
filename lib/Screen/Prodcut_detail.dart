@@ -13,10 +13,11 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  int qty = 1; //dropdown
+  List<int> options = [1, 2, 3, 4, 5, 6];
   @override
   Widget build(BuildContext context) {
-    int qty = 1; //dropdown
-    List<int> options = [1, 2, 3, 4, 5, 6];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.productname),
@@ -151,6 +152,56 @@ class _ProductDetailState extends State<ProductDetail> {
                                 color: Colors.green,
                               ),
                             ),
+                          const SizedBox(height: 8),
+                            Text(
+                              "title1: ${product.product_title1}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "title1_detail: ${product.product_title1_delail}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            )
+                            ,const SizedBox(height: 8),
+                            Text(
+                              "title2: ${product.product_title2}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "title2_detail: ${product.product_title2_delail}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "title3: ${product.product_title3}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "title3_detail: ${product.product_title3_delail}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+
+
                           ],
                         );
                       },
