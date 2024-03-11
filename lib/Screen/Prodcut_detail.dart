@@ -15,7 +15,6 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   int qty = 1; //dropdown
   List<int> options = [1, 2, 3, 4, 5, 6];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
