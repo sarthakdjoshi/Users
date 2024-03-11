@@ -15,6 +15,7 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   int qty = 1; //dropdown
   List<int> options = [1, 2, 3, 4, 5, 6];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,8 +75,27 @@ class _ProductDetailState extends State<ProductDetail> {
                               ),
                             ),
                             const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  "MRP:",
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                Text(
+                                  "${product.product_price}",
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.green,
+                                      decoration: TextDecoration.lineThrough),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
                             Text(
-                              "Price: ${product.product_price}",
+                              "Discount: ${product.discount}",
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.green,
@@ -83,7 +103,7 @@ class _ProductDetailState extends State<ProductDetail> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              "Discount: ${product.discount}",
+                              "New Price: ${product.product_newprice}",
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.green,
@@ -194,6 +214,22 @@ class _ProductDetailState extends State<ProductDetail> {
                             const SizedBox(height: 8),
                             Text(
                               "title3_detail: ${product.product_title3_delail}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "title4: ${product.product_title4}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.green,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "title4_detail: ${product.product_title4_delail}",
                               style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.green,
