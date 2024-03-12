@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Model/User_Model.dart';
+import 'package:users/Screen/updateaccount.dart';
 
 class Account_Detail extends StatelessWidget {
   const Account_Detail({super.key});
@@ -13,7 +14,9 @@ class Account_Detail extends StatelessWidget {
         title: const Text("My Profile"),
         centerTitle: true,
       ),
-      body: Center(
+      body: Padding(
+
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection("User")
@@ -34,84 +37,98 @@ class Account_Detail extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   var User = Users[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Card(
-                          child: Row(
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Card(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
                                 "Username=",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                 ),
                               ),
                               Text(
                                 User.Name,
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Card(
-                          child: Row(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
                                 "Email=",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                 ),
                               ),
                               Text(
                                 User.email,
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Card(
-                          child: Row(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
                                 "Mobile no.=",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                 ),
                               ),
                               Text(
                                 User.Mobile,
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Card(
-                          child: Row(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
                                 "Address=",
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                 ),
                               ),
                               Text(
                                 User.Address,
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 20,
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Account_Update(user: User),));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.zero),
+                                      backgroundColor: Colors.blue),
+                                  child: Text(
+                                    "Update",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  )))
+                        ],
+                      ),
                     ),
                   );
                 },

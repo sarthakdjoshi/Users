@@ -78,161 +78,192 @@ class _ProductDetailState extends State<ProductDetail> {
                             Row(
                               children: [
                                 Text(
-                                  "MRP:",
+                                  "-${product.discount}",
                                   style: const TextStyle(
+                                    fontSize: 36,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  "₹${product.product_newprice}",
+                                  style: const TextStyle(
+                                    fontSize: 36,
+                                     color: Colors.green
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "MRP:",
+                                  style: TextStyle(
                                     fontSize: 20,
-                                    color: Colors.green,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 Text(
-                                  "${product.product_price}",
+                                  product.product_price,
                                   style: const TextStyle(
                                       fontSize: 20,
-                                      color: Colors.green,
                                       decoration: TextDecoration.lineThrough),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              "Discount: ${product.discount}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "New Price: ${product.product_newprice}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
                               "Category: ${product.category}",
                               style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
+                                fontSize: 20,
                               ),
                             ),
-                            DropdownButton<int>(
-                              value: qty,
-                              onChanged: (int? newValue) {
-                                qty = newValue!;
-                                setState(() {});
-                              },
-                              items: options
-                                  .map<DropdownMenuItem<int>>((int value) {
-                                return DropdownMenuItem<int>(
-                                  value: value,
-                                  child: Text(value.toString()),
-                                );
-                              }).toList(),
+                            Row(
+                              children: [
+                                Text(
+                                  "Quantity",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                DropdownButton<int>(
+                                  value: qty,
+                                  onChanged: (int? newValue) {
+                                    qty = newValue!;
+                                    setState(() {});
+                                  },
+                                  items: options
+                                      .map<DropdownMenuItem<int>>((int value) {
+                                    return DropdownMenuItem<int>(
+                                      value: value,
+                                      child: Text(value.toString()),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.yellow),
+                                    backgroundColor: Colors.white),
                                 child: const Text(
                                   "Add To Cart",
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.lightBlue,fontSize: 20),
                                 ),
                               ),
                             ),
+                            SizedBox(height: 8,),
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.orange),
+                                    backgroundColor: Colors.lightBlueAccent),
                                 child: const Text(
                                   "Buy Now",
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.white,fontSize: 20),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              "Description: ${product.product_desc}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
+                              "Details",
+                              style: TextStyle(fontSize: 20),
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "Color: ${product.product_color}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
+                            SizedBox(
+                              height: 8,
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "title1: ${product.product_title1}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "title1_detail: ${product.product_title1_delail}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "title2: ${product.product_title2}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "title2_detail: ${product.product_title2_delail}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "title3: ${product.product_title3}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "title3_detail: ${product.product_title3_delail}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "title4: ${product.product_title4}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "title4_detail: ${product.product_title4_delail}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
+                            SizedBox(
+                              width: double.infinity,
+                              child: Card(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "Description: ${product.product_desc}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "Color: ${product.product_color}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "title1: ${product.product_title1}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "title1_detail: ${product.product_title1_delail}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "title2: ${product.product_title2}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "title2_detail: ${product.product_title2_delail}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "title3: ${product.product_title3}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "title3_detail: ${product.product_title3_delail}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "title4: ${product.product_title4}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "title4_detail: ${product.product_title4_delail}",
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                         
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

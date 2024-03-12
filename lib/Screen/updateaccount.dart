@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:users/Model/User_Model.dart';
+import 'package:users/Screen/Account_Detail.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({super.key});
+class Account_Update extends StatefulWidget {
+  final User_Model user;
+
+  const Account_Update({super.key, required this.user});
 
   @override
-  State<Signup> createState() => _SignupState();
+  State<Account_Update> createState() => _Account_UpdateState();
 }
 
-class _SignupState extends State<Signup> {
+class _Account_UpdateState extends State<Account_Update> {
   var name = TextEditingController();
 
   var mobile = TextEditingController();
@@ -23,53 +27,44 @@ class _SignupState extends State<Signup> {
 
   bool abc = true;
   var right = "";
-  bool passkey = true;
 
-  Future<void> add() async {
+  Future<void> Update() async {
+    abc = false;
+    setState(() {});
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: email.text, password: pass.text)
-          .then((value) {
-        FirebaseFirestore.instance.collection("User").doc(value.user?.uid).set({
-          "Name": name.text.trim().toString(),
-          "Mobile": mobile.text.trim().toString(),
-          "email": email.text.trim().toString(),
-          "Address": address.text.trim().toString(),
-          "Uid": FirebaseAuth.instance.currentUser?.uid.toString()
-        });
-        setState(() {
-          name.clear();
-          mobile.clear();
-          email.clear();
-          address.clear();
-          pass.clear();
-          abc = true;
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Register Successfully")));
-        });
+      FirebaseFirestore.instance
+          .collection("User")
+          .doc(widget.user.Uid)
+          .update({
+        "Name": name.text.trim().toString(),
+        "Mobile": mobile.text.trim().toString(),
+        "email": email.text.trim().toString(),
+        "Address": address.text.trim().toString(),
+      }).then((value) {
+        abc = true;
+        setState(() {});
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Account_Detail(),));
       });
-    } on FirebaseAuthException catch (e) {
-      print(e.code.toString());
-      if (e.code == "weak-password") {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Password Is Weak")));
-      }
-      if (e.code == "email-already-in-use") {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Email Is Already In USed")));
-      }
+    } catch (e) {
+      print(e.toString());
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    name.text = widget.user.Name;
+    mobile.text = widget.user.Mobile;
+    address.text = widget.user.Address;
+    email.text = widget.user.email;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            "Sign-up",
-            style: TextStyle(color: Colors.white),
-          ),
+          title: Text("Update My Profile"),
           centerTitle: true,
           backgroundColor: Colors.indigo,
         ),
@@ -79,6 +74,13 @@ class _SignupState extends State<Signup> {
             child: Center(
               child: Column(
                 children: [
+                  Text(
+                    "Uid=${widget.user.Uid}",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   TextField(
                     controller: email,
                     decoration: InputDecoration(
@@ -88,9 +90,6 @@ class _SignupState extends State<Signup> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
                   ),
                   TextField(
                     controller: name,
@@ -133,27 +132,6 @@ class _SignupState extends State<Signup> {
                   const SizedBox(
                     height: 10,
                   ),
-                  TextField(
-                    controller: pass,
-                    obscureText: passkey,
-                    obscuringCharacter: "*",
-                    decoration: InputDecoration(
-                      prefixIcon: IconButton(
-                        onPressed: () {
-                          passkey = !passkey;
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.key),
-                      ),
-                      hintText: "Enter Password",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -166,7 +144,7 @@ class _SignupState extends State<Signup> {
                             right = "Invalid";
                           }
                           if (right == "Valid") {
-                            add();
+                            Update();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -181,7 +159,7 @@ class _SignupState extends State<Signup> {
                             )),
                         child: (abc)
                             ? const Text(
-                                "Register",
+                                "Update",
                                 style: TextStyle(color: Colors.white),
                               )
                             : const CircularProgressIndicator(
@@ -192,7 +170,6 @@ class _SignupState extends State<Signup> {
               ),
             ),
           ),
-        )
-    );
+        ));
   }
 }
