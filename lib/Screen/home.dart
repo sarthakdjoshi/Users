@@ -284,7 +284,7 @@ class _HomeState extends State<Home> {
                         stream: FirebaseFirestore.instance
                             .collection("Product")
                             .where("category",
-                            isEqualTo: search.text.toString())
+                                isEqualTo: search.text.toString())
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==

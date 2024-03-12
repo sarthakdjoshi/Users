@@ -34,6 +34,7 @@ class _AccountState extends State<Account> {
     const My_Setting(),
     const Logout()
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
