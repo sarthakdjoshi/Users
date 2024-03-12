@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
           centerTitle: true,
           backgroundColor: Colors.indigo,
         ),
-        body: (abc = true)
+        body: (abc == true)
             ? SingleChildScrollView(
                 child: Container(
                   decoration: const BoxDecoration(
