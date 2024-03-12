@@ -15,8 +15,13 @@ class _LogoutState extends State<Logout> {
     // TODO: implement initState
     super.initState();
     FirebaseAuth.instance.signOut();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: "Login"),));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MyHomePage(title: "Login"),
+        ));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

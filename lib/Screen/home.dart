@@ -17,10 +17,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   var search = TextEditingController();
   bool abc = true;
-void fdfg(){
-  print(search.text.toString());
-  print(abc.toString());
-}
+  void fdfg() {
+    print(search.text.toString());
+    print(abc.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,11 +51,11 @@ void fdfg(){
                           decoration: InputDecoration(
                             hintText: "Search Category",
                             icon: IconButton(
-                              icon: Icon(Icons.search),
+                              icon: const Icon(Icons.search),
                               onPressed: () {
                                 abc = false;
                                 fdfg();
-                                 setState(() {});
+                                setState(() {});
                               },
                             ),
                           ),
@@ -277,7 +278,7 @@ void fdfg(){
                     children: [
                       SizedBox(
                         child: IconButton(
-                          icon: Icon(Icons.search_off),
+                          icon: const Icon(Icons.search_off),
                           onPressed: () {
                             abc = true;
                             setState(() {});

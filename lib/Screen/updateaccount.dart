@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Model/User_Model.dart';
 import 'package:users/Screen/Account_Detail.dart';
@@ -43,7 +42,11 @@ class _Account_UpdateState extends State<Account_Update> {
       }).then((value) {
         abc = true;
         setState(() {});
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Account_Detail(),));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Account_Detail(),
+            ));
       });
     } catch (e) {
       print(e.toString());
@@ -64,7 +67,7 @@ class _Account_UpdateState extends State<Account_Update> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Update My Profile"),
+          title: const Text("Update My Profile"),
           centerTitle: true,
           backgroundColor: Colors.indigo,
         ),
@@ -76,7 +79,7 @@ class _Account_UpdateState extends State<Account_Update> {
                 children: [
                   Text(
                     "Uid=${widget.user.Uid}",
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                   const SizedBox(
                     height: 10,

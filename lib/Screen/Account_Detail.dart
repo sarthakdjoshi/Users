@@ -15,7 +15,6 @@ class Account_Detail extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
@@ -116,13 +115,18 @@ class Account_Detail extends StatelessWidget {
                               width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Account_Update(user: User),));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Account_Update(user: User),
+                                        ));
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
+                                      shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.zero),
                                       backgroundColor: Colors.blue),
-                                  child: Text(
+                                  child: const Text(
                                     "Update",
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 20),

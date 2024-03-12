@@ -84,15 +84,13 @@ class _ProductDetailState extends State<ProductDetail> {
                                     color: Colors.red,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 Text(
                                   "₹${product.product_newprice}",
                                   style: const TextStyle(
-                                    fontSize: 36,
-                                     color: Colors.green
-                                  ),
+                                      fontSize: 36, color: Colors.green),
                                 ),
                               ],
                             ),
@@ -122,11 +120,11 @@ class _ProductDetailState extends State<ProductDetail> {
                             ),
                             Row(
                               children: [
-                                Text(
+                                const Text(
                                   "Quantity",
                                   style: TextStyle(fontSize: 20),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 DropdownButton<int>(
@@ -153,11 +151,14 @@ class _ProductDetailState extends State<ProductDetail> {
                                     backgroundColor: Colors.white),
                                 child: const Text(
                                   "Add To Cart",
-                                  style: TextStyle(color: Colors.lightBlue,fontSize: 20),
+                                  style: TextStyle(
+                                      color: Colors.lightBlue, fontSize: 20),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
@@ -166,16 +167,17 @@ class _ProductDetailState extends State<ProductDetail> {
                                     backgroundColor: Colors.lightBlueAccent),
                                 child: const Text(
                                   "Buy Now",
-                                  style: TextStyle(color: Colors.white,fontSize: 20),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 8),
-                            Text(
+                            const Text(
                               "Details",
                               style: TextStyle(fontSize: 20),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
                             SizedBox(
@@ -187,7 +189,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "Description: ${product.product_desc}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -195,7 +196,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "Color: ${product.product_color}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -203,7 +203,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "title1: ${product.product_title1}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -211,7 +210,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "title1_detail: ${product.product_title1_delail}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -219,7 +217,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "title2: ${product.product_title2}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -227,7 +224,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "title2_detail: ${product.product_title2_delail}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -235,7 +231,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "title3: ${product.product_title3}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -243,7 +238,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "title3_detail: ${product.product_title3_delail}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -251,7 +245,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "title4: ${product.product_title4}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -259,7 +252,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       "title4_detail: ${product.product_title4_delail}",
                                       style: const TextStyle(
                                         fontSize: 20,
-                                         
                                       ),
                                     ),
                                   ],

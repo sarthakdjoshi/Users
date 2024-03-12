@@ -52,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.indigo,
         title: Text(widget.title),
         centerTitle: true,
-
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -135,8 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         if (e.code.toString() == "user-disabled") {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(const SnackBar(
-                            content: Text(
-                                "Your Account Has Been Lock"),
+                            content: Text("Your Account Has Been Lock"),
                             duration: Duration(seconds: 2),
                           ));
                         }
