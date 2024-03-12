@@ -17,10 +17,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   var search = TextEditingController();
   bool abc = true;
-  void fdfg() {
-    print(search.text.toString());
-    print(abc.toString());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +50,6 @@ class _HomeState extends State<Home> {
                               icon: const Icon(Icons.search),
                               onPressed: () {
                                 abc = false;
-                                fdfg();
                                 setState(() {});
                               },
                             ),
@@ -289,7 +284,7 @@ class _HomeState extends State<Home> {
                         stream: FirebaseFirestore.instance
                             .collection("Product")
                             .where("category",
-                                isEqualTo: search.text.toString())
+                            isEqualTo: search.text.toString())
                             .snapshots(),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
