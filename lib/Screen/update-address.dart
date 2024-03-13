@@ -29,7 +29,7 @@ class _Update_AddressState extends State<Update_Address> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Address"),
+        title: const Text("Address"),
         centerTitle: true,
         backgroundColor: Colors.indigo,
       ),
@@ -93,7 +93,7 @@ class _Update_AddressState extends State<Update_Address> {
               onPressed: () {
                 add();
               },
-              child: Text("Save Address"))
+              child: const Text("Save Address"))
         ],
       ),
     );

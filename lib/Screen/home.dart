@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.search,
                   color: Colors.red,
                 ))
