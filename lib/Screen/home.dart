@@ -272,18 +272,84 @@ class _HomeState extends State<Home> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(
-                        child: IconButton(
-                          icon: const Icon(Icons.search_off),
-                          onPressed: () {
-                            abc = true;
-                            setState(() {});
-                          },
+                          child: IconButton(
+                              onPressed: () {
+                                abc = true;
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.search_off))),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: 120,
+                          child: StreamBuilder<
+                              QuerySnapshot<Map<String, dynamic>>>(
+                            stream: FirebaseFirestore.instance
+                                .collection("Category")
+                                .where("Category_Name",
+                                    isEqualTo: search.text.toString())
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              if (snapshot.hasError) {
+                                return Text("Error: ${snapshot.error}");
+                              } else {
+                                final List<CategoryModel> categories = snapshot
+                                    .data!.docs
+                                    .map((doc) =>
+                                        CategoryModel.fromFirestore(doc))
+                                    .toList();
+                                return ListView.builder(
+                                  itemCount: categories.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    var category = categories[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Category_Detail(
+                                                        category: category
+                                                            .Category_Name),
+                                              ));
+                                        },
+                                        child: Column(
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImage(category.Image),
+                                              radius: 45.0,
+                                            ),
+                                            Text(
+                                              category.Category_Name,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                          ),
                         ),
                       ),
                       StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                         stream: FirebaseFirestore.instance
                             .collection("Product")
-                            .where("category",
+                            .where("Sub_category",
                                 isEqualTo: search.text.toString())
                             .snapshots(),
                         builder: (context, snapshot) {
