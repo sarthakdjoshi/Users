@@ -183,76 +183,27 @@ class _ProductDetailState extends State<ProductDetail> {
                             SizedBox(
                               width: double.infinity,
                               child: Card(
-                                child: Column(
+                                child: Row(
                                   children: [
-                                    Text(
-                                      "Description: ${product.product_desc}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
+                                    Column(
+                                      children: [
+                                        Text(product.product_title1,style: TextStyle(fontSize: 30),),
+                                        Text(product.product_title2,style: TextStyle(fontSize: 30),),
+                                        Text(product.product_title3,style: TextStyle(fontSize: 30),),
+                                        Text(product.product_title4,style: TextStyle(fontSize: 30),),
+                                        Text("Color",style: TextStyle(fontSize: 30),),
+                                      ],
+
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "Color: ${product.product_color}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "${product.product_title1_delail}: ${product.product_title1}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "title1_detail: ${product.product_title1_delail}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "title2: ${product.product_title2}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "title2_detail: ${product.product_title2_delail}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "title3: ${product.product_title3}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "title3_detail: ${product.product_title3_delail}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "title4: ${product.product_title4}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "title4_detail: ${product.product_title4_delail}",
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
+                                    SizedBox(width: 10,),
+                                    Column(
+                                      children: [
+                                        Text(product.product_title1_delail,style: TextStyle(fontSize: 30),),
+                                        Text(product.product_title2_delail,style: TextStyle(fontSize: 30),),
+                                        Text(product.product_title3_delail,style: TextStyle(fontSize: 30),),
+                                        Text(product.product_title4_delail,style: TextStyle(fontSize: 30),),
+                                        Text(product.product_color,style: TextStyle(fontSize: 30),),
+                                      ],
                                     ),
                                   ],
                                 ),
