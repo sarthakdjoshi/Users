@@ -25,6 +25,7 @@ class _Account_UpdateState extends State<Account_Update> {
   bool abc = true;
   var right = "";
   bool passkey = true;
+
   Future<void> Update() async {
     abc = false;
     setState(() {});
@@ -72,7 +73,7 @@ class _Account_UpdateState extends State<Account_Update> {
           centerTitle: true,
           backgroundColor: Colors.indigo,
         ),
-        body:SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Center(
@@ -124,7 +125,6 @@ class _Account_UpdateState extends State<Account_Update> {
                   ),
                   TextField(
                     controller: str1,
-
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.location_city),
                       hintText: "Street-1",
@@ -182,7 +182,7 @@ class _Account_UpdateState extends State<Account_Update> {
                     child: ElevatedButton(
                         onPressed: () {
                           final bool isValid =
-                          EmailValidator.validate(email.text.toString());
+                              EmailValidator.validate(email.text.toString());
                           if (isValid) {
                             right = "Valid";
                           } else {
@@ -204,12 +204,12 @@ class _Account_UpdateState extends State<Account_Update> {
                             )),
                         child: (abc)
                             ? const Text(
-                          "Update",
-                          style: TextStyle(color: Colors.white),
-                        )
+                                "Update",
+                                style: TextStyle(color: Colors.white),
+                              )
                             : const CircularProgressIndicator(
-                          color: Colors.white,
-                        )),
+                                color: Colors.white,
+                              )),
                   )
                 ],
               ),

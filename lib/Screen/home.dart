@@ -232,7 +232,8 @@ class _HomeState extends State<Home> {
                                         product.product_price,
                                         style: const TextStyle(
                                           fontSize: 20,
-                                          decoration: TextDecoration.lineThrough,
+                                          decoration:
+                                              TextDecoration.lineThrough,
                                           color: Colors.red,
                                         ),
                                       ),
