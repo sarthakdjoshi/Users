@@ -15,18 +15,16 @@ class Account_Update extends StatefulWidget {
 
 class _Account_UpdateState extends State<Account_Update> {
   var name = TextEditingController();
-
   var mobile = TextEditingController();
-
-  var address = TextEditingController();
-
   var email = TextEditingController();
-
   var pass = TextEditingController();
-
+  var str1 = TextEditingController();
+  var str2 = TextEditingController();
+  var landmark = TextEditingController();
+  var pincode = TextEditingController();
   bool abc = true;
   var right = "";
-
+  bool passkey = true;
   Future<void> Update() async {
     abc = false;
     setState(() {});
@@ -35,10 +33,10 @@ class _Account_UpdateState extends State<Account_Update> {
           .collection("User")
           .doc(widget.user.Uid)
           .update({
-        "Name": name.text.trim().toString(),
-        "Mobile": mobile.text.trim().toString(),
-        "email": email.text.trim().toString(),
-        "Address": address.text.trim().toString(),
+        "street1": str1.text.trim().toString(),
+        "street2": str2.text.trim().toString(),
+        "landmark": landmark.text.trim().toString(),
+        "pincode": pincode.text.trim().toString(),
       }).then((value) {
         abc = true;
         setState(() {});
@@ -59,8 +57,11 @@ class _Account_UpdateState extends State<Account_Update> {
     super.initState();
     name.text = widget.user.Name;
     mobile.text = widget.user.Mobile;
-    address.text = widget.user.Address;
     email.text = widget.user.email;
+    str1.text = widget.user.street1;
+    str2.text = widget.user.street2;
+    landmark.text = widget.user.landmark;
+    pincode.text = widget.user.pincode;
   }
 
   @override
@@ -71,21 +72,15 @@ class _Account_UpdateState extends State<Account_Update> {
           centerTitle: true,
           backgroundColor: Colors.indigo,
         ),
-        body: SingleChildScrollView(
+        body:SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Center(
               child: Column(
                 children: [
-                  Text(
-                    "Uid=${widget.user.Uid}",
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   TextField(
                     controller: email,
+                    readOnly: true,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.email),
                       hintText: "Enter Email",
@@ -94,8 +89,12 @@ class _Account_UpdateState extends State<Account_Update> {
                       ),
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   TextField(
                     controller: name,
+                    readOnly: true,
                     decoration: InputDecoration(
                       hintText: "Enter Name",
                       prefixIcon: const Icon(Icons.person),
@@ -109,6 +108,7 @@ class _Account_UpdateState extends State<Account_Update> {
                   ),
                   TextField(
                     controller: mobile,
+                    readOnly: true,
                     keyboardType: TextInputType.number,
                     maxLength: 10,
                     decoration: InputDecoration(
@@ -123,10 +123,52 @@ class _Account_UpdateState extends State<Account_Update> {
                     height: 10,
                   ),
                   TextField(
-                    controller: address,
+                    controller: str1,
+
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.location_city),
-                      hintText: "Enter Address",
+                      hintText: "Street-1",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: str2,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.location_city),
+                      hintText: "Street-2",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: landmark,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.location_city),
+                      hintText: "landmark",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: pincode,
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.location_city),
+                      hintText: "pincode",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -140,7 +182,7 @@ class _Account_UpdateState extends State<Account_Update> {
                     child: ElevatedButton(
                         onPressed: () {
                           final bool isValid =
-                              EmailValidator.validate(email.text.toString());
+                          EmailValidator.validate(email.text.toString());
                           if (isValid) {
                             right = "Valid";
                           } else {
@@ -162,12 +204,12 @@ class _Account_UpdateState extends State<Account_Update> {
                             )),
                         child: (abc)
                             ? const Text(
-                                "Update",
-                                style: TextStyle(color: Colors.white),
-                              )
+                          "Update",
+                          style: TextStyle(color: Colors.white),
+                        )
                             : const CircularProgressIndicator(
-                                color: Colors.white,
-                              )),
+                          color: Colors.white,
+                        )),
                   )
                 ],
               ),

@@ -200,7 +200,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      "title1: ${product.product_title1}",
+                                      "${product.product_title1_delail}: ${product.product_title1}",
                                       style: const TextStyle(
                                         fontSize: 20,
                                       ),

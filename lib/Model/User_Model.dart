@@ -5,16 +5,22 @@ class User_Model {
   final String Uid;
   final String email;
   final String Name;
-  final String Address;
   final String Mobile;
+  final String street1;
+  final String street2;
+  final String landmark;
+  final String pincode;
 
   User_Model({
     required this.id,
     required this.Uid,
     required this.email,
     required this.Name,
-    required this.Address,
     required this.Mobile,
+    required this.street1,
+    required this.street2,
+    required this.landmark,
+    required this.pincode,
   });
 
   factory User_Model.fromFirestore(
@@ -25,8 +31,11 @@ class User_Model {
       Uid: data['Uid'],
       email: data['email'],
       Name: data['Name'],
-      Address: data['Address'],
       Mobile: data['Mobile'],
+      street1: data['street1'],
+      street2: data['street2'],
+      landmark: data['landmark'],
+      pincode: data['pincode'],
     );
   }
 }

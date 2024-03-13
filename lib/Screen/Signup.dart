@@ -12,14 +12,13 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   var name = TextEditingController();
-
   var mobile = TextEditingController();
-
-  var address = TextEditingController();
-
   var email = TextEditingController();
-
   var pass = TextEditingController();
+  var str1 = TextEditingController();
+  var str2 = TextEditingController();
+  var landmark = TextEditingController();
+  var pincode = TextEditingController();
 
   bool abc = true;
   var right = "";
@@ -35,14 +34,20 @@ class _SignupState extends State<Signup> {
           "Name": name.text.trim().toString(),
           "Mobile": mobile.text.trim().toString(),
           "email": email.text.trim().toString(),
-          "Address": address.text.trim().toString(),
+          "street1": str1.text.trim().toString(),
+          "street2": str2.text.trim().toString(),
+          "landmark": landmark.text.trim().toString(),
+          "pincode": pincode.text.trim().toString(),
           "Uid": FirebaseAuth.instance.currentUser?.uid.toString()
         });
         setState(() {
           name.clear();
           mobile.clear();
           email.clear();
-          address.clear();
+          str1.clear();
+          str2.clear();
+          landmark.clear();
+          pincode.clear();
           pass.clear();
           abc = true;
           ScaffoldMessenger.of(context).showSnackBar(
@@ -121,10 +126,51 @@ class _SignupState extends State<Signup> {
                     height: 10,
                   ),
                   TextField(
-                    controller: address,
+                    controller: str1,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.location_city),
-                      hintText: "Enter Address",
+                      hintText: "Street-1",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: str2,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.location_city),
+                      hintText: "Street-2",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: landmark,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.location_city),
+                      hintText: "landmark",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: pincode,
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.location_city),
+                      hintText: "pincode",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
