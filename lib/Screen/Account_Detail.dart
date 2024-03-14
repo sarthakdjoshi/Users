@@ -5,7 +5,7 @@ import 'package:users/Model/User_Model.dart';
 import 'package:users/Screen/updateaccount.dart';
 
 class Account_Detail extends StatelessWidget {
-  const Account_Detail({super.key});
+  const Account_Detail({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class Account_Detail extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.all(16.0),
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection("User")
@@ -28,160 +28,79 @@ class Account_Detail extends StatelessWidget {
             if (snapshot.hasError) {
               return Text("Error: ${snapshot.error}");
             } else {
-              final List<User_Model> Users = snapshot.data!.docs
+              final List<User_Model> users = snapshot.data!.docs
                   .map((doc) => User_Model.fromFirestore(doc))
                   .toList();
               return ListView.builder(
-                itemCount: Users.length,
-                scrollDirection: Axis.horizontal,
+                itemCount: users.length,
                 itemBuilder: (context, index) {
-                  var User = Users[index];
-                  return SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Card(
+                  var user = users[index];
+                  return Card(
+                    elevation: 4,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Username=",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Text(
-                                User.Name,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundImage: NetworkImage(user.imageurl),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Email=",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Text(
-                                User.email,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
+                          Text(
+                          "Username: ${user.Name}",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Mobile no.=",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Text(
-                                User.Mobile,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
+                                                      ),
+                          const SizedBox(height: 8),
+                          Text(
+                            "Email: ${user.email}",
+                            style: TextStyle(fontSize: 16),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Street1=",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Text(
-                                User.street1,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
+                          const SizedBox(height: 8),
+                          Text(
+                            "Mobile no.: ${user.Mobile}",
+                            style: TextStyle(fontSize: 16),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Street2=",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Text(
-                                User.street2,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
+                          const SizedBox(height: 8),
+                          Text(
+                            "Address:",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "landmark=",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Text(
-                                User.landmark,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "${user.street1}, ${user.street2}, ${user.landmark}, ${user.pincode}",
+                            style: TextStyle(fontSize: 16),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "pincode=",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Text(
-                                User.pincode,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
-                          ),
+                          const SizedBox(height: 16),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              Account_Update(user: User),
-                                        ));
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.zero),
-                                      backgroundColor: Colors.blue),
-                                  child: const Text(
-                                    "Update",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
-                                  )))
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Account_Update(user: user),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              child: const Text(
+                                "Update",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

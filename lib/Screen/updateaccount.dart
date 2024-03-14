@@ -1,8 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:users/Model/User_Model.dart';
 import 'package:users/Screen/Account_Detail.dart';
+import 'dart:io';
+
+import 'package:uuid/uuid.dart';
 
 class Account_Update extends StatefulWidget {
   final User_Model user;
@@ -25,11 +31,22 @@ class _Account_UpdateState extends State<Account_Update> {
   bool abc = true;
   var right = "";
   bool passkey = true;
+  File? profilepic;
 
   Future<void> Update() async {
     abc = false;
     setState(() {});
     try {
+      String photourl = widget.user.imageurl;
+      if(profilepic!=null){
+        UploadTask uploadTask = FirebaseStorage.instance
+            .ref()
+            .child("Stud-profilepic")
+            .child(const Uuid().v1())
+            .putFile(profilepic!);
+        TaskSnapshot taskSnapshot = await uploadTask;
+         photourl = await taskSnapshot.ref.getDownloadURL();
+      }
       FirebaseFirestore.instance
           .collection("User")
           .doc(widget.user.Uid)
@@ -38,6 +55,7 @@ class _Account_UpdateState extends State<Account_Update> {
         "street2": str2.text.trim().toString(),
         "landmark": landmark.text.trim().toString(),
         "pincode": pincode.text.trim().toString(),
+        "imageurl":photourl.toString()
       }).then((value) {
         abc = true;
         setState(() {});
@@ -79,6 +97,40 @@ class _Account_UpdateState extends State<Account_Update> {
             child: Center(
               child: Column(
                 children: [
+                  (profilepic != null)
+                      ? Center(
+                      child: Image.file(
+                        profilepic!,
+                        width: 200,
+                        height: 200,
+                      ))
+                      : Center(
+                      child: Image.network(
+                        widget.user.imageurl,
+                        width: 200,
+                        height: 200,
+                      )),
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () async {
+                      try {
+                        XFile? selecetedimage = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                        if (selecetedimage != null) {
+                          print("Image");
+                          File cf = File(selecetedimage.path);
+                          setState(() {
+                            profilepic = cf;
+                          });
+                        } else {
+                          print("No Image");
+                        }
+                      } catch (e) {
+                        print(e.toString());
+                      }
+                    },
+                    child: const Text("Choose Photo")
+                  ),
                   TextField(
                     controller: email,
                     readOnly: true,

@@ -10,6 +10,7 @@ class User_Model {
   final String street2;
   final String landmark;
   final String pincode;
+  final String imageurl;
 
   User_Model({
     required this.id,
@@ -21,6 +22,7 @@ class User_Model {
     required this.street2,
     required this.landmark,
     required this.pincode,
+    required this.imageurl,
   });
 
   factory User_Model.fromFirestore(
@@ -36,6 +38,7 @@ class User_Model {
       street2: data['street2'],
       landmark: data['landmark'],
       pincode: data['pincode'],
+      imageurl: data['imageurl'],
     );
   }
 }

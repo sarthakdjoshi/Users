@@ -1,7 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+import 'package:uuid/uuid.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -19,6 +25,7 @@ class _SignupState extends State<Signup> {
   var str2 = TextEditingController();
   var landmark = TextEditingController();
   var pincode = TextEditingController();
+  File? profilepic;
 
   bool abc = true;
   var right = "";
@@ -26,6 +33,13 @@ class _SignupState extends State<Signup> {
 
   Future<void> add() async {
     try {
+      UploadTask uploadTask = FirebaseStorage.instance
+          .ref()
+          .child("Stud-profilepic")
+          .child(const Uuid().v1())
+          .putFile(profilepic!);
+       TaskSnapshot taskSnapshot = await uploadTask;
+      String photourl = await taskSnapshot.ref.getDownloadURL();
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text, password: pass.text)
@@ -38,7 +52,8 @@ class _SignupState extends State<Signup> {
           "street2": str2.text.trim().toString(),
           "landmark": landmark.text.trim().toString(),
           "pincode": pincode.text.trim().toString(),
-          "Uid": FirebaseAuth.instance.currentUser?.uid.toString()
+          "Uid": FirebaseAuth.instance.currentUser?.uid.toString(),
+          "imageurl":photourl.toString()
         });
         setState(() {
           name.clear();
@@ -84,6 +99,32 @@ class _SignupState extends State<Signup> {
             child: Center(
               child: Column(
                 children: [
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () async {
+                      try {
+                        XFile? selecetedimage = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                        if (selecetedimage != null) {
+                          print("Image");
+                          File cf = File(selecetedimage.path);
+                          setState(() {
+                            profilepic = cf;
+                          });
+                        } else {
+                          print("No Image");
+                        }
+                      } catch (e) {
+                        print(e.toString());
+                      }
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      radius: 40,
+                      backgroundImage:
+                      (profilepic != null) ? FileImage(profilepic!) : null,
+                    ),
+                  ),
                   TextField(
                     controller: email,
                     decoration: InputDecoration(
@@ -211,7 +252,7 @@ class _SignupState extends State<Signup> {
                           } else {
                             right = "Invalid";
                           }
-                          if (right == "Valid") {
+                          if (right == "Valid"&&profilepic!=null) {
                             add();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
