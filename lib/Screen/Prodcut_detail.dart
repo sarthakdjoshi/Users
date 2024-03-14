@@ -187,22 +187,53 @@ class _ProductDetailState extends State<ProductDetail> {
                                   children: [
                                     Column(
                                       children: [
-                                        Text(product.product_title1,style: const TextStyle(fontSize: 30),),
-                                        Text(product.product_title2,style: const TextStyle(fontSize: 30),),
-                                        Text(product.product_title3,style: const TextStyle(fontSize: 30),),
-                                        Text(product.product_title4,style: const TextStyle(fontSize: 30),),
-                                        const Text("Color",style: TextStyle(fontSize: 30),),
+                                        Text(
+                                          product.product_title1,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                        Text(
+                                          product.product_title2,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                        Text(
+                                          product.product_title3,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                        Text(
+                                          product.product_title4,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                        const Text(
+                                          "Color",
+                                          style: TextStyle(fontSize: 30),
+                                        ),
                                       ],
-
                                     ),
-                                    const SizedBox(width: 10,),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
                                     Column(
                                       children: [
-                                        Text(product.product_title1_delail,style: const TextStyle(fontSize: 30),),
-                                        Text(product.product_title2_delail,style: const TextStyle(fontSize: 30),),
-                                        Text(product.product_title3_delail,style: const TextStyle(fontSize: 30),),
-                                        Text(product.product_title4_delail,style: const TextStyle(fontSize: 30),),
-                                        Text(product.product_color,style: const TextStyle(fontSize: 30),),
+                                        Text(
+                                          product.product_title1_delail,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                        Text(
+                                          product.product_title2_delail,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                        Text(
+                                          product.product_title3_delail,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                        Text(
+                                          product.product_title4_delail,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
+                                        Text(
+                                          product.product_color,
+                                          style: const TextStyle(fontSize: 30),
+                                        ),
                                       ],
                                     ),
                                   ],
