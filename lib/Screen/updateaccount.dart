@@ -99,16 +99,22 @@ class _Account_UpdateState extends State<Account_Update> {
                 children: [
                   (profilepic != null)
                       ? Center(
-                      child: Image.file(
-                        profilepic!,
-                        width: 200,
-                        height: 200,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.file(
+                          profilepic!,
+                          width: 200,
+                          height: 200,
+                        ),
                       ))
                       : Center(
-                      child: Image.network(
-                        widget.user.imageurl,
-                        width: 200,
-                        height: 200,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          widget.user.imageurl,
+                          width: 200,
+                          height: 200,
+                        ),
                       )),
                   CupertinoButton(
                     padding: EdgeInsets.zero,
