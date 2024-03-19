@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:users/Model/Fav_Model.dart';
+import 'package:users/Model/Favorites_Model.dart';
 
 class Fav extends StatefulWidget {
   const Fav({super.key});
@@ -23,7 +23,7 @@ class _FavState extends State<Fav> {
         backgroundColor: Colors.indigo,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance.collection("Fav").snapshots(),
+        stream: FirebaseFirestore.instance.collection("Favorites").snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -31,8 +31,8 @@ class _FavState extends State<Fav> {
           if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
           } else {
-            final List<Fav_Model> products = snapshot.data!.docs
-                .map((doc) => Fav_Model.fromFirestore(doc))
+            final List<Favorites_Model> products = snapshot.data!.docs
+                .map((doc) => Favorites_Model.fromFirestore(doc))
                 .toList();
             return GridView.builder(
               shrinkWrap: true,
@@ -45,7 +45,7 @@ class _FavState extends State<Fav> {
               itemBuilder: (context, index) {
                 var product = products[index];
 
-                return (product.User_id ==
+                return (product.id ==
                         FirebaseAuth.instance.currentUser?.uid)
                     ? Card(
                         elevation: 4,
@@ -54,14 +54,14 @@ class _FavState extends State<Fav> {
                           children: [
                             Expanded(
                               child: Image.network(
-                                product.Product_Image[0],
+                                product.images[0],
                                 fit: BoxFit.cover,
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                product.Product_Name,
+                                product.price_new,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -72,10 +72,12 @@ class _FavState extends State<Fav> {
                               padding: const EdgeInsets.only(
                                   left: 8.0, right: 8.0, bottom: 8.0),
                               child: Text(
-                                product.Product_Price,
+                                product.price_old,
+
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.green,
+                                  decoration: TextDecoration.lineThrough
                                 ),
                               ),
                             ),
@@ -129,69 +131,6 @@ class _FavState extends State<Fav> {
                                             },
                                           );
                                         }),
-                                    CupertinoButton(
-                                        child: const Text("Move To  Cart"),
-                                        onPressed: () {
-                                          showDialog<void>(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                              return AlertDialog(
-                                                title: const Text(
-                                                    'Are You Sure To Move To Cart'),
-                                                content: const Text('Move?'),
-                                                actions: <Widget>[
-                                                  TextButton(
-                                                    child: const Text('No'),
-                                                    onPressed: () {
-                                                      Navigator.of(
-                                                              dialogContext)
-                                                          .pop(); // Dismiss alert dialog
-                                                    },
-                                                  ),
-                                                  TextButton(
-                                                    child: const Text('Yes'),
-                                                    onPressed: () {
-                                                      FirebaseFirestore.instance
-                                                          .collection("Cart")
-                                                          .doc(FirebaseAuth
-                                                              .instance
-                                                              .currentUser
-                                                              ?.uid)
-                                                          .set({
-                                                        "User_id": FirebaseAuth
-                                                            .instance
-                                                            .currentUser
-                                                            ?.uid,
-                                                        "Product_Price": product
-                                                            .Product_Price,
-                                                        "Product_Name": product
-                                                            .Product_Name,
-                                                        "Product_Image": product
-                                                            .Product_Image,
-                                                      }).then((value) {
-                                                        Navigator.of(
-                                                                dialogContext)
-                                                            .pop();
-                                                        FirebaseFirestore
-                                                            .instance
-                                                            .collection("Fav")
-                                                            .doc(product.id)
-                                                            .delete()
-                                                            .then((value) => ScaffoldMessenger
-                                                                    .of(context)
-                                                                .showSnackBar(
-                                                                    const SnackBar(
-                                                                        content:
-                                                                            Text("Cart Added"))));
-                                                      });
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        })
                                   ],
                                 )),
                           ],

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../Model/Product_Model.dart';
@@ -13,8 +14,15 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  int qty = 1; //dropdown
-  List<int> options = [1, 2, 3, 4, 5, 6];
+  String qty = "1"; //dropdown
+  List<String> options = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +60,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
                             CarouselSlider.builder(
                               itemCount: product.images.length,
                               itemBuilder: (context, index, realIndex) {
@@ -66,6 +75,23 @@ class _ProductDetailState extends State<ProductDetail> {
                                 enlargeCenterPage: true,
                               ),
                             ),
+                            IconButton(onPressed: (){
+                              double total=(double.parse(qty)*double.parse(product.product_newprice));
+                              try{
+                                FirebaseFirestore.instance.collection("Favorites").doc(FirebaseAuth.instance.currentUser?.uid).set(
+                                    {
+                                      "images":product.images,
+                                      "price_new":product.product_newprice,
+                                      "price_old":product.product_price,
+                                      "qty":qty,
+                                      "Uid":FirebaseAuth.instance.currentUser?.uid.toString(),
+                                      "total":total
+
+                                    }).then((value) {
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fav Added")));
+                                });
+                              }catch(e){}
+                            },icon: Icon(Icons.favorite_border),),
                             const SizedBox(height: 16),
                             Text(
                               "Product Name: ${product.product_name}",
@@ -127,17 +153,18 @@ class _ProductDetailState extends State<ProductDetail> {
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                DropdownButton<int>(
+                                DropdownButton<String>(
                                   value: qty,
-                                  onChanged: (int? newValue) {
-                                    qty = newValue!;
-                                    setState(() {});
+                                  onChanged: (String? newValue) {
+                                    if(newValue != null) {
+                                      qty = newValue; // Ensure newValue is not null
+                                      setState(() {});
+                                    }
                                   },
-                                  items: options
-                                      .map<DropdownMenuItem<int>>((int value) {
-                                    return DropdownMenuItem<int>(
+                                  items: options.map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
                                       value: value,
-                                      child: Text(value.toString()),
+                                      child: Text(value),
                                     );
                                   }).toList(),
                                 ),
@@ -189,23 +216,23 @@ class _ProductDetailState extends State<ProductDetail> {
                                       children: [
                                         Text(
                                           product.product_title1,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                         Text(
                                           product.product_title2,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                         Text(
                                           product.product_title3,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                         Text(
                                           product.product_title4,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                         const Text(
                                           "Color",
-                                          style: TextStyle(fontSize: 30),
+                                          style: TextStyle(fontSize: 20),
                                         ),
                                       ],
                                     ),
@@ -213,26 +240,27 @@ class _ProductDetailState extends State<ProductDetail> {
                                       width: 10,
                                     ),
                                     Column(
+
                                       children: [
                                         Text(
                                           product.product_title1_delail,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                         Text(
                                           product.product_title2_delail,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                         Text(
                                           product.product_title3_delail,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                         Text(
                                           product.product_title4_delail,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                         Text(
                                           product.product_color,
-                                          style: const TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
                                       ],
                                     ),
