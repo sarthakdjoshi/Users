@@ -8,6 +8,8 @@ class  Favorites_Model{
   final String price_old;
   final String qty;
   final double total;
+  final String uid;
+  final String product_name;
   Favorites_Model({
     required this.id,
     required this.images,
@@ -15,6 +17,8 @@ class  Favorites_Model{
     required this.price_old,
     required this.total,
     required this.qty,
+    required this.uid,
+    required this.product_name,
 
 });
   factory Favorites_Model.fromFirestore(
@@ -27,6 +31,8 @@ class  Favorites_Model{
       price_old: data['price_old'],
       qty: data['qty'],
       total: data['total'],
+      uid: data['Uid'],
+      product_name: data['product_name']
     );
   }
 }

@@ -78,11 +78,12 @@ class _ProductDetailState extends State<ProductDetail> {
                             IconButton(onPressed: (){
                               double total=(double.parse(qty)*double.parse(product.product_newprice));
                               try{
-                                FirebaseFirestore.instance.collection("Favorites").doc(FirebaseAuth.instance.currentUser?.uid).set(
+                                FirebaseFirestore.instance.collection("Favorites").add(
                                     {
                                       "images":product.images,
                                       "price_new":product.product_newprice,
                                       "price_old":product.product_price,
+                                      "product_name":product.product_name,
                                       "qty":qty,
                                       "Uid":FirebaseAuth.instance.currentUser?.uid.toString(),
                                       "total":total
