@@ -20,6 +20,7 @@ class Product_Model {
   final String product_title3_delail;
   final String product_title4;
   final String product_title4_delail;
+  final String fav;
 
   Product_Model({
     required this.discount,
@@ -41,6 +42,7 @@ class Product_Model {
     required this.Sub_category,
     required this.product_price,
     required this.product_name,
+    required this.fav,
   });
 
   factory Product_Model.fromFirestore(
@@ -65,6 +67,7 @@ class Product_Model {
       product_title3: data['product_title3'],
       product_title3_delail: data['product_title3_delail'],
       product_title4: data['product_title4'],
+      fav: data['fav'],
       product_title4_delail: data['product_title4_delail'],
     );
   }

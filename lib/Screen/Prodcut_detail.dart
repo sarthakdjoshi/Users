@@ -15,14 +15,8 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   String qty = "1"; //dropdown
-  List<String> options = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6"
-  ];
+  List<String> options = ["1", "2", "3", "4", "5", "6"];
+  var icon = const Icon(Icons.favorite_border);
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +54,6 @@ class _ProductDetailState extends State<ProductDetail> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-
                             CarouselSlider.builder(
                               itemCount: product.images.length,
                               itemBuilder: (context, index, realIndex) {
@@ -75,24 +68,52 @@ class _ProductDetailState extends State<ProductDetail> {
                                 enlargeCenterPage: true,
                               ),
                             ),
-                            IconButton(onPressed: (){
-                              double total=(double.parse(qty)*double.parse(product.product_newprice));
-                              try{
-                                FirebaseFirestore.instance.collection("Favorites").add(
-                                    {
-                                      "images":product.images,
-                                      "price_new":product.product_newprice,
-                                      "price_old":product.product_price,
-                                      "product_name":product.product_name,
-                                      "qty":qty,
-                                      "Uid":FirebaseAuth.instance.currentUser?.uid.toString(),
-                                      "total":total
-
+                            IconButton(
+                              onPressed: () {
+                                double total = (double.parse(qty) *
+                                    double.parse(product.product_newprice));
+                                try {
+                                  if(product.fav=="no"){
+                                    FirebaseFirestore.instance
+                                        .collection("Favorites").doc(product.id).set({
+                                      "images": product.images,
+                                      "price_new": product.product_newprice,
+                                      "price_old": product.product_price,
+                                      "product_name": product.product_name,
+                                      "qty": qty,
+                                      "Uid": FirebaseAuth
+                                          .instance.currentUser?.uid
+                                          .toString(),
+                                      "total": total
                                     }).then((value) {
-                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fav Added")));
-                                });
-                              }catch(e){}
-                            },icon: Icon(Icons.favorite_border),),
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                              content: Text("Fav Added")));
+                                    });
+                                    FirebaseFirestore.instance.collection("Product").doc(product.id).update(
+                                        {
+                                          "fav":"yes"
+                                        });
+                                  }else if(product.fav=="yes"){
+                                    FirebaseFirestore.instance
+                                        .collection("Favorites").doc(product.id).delete().then((value) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                              content: Text("Fav Removed")));
+                                    });
+                                    FirebaseFirestore.instance.collection("Product").doc(product.id).update(
+                                        {
+                                          "fav":"no"
+                                        });
+
+                                  }
+
+                                } catch (e) {
+                                  print(e.toString());
+                                }
+                              },
+                              icon: (product.fav=="no")?const Icon(Icons.favorite_border):const Icon(Icons.favorite),
+                            ),
                             const SizedBox(height: 16),
                             Text(
                               "Product Name: ${product.product_name}",
@@ -157,12 +178,14 @@ class _ProductDetailState extends State<ProductDetail> {
                                 DropdownButton<String>(
                                   value: qty,
                                   onChanged: (String? newValue) {
-                                    if(newValue != null) {
-                                      qty = newValue; // Ensure newValue is not null
+                                    if (newValue != null) {
+                                      qty =
+                                          newValue; // Ensure newValue is not null
                                       setState(() {});
                                     }
                                   },
-                                  items: options.map<DropdownMenuItem<String>>((String value) {
+                                  items: options.map<DropdownMenuItem<String>>(
+                                      (String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
                                       child: Text(value),
@@ -241,7 +264,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                       width: 10,
                                     ),
                                     Column(
-
                                       children: [
                                         Text(
                                           product.product_title1_delail,

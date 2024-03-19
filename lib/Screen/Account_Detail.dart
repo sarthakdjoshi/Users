@@ -5,7 +5,7 @@ import 'package:users/Model/User_Model.dart';
 import 'package:users/Screen/updateaccount.dart';
 
 class Account_Detail extends StatelessWidget {
-  const Account_Detail({Key? key});
+  const Account_Detail({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class Account_Detail extends StatelessWidget {
                           ),
                           Text(
                           "Username: ${user.Name}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -57,15 +57,15 @@ class Account_Detail extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(
                             "Email: ${user.email}",
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             "Mobile no.: ${user.Mobile}",
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 8),
-                          Text(
+                          const Text(
                             "Address:",
                             style: TextStyle(
                               fontSize: 16,
@@ -74,7 +74,7 @@ class Account_Detail extends StatelessWidget {
                           ),
                           Text(
                             "${user.street1}, ${user.street2}, ${user.landmark}, ${user.pincode}",
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 16),
                           SizedBox(
