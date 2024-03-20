@@ -1,29 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Cart_Modek {
+class  Cart_Model{
+
   final String id;
-  final List<dynamic> Product_Image;
-  final String Product_Name;
-  final String Product_Price;
-  final String User_id;
-
-  Cart_Modek({
+  final List<dynamic>images;
+  final String price_new;
+  final String price_old;
+  final String qty;
+  final double total;
+  final String uid;
+  final String product_name;
+  Cart_Model({
     required this.id,
-    required this.Product_Image,
-    required this.Product_Name,
-    required this.Product_Price,
-    required this.User_id,
-  });
+    required this.images,
+    required this.price_new,
+    required this.price_old,
+    required this.total,
+    required this.qty,
+    required this.uid,
+    required this.product_name,
 
-  factory Cart_Modek.fromFirestore(
+  });
+  factory Cart_Model.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
-    return Cart_Modek(
-      id: snapshot.id,
-      Product_Image: data['Product_Image'],
-      Product_Name: data['Product_Name'],
-      Product_Price: data['Product_Price'],
-      User_id: data['User_id'],
+    return Cart_Model(
+        id: snapshot.id,
+        images: data['images'],
+        price_new: data['price_new'],
+        price_old: data['price_old'],
+        qty: data['qty'],
+        total: data['total'],
+        uid: data['Uid'],
+        product_name: data['product_name']
     );
   }
 }

@@ -73,9 +73,11 @@ class _ProductDetailState extends State<ProductDetail> {
                                 double total = (double.parse(qty) *
                                     double.parse(product.product_newprice));
                                 try {
-                                  if(product.fav=="no"){
+                                  if (product.fav == "no") {
                                     FirebaseFirestore.instance
-                                        .collection("Favorites").doc(product.id).set({
+                                        .collection("Favorites")
+                                        .doc(product.id)
+                                        .set({
                                       "images": product.images,
                                       "price_new": product.product_newprice,
                                       "price_old": product.product_price,
@@ -86,33 +88,39 @@ class _ProductDetailState extends State<ProductDetail> {
                                           .toString(),
                                       "total": total
                                     }).then((value) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
                                               content: Text("Fav Added")));
                                     });
-                                    FirebaseFirestore.instance.collection("Product").doc(product.id).update(
-                                        {
-                                          "fav":"yes"
-                                        });
-                                  }else if(product.fav=="yes"){
                                     FirebaseFirestore.instance
-                                        .collection("Favorites").doc(product.id).delete().then((value) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
+                                        .collection("Product")
+                                        .doc(product.id)
+                                        .update({"fav": "yes"});
+                                  } else if (product.fav == "yes") {
+                                    FirebaseFirestore.instance
+                                        .collection("Favorites")
+                                        .doc(product.id)
+                                        .delete()
+                                        .then((value) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
                                               content: Text("Fav Removed")));
                                     });
-                                    FirebaseFirestore.instance.collection("Product").doc(product.id).update(
-                                        {
-                                          "fav":"no"
-                                        });
-
+                                    FirebaseFirestore.instance
+                                        .collection("Product")
+                                        .doc(product.id)
+                                        .update({"fav": "no"});
                                   }
-
                                 } catch (e) {
                                   print(e.toString());
                                 }
                               },
-                              icon: (product.fav=="no")?const Icon(Icons.favorite_border):const Icon(Icons.favorite,color: Colors.red,),
+                              icon: (product.fav == "no")
+                                  ? const Icon(Icons.favorite_border)
+                                  : const Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                    ),
                             ),
                             const SizedBox(height: 16),
                             Text(
@@ -160,6 +168,12 @@ class _ProductDetailState extends State<ProductDetail> {
                               ],
                             ),
                             const SizedBox(height: 8),
+                            const Text(
+                              "In stock",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.green),
+                            ),
+                            const SizedBox(height: 8),
                             Text(
                               "Category: ${product.category}",
                               style: const TextStyle(
@@ -197,13 +211,37 @@ class _ProductDetailState extends State<ProductDetail> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  double total = (double.parse(qty) *
+                                      double.parse(product.product_newprice));
+                                  FirebaseFirestore.instance
+                                      .collection("Cart")
+                                      .doc(product.id)
+                                      .set({
+                                    "images": product.images,
+                                    "price_new": product.product_newprice,
+                                    "price_old": product.product_price,
+                                    "product_name": product.product_name,
+                                    "qty": qty,
+                                    "Uid": FirebaseAuth
+                                        .instance.currentUser?.uid
+                                        .toString(),
+                                    "total": total,
+                                  }).then((value) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Added to the cart Successfully"),
+                                      ),
+                                    );
+                                  });
+                                },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white),
+                                    backgroundColor: Colors.orangeAccent),
                                 child: const Text(
                                   "Add To Cart",
                                   style: TextStyle(
-                                      color: Colors.lightBlue, fontSize: 20),
+                                      color: Colors.black, fontSize: 20),
                                 ),
                               ),
                             ),
@@ -215,11 +253,11 @@ class _ProductDetailState extends State<ProductDetail> {
                               child: ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.lightBlueAccent),
+                                    backgroundColor: Colors.orange),
                                 child: const Text(
                                   "Buy Now",
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
+                                      color: Colors.black, fontSize: 20),
                                 ),
                               ),
                             ),
@@ -291,6 +329,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 ),
                               ),
                             ),
+                           const Text("About this item",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),)
                           ],
                         );
                       },

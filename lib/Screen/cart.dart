@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:users/Model/Cart_Model.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({super.key});
+  const Cart({super.key, Key? key});
 
   @override
   State<Cart> createState() => _CartState();
@@ -28,61 +28,57 @@ class _CartState extends State<Cart> {
           if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
           } else {
-            final List<Cart_Modek> products = snapshot.data!.docs
-                .map((doc) => Cart_Modek.fromFirestore(doc))
+            final List<Cart_Model> products = snapshot.data!.docs
+                .map((doc) => Cart_Model.fromFirestore(doc))
                 .toList();
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: products.length,
+            return ListView.separated(
               itemBuilder: (context, index) {
                 var product = products[index];
 
-                return (product.User_id ==
-                        FirebaseAuth.instance.currentUser?.uid)
-                    ? Card(
-                        elevation: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Image.network(
-                                product.Product_Image[0],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                product.Product_Name,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0, bottom: 8.0),
-                              child: Text(
-                                product.Product_Price,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : const SizedBox.shrink(
-                        child: Center(child: Text("No Cart Added")),
-                      );
+                return (product.uid ==
+                    FirebaseAuth.instance.currentUser?.uid)
+                    ? ListTile(
+                  leading: Image.network(
+                    product.images[0],
+                    fit: BoxFit.cover,
+                  ),
+                  title: Text(
+                    product.product_name,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Text(
+                    product.price_new,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.green,
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: [
+                      Column(
+                        children: [
+                          Text("Qty=${product.qty.toString()}",style: const TextStyle(fontSize: 15),),
+                          Text(product.total.toString(),style: const TextStyle(fontSize: 15),),
+
+                        ],
+                      ),
+                      IconButton(onPressed: (){
+                        FirebaseFirestore.instance.collection("Cart").doc(product.id).delete().then((value){
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Removed from the cart")));
+                        });
+                      }, icon: const Icon(Icons.delete)),
+                    ],
+                  ),
+                )
+                    : const SizedBox.shrink(); // Return an empty SizedBox for items that don't match the condition
               },
+              separatorBuilder: (context, index) => const Divider(), // Add a divider between list items
+              itemCount: products.length,
             );
           }
         },

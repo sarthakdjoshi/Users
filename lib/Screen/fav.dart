@@ -35,14 +35,8 @@ class _FavState extends State<Fav> {
             final List<Favorites_Model> products = snapshot.data!.docs
                 .map((doc) => Favorites_Model.fromFirestore(doc))
                 .toList();
-            return GridView.builder(
+            return ListView.separated(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7,
-              ),
-              itemCount: products.length,
               itemBuilder: (context, index) {
                 var product = products[index];
 
@@ -50,73 +44,103 @@ class _FavState extends State<Fav> {
                     ? InkWell(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductDetail(
-                                    productname: product.product_name),
-                              ));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductDetail(
+                                  productname: product.product_name),
+                            ),
+                          );
                         },
-                        child: Card(
-                            elevation: 4,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Image.network(
-                                      product.images[0],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      product.price_new,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                        child: ListTile(
+                          leading: Image.network(
+                            product.images[0],
+                            fit: BoxFit.cover,
+                          ),
+                          title: Text(
+                            product.product_name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          subtitle: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product.price_new,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+
+                                ),
+                              ),
+                              const SizedBox(width: 8,),
+                              Text(
+                                product.price_old,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.red,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CupertinoButton(
+                                child: const Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection("Favorites")
+                                      .doc(product.id)
+                                      .delete()
+                                      .then((value) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text("Fav Remove Successfully"),
                                       ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8.0, bottom: 8.0),
-                                    child: Text(
-                                      product.price_old,
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.green,
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    ),
-                                  ),
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0, bottom: 8.0),
-                                      child: Column(
-                                        children: [
-                                          CupertinoButton(
-                                            child: const Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                            ),
-                                            onPressed: () {
-                                              FirebaseFirestore.instance
-                                                  .collection("Favorites")
-                                                  .doc(product.id)
-                                                  .delete()
-                                                  .then((value) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
-                                                        content: Text(
-                                                            "Fav Remove Successfully")));
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      ))
-                                ])))
-                    : const Text("No Data Found");
+                                    );
+                                  });
+                                },
+                              ),
+                              CupertinoButton(
+                                child: const Icon(
+                                  Icons.shopping_cart,
+                                ),
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection("Cart")
+                                      .doc(product.id)
+                                      .set({
+                                    "images": product.images,
+                                    "price_new": product.price_new,
+                                    "price_old": product.price_old,
+                                    "product_name": product.product_name,
+                                    "qty": product.qty,
+                                    "Uid": FirebaseAuth
+                                        .instance.currentUser?.uid
+                                        .toString(),
+                                    "total": product.total,
+                                  }).then((value) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            "Added to the cart Successfully"),
+                                      ),
+                                    );
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : const Center(child: Text("No Fav Added",style: TextStyle(fontSize: 60),),);
               },
+              separatorBuilder: (context, index) => const Divider(height: 10),
+              itemCount: products.length,
             );
           }
         },
