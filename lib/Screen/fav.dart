@@ -46,105 +46,76 @@ class _FavState extends State<Fav> {
               itemBuilder: (context, index) {
                 var product = products[index];
 
-                return (product.uid ==
-                        FirebaseAuth.instance.currentUser?.uid)
+                return (product.uid == FirebaseAuth.instance.currentUser?.uid)
                     ? InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetail(productname: product.product_name),));
-                  },
-                      child: Card(
-                          elevation: 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Image.network(
-                                  product.images[0],
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  product.price_new,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetail(
+                                    productname: product.product_name),
+                              ));
+                        },
+                        child: Card(
+                            elevation: 4,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Image.network(
+                                      product.images[0],
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0, bottom: 8.0),
-                                child: Text(
-                                  product.price_old,
-                      
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.green,
-                                    decoration: TextDecoration.lineThrough
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      product.price_new,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 8.0, bottom: 8.0),
-                                  child: Column(
-                                    children: [
-                                      CupertinoButton(
-                                          child: const Text("Remove From Fav"),
-                                          onPressed: () {
-                                            showDialog<void>(
-                                              context: context,
-                                              builder:
-                                                  (BuildContext dialogContext) {
-                                                return AlertDialog(
-                                                  title: const Text(
-                                                      'Are You Sure To Remove From Fav'),
-                                                  content: const Text('Remove?'),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      child: const Text('No'),
-                                                      onPressed: () {
-                                                        Navigator.of(
-                                                                dialogContext)
-                                                            .pop(); // Dismiss alert dialog
-                                                      },
-                                                    ),
-                                                    TextButton(
-                                                      child: const Text('Yes'),
-                                                      onPressed: () {
-                                                        FirebaseFirestore.instance
-                                                            .collection("Favorites")
-                                                            .doc(FirebaseAuth.instance.currentUser?.uid)
-                                                            .delete()
-                                                            .then((value) {
-                                                          Navigator.of(
-                                                                  dialogContext)
-                                                              .pop();
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  const SnackBar(
-                                                                      content: Text(
-                                                                          "Fav Remove Successfully")));
-                                                        });
-                                                      },
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          }),
-                                    ],
-                                  )),
-                            ],
-                          ),
-                        ),
-                    )
-                    : const SizedBox.shrink(
-                        child: Center(child: Text("No Fav Added")),
-                      );
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 8.0, bottom: 8.0),
+                                    child: Text(
+                                      product.price_old,
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.green,
+                                          decoration:
+                                              TextDecoration.lineThrough),
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, right: 8.0, bottom: 8.0),
+                                      child: Column(
+                                        children: [
+                                          CupertinoButton(
+                                            child: const Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                            ),
+                                            onPressed: () {
+                                              FirebaseFirestore.instance
+                                                  .collection("Favorites")
+                                                  .doc(product.id)
+                                                  .delete()
+                                                  .then((value) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(const SnackBar(
+                                                        content: Text(
+                                                            "Fav Remove Successfully")));
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ))
+                                ])))
+                    : const Text("No Data Found");
               },
             );
           }

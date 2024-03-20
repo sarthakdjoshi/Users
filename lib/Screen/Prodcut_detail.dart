@@ -112,7 +112,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                   print(e.toString());
                                 }
                               },
-                              icon: (product.fav=="no")?const Icon(Icons.favorite_border):const Icon(Icons.favorite),
+                              icon: (product.fav=="no")?const Icon(Icons.favorite_border):const Icon(Icons.favorite,color: Colors.red,),
                             ),
                             const SizedBox(height: 16),
                             Text(
@@ -128,7 +128,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 Text(
                                   "-${product.discount}",
                                   style: const TextStyle(
-                                    fontSize: 36,
+                                    fontSize: 20,
                                     color: Colors.red,
                                   ),
                                 ),
@@ -138,7 +138,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                 Text(
                                   "₹${product.product_newprice}",
                                   style: const TextStyle(
-                                      fontSize: 36, color: Colors.green),
+                                      fontSize: 20, color: Colors.green),
                                 ),
                               ],
                             ),
