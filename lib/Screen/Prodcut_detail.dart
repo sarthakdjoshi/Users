@@ -212,6 +212,7 @@ class _ProductDetailState extends State<ProductDetail> {
                               width: double.infinity,
                               child: ElevatedButton(
                                 onPressed: () {
+
                                   double total = (double.parse(qty) *
                                       double.parse(product.product_newprice));
                                   FirebaseFirestore.instance

@@ -29,31 +29,31 @@ class _CartState extends State<Cart> {
           if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
           } else {
-            final List<Cart_Model> products = snapshot.data!.docs
+            final List<Cart_Model> carts = snapshot.data!.docs
                 .map((doc) => Cart_Model.fromFirestore(doc))
                 .toList();
             return ListView.builder(
-              itemCount: products.length,
+              itemCount: carts.length,
               itemBuilder: (context, index) {
-                var product = products[index];
+                var cart = carts[index];
 
-                return (product.uid ==
+                return (cart.uid ==
                     FirebaseAuth.instance.currentUser?.uid)
                     ? Card(
                   margin: const EdgeInsets.all(8),
                   elevation: 4,
                   child: InkWell(
                     onTap: (){
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetail(productname: product.product_name),));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) =>ProductDetail(productname: cart.product_name),));
                     },
                     child: ListTile(
                       leading: Image.network(
-                        product.images[0],
+                        cart.images[0],
                         fit: BoxFit.cover,
                         width: 80,
                       ),
                       title: Text(
-                        product.product_name,
+                        cart.product_name,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class _CartState extends State<Cart> {
                         children: [
                           const SizedBox(height: 8),
                           Text(
-                            "Price: ${product.price_new}",
+                            "Price: ${cart.price_new}",
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.green,
@@ -72,26 +72,32 @@ class _CartState extends State<Cart> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            "Qty: ${product.qty.toString()}",
+                            "Qty: ${cart.qty.toString()}",
                             style: const TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
-                      trailing: IconButton(
-                        onPressed: () {
-                          FirebaseFirestore.instance
-                              .collection("Cart")
-                              .doc(product.id)
-                              .delete()
-                              .then((value) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Removed from the cart"),
-                              ),
-                            );
-                          });
-                        },
-                        icon: const Icon(Icons.delete),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("Sub-total=${cart.total.toString()}",style: TextStyle(fontSize: 15),),
+                          IconButton(
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection("Cart")
+                                  .doc(cart.id)
+                                  .delete()
+                                  .then((value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Removed from the cart"),
+                                  ),
+                                );
+                              });
+                            },
+                            icon: const Icon(Icons.delete),
+                          ),
+                        ],
                       ),
                     ),
                   ),
