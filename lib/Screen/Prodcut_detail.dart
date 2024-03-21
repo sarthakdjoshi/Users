@@ -300,7 +300,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                       ],
                                     ),
                                     const SizedBox(
-                                      width: 10,
+                                      width: 220,
                                     ),
                                     Column(
                                       children: [
@@ -330,7 +330,9 @@ class _ProductDetailState extends State<ProductDetail> {
                                 ),
                               ),
                             ),
-                           const Text("About this item",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),)
+                           const Text("About this item",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800),),
+                            Text("${product.product_all}",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w800),),
+
                           ],
                         );
                       },

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:users/Screen/Account_Detail.dart';
 import 'package:users/Screen/Logout.dart';
-import 'package:users/Screen/MyWishlist.dart';
 import 'package:users/Screen/Myorder.dart';
 import 'package:users/Screen/Setting.dart';
+import 'package:users/Screen/fav.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -30,7 +30,7 @@ class _AccountState extends State<Account> {
   List<Widget> screen = [
     const Account_Detail(),
     const MyOrder(),
-    const MyWishlist(),
+    const Fav(),
     const My_Setting(),
     const Logout()
   ];

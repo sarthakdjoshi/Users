@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Model/Banner_model.dart';
 import 'package:users/Model/Product_Model.dart';
@@ -202,6 +203,60 @@ class _HomeState extends State<Home> {
                                         product.images[0],
                                         height: 100,
                                         fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        double total = (1 *
+                                            double.parse(product.product_newprice));
+                                        try {
+                                          if (product.fav == "no") {
+                                            FirebaseFirestore.instance
+                                                .collection("Favorites")
+                                                .doc(product.id)
+                                                .set({
+                                              "images": product.images,
+                                              "price_new": product.product_newprice,
+                                              "price_old": product.product_price,
+                                              "product_name": product.product_name,
+                                              "qty":"1",
+                                              "Uid": FirebaseAuth
+                                                  .instance.currentUser?.uid
+                                                  .toString(),
+                                              "total": total
+                                            }).then((value) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                  content: Text("Fav Added")));
+                                            });
+                                            FirebaseFirestore.instance
+                                                .collection("Product")
+                                                .doc(product.id)
+                                                .update({"fav": "yes"});
+                                          } else if (product.fav == "yes") {
+                                            FirebaseFirestore.instance
+                                                .collection("Favorites")
+                                                .doc(product.id)
+                                                .delete()
+                                                .then((value) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                  content: Text("Fav Removed")));
+                                            });
+                                            FirebaseFirestore.instance
+                                                .collection("Product")
+                                                .doc(product.id)
+                                                .update({"fav": "no"});
+                                          }
+                                        } catch (e) {
+                                          print(e.toString());
+                                        }
+                                      },
+                                      icon: (product.fav == "no")
+                                          ? const Icon(Icons.favorite_border)
+                                          : const Icon(
+                                        Icons.favorite,
+                                        color: Colors.red,
                                       ),
                                     ),
                                     Padding(
