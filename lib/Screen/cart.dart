@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:users/Model/Cart_Model.dart';
+import 'package:users/Screen/Prodcut_detail.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({super.key, Key? key});
+  const Cart({Key? key}) : super(key: key);
 
   @override
   State<Cart> createState() => _CartState();
@@ -31,54 +32,72 @@ class _CartState extends State<Cart> {
             final List<Cart_Model> products = snapshot.data!.docs
                 .map((doc) => Cart_Model.fromFirestore(doc))
                 .toList();
-            return ListView.separated(
+            return ListView.builder(
+              itemCount: products.length,
               itemBuilder: (context, index) {
                 var product = products[index];
 
                 return (product.uid ==
                     FirebaseAuth.instance.currentUser?.uid)
-                    ? ListTile(
-                  leading: Image.network(
-                    product.images[0],
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(
-                    product.product_name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  subtitle: Text(
-                    product.price_new,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.green,
-                    ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-
-                    children: [
-                      Column(
+                    ? Card(
+                  margin: const EdgeInsets.all(8),
+                  elevation: 4,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ProductDetail(productname: product.product_name),));
+                    },
+                    child: ListTile(
+                      leading: Image.network(
+                        product.images[0],
+                        fit: BoxFit.cover,
+                        width: 80,
+                      ),
+                      title: Text(
+                        product.product_name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Qty=${product.qty.toString()}",style: const TextStyle(fontSize: 15),),
-                          Text(product.total.toString(),style: const TextStyle(fontSize: 15),),
-
+                          const SizedBox(height: 8),
+                          Text(
+                            "Price: ${product.price_new}",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.green,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            "Qty: ${product.qty.toString()}",
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ],
                       ),
-                      IconButton(onPressed: (){
-                        FirebaseFirestore.instance.collection("Cart").doc(product.id).delete().then((value){
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Removed from the cart")));
-                        });
-                      }, icon: const Icon(Icons.delete)),
-                    ],
+                      trailing: IconButton(
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection("Cart")
+                              .doc(product.id)
+                              .delete()
+                              .then((value) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Removed from the cart"),
+                              ),
+                            );
+                          });
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
+                    ),
                   ),
                 )
                     : const SizedBox.shrink(); // Return an empty SizedBox for items that don't match the condition
               },
-              separatorBuilder: (context, index) => const Divider(), // Add a divider between list items
-              itemCount: products.length,
             );
           }
         },
