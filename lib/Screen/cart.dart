@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:users/Model/Cart_Model.dart';
-import 'package:users/Screen/Prodcut_detail.dart';
+import 'package:flutter/material.dart';
+import 'package:users/Screen/checkout.dart';
+
+import '../Model/Cart_Model.dart';
+import 'Prodcut_detail.dart';
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
@@ -32,78 +34,160 @@ class _CartState extends State<Cart> {
             final List<Cart_Model> carts = snapshot.data!.docs
                 .map((doc) => Cart_Model.fromFirestore(doc))
                 .toList();
-            return ListView.builder(
-              itemCount: carts.length,
-              itemBuilder: (context, index) {
-                var cart = carts[index];
 
-                return (cart.uid ==
-                    FirebaseAuth.instance.currentUser?.uid)
-                    ? Card(
-                  margin: const EdgeInsets.all(8),
-                  elevation: 4,
-                  child: InkWell(
-                    onTap: (){
-                      Navigator.push(context,MaterialPageRoute(builder: (context) =>ProductDetail(productname: cart.product_name),));
-                    },
-                    child: ListTile(
-                      leading: Image.network(
-                        cart.images[0],
-                        fit: BoxFit.cover,
-                        width: 80,
-                      ),
-                      title: Text(
-                        cart.product_name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 8),
-                          Text(
-                            "Price: ${cart.price_new}",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.green,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            "Qty: ${cart.qty.toString()}",
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text("Sub-total=${cart.total.toString()}",style: TextStyle(fontSize: 15),),
-                          IconButton(
-                            onPressed: () {
-                              FirebaseFirestore.instance
-                                  .collection("Cart")
-                                  .doc(cart.id)
-                                  .delete()
-                                  .then((value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Removed from the cart"),
+            // Calculate total price
+            double totalPrice = 0;
+            carts.forEach((cart) {
+              totalPrice +=
+                  double.parse(cart.qty) * double.parse(cart.price_new);
+            });
+
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: carts.length,
+                    itemBuilder: (context, index) {
+                      var cart = carts[index];
+                      return (cart.uid ==
+                              FirebaseAuth.instance.currentUser?.uid)
+                          ? Card(
+                              margin: const EdgeInsets.all(8),
+                              elevation: 4,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProductDetail(
+                                        productname: cart.product_name,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: ListTile(
+                                  leading: Image.network(
+                                    cart.images[0],
+                                    fit: BoxFit.cover,
+                                    width: 80,
                                   ),
-                                );
-                              });
-                            },
-                            icon: const Icon(Icons.delete),
-                          ),
-                        ],
-                      ),
-                    ),
+                                  title: Text(
+                                    cart.product_name,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        "Price: ${cart.price_new}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          var abc = int.parse(cart.qty);
+                                          abc = abc - 1;
+                                          FirebaseFirestore.instance
+                                              .collection("Cart")
+                                              .doc(cart.id)
+                                              .update({
+                                            "qty": abc.toString(),
+                                            "total": double.parse(cart.qty) *
+                                                double.parse(cart.price_new)
+                                          });
+
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(Icons.minimize),
+                                      ),
+                                      Text(
+                                        "Qty: ${cart.qty.toString()}",
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          var abc = int.parse(cart.qty);
+                                          abc = abc + 1;
+                                          FirebaseFirestore.instance
+                                              .collection("Cart")
+                                              .doc(cart.id)
+                                              .update({
+                                            "qty": abc.toString(),
+                                            "total": double.parse(cart.qty) *
+                                                double.parse(cart.price_new)
+                                          });
+
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(Icons.add),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "Sub-total=${int.parse(cart.qty) * int.parse(cart.price_new)}",
+                                        style: const TextStyle(fontSize: 15),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          FirebaseFirestore.instance
+                                              .collection("Cart")
+                                              .doc(cart.id)
+                                              .delete()
+                                              .then((value) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                    "Removed from the cart"),
+                                              ),
+                                            );
+                                          });
+                                        },
+                                        icon: const Icon(Icons.delete),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink();
+                    },
                   ),
-                )
-                    : const SizedBox.shrink(); // Return an empty SizedBox for items that don't match the condition
-              },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total Price: $totalPrice", // Display total price
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Checkout(),
+                              ));
+                        },
+                        child: const Text("Checkout"),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             );
           }
         },

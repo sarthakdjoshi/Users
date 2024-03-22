@@ -208,7 +208,8 @@ class _HomeState extends State<Home> {
                                     IconButton(
                                       onPressed: () {
                                         double total = (1 *
-                                            double.parse(product.product_newprice));
+                                            double.parse(
+                                                product.product_newprice));
                                         try {
                                           if (product.fav == "no") {
                                             FirebaseFirestore.instance
@@ -216,10 +217,13 @@ class _HomeState extends State<Home> {
                                                 .doc(product.id)
                                                 .set({
                                               "images": product.images,
-                                              "price_new": product.product_newprice,
-                                              "price_old": product.product_price,
-                                              "product_name": product.product_name,
-                                              "qty":"1",
+                                              "price_new":
+                                                  product.product_newprice,
+                                              "price_old":
+                                                  product.product_price,
+                                              "product_name":
+                                                  product.product_name,
+                                              "qty": "1",
                                               "Uid": FirebaseAuth
                                                   .instance.currentUser?.uid
                                                   .toString(),
@@ -227,7 +231,8 @@ class _HomeState extends State<Home> {
                                             }).then((value) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
-                                                  content: Text("Fav Added")));
+                                                      content:
+                                                          Text("Fav Added")));
                                             });
                                             FirebaseFirestore.instance
                                                 .collection("Product")
@@ -241,7 +246,8 @@ class _HomeState extends State<Home> {
                                                 .then((value) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(const SnackBar(
-                                                  content: Text("Fav Removed")));
+                                                      content:
+                                                          Text("Fav Removed")));
                                             });
                                             FirebaseFirestore.instance
                                                 .collection("Product")
@@ -255,9 +261,9 @@ class _HomeState extends State<Home> {
                                       icon: (product.fav == "no")
                                           ? const Icon(Icons.favorite_border)
                                           : const Icon(
-                                        Icons.favorite,
-                                        color: Colors.red,
-                                      ),
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                            ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),

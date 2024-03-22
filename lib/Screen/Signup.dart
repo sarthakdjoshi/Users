@@ -38,7 +38,7 @@ class _SignupState extends State<Signup> {
           .child("Stud-profilepic")
           .child(const Uuid().v1())
           .putFile(profilepic!);
-       TaskSnapshot taskSnapshot = await uploadTask;
+      TaskSnapshot taskSnapshot = await uploadTask;
       String photourl = await taskSnapshot.ref.getDownloadURL();
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -53,7 +53,7 @@ class _SignupState extends State<Signup> {
           "landmark": landmark.text.trim().toString(),
           "pincode": pincode.text.trim().toString(),
           "Uid": FirebaseAuth.instance.currentUser?.uid.toString(),
-          "imageurl":photourl.toString()
+          "imageurl": photourl.toString()
         });
         setState(() {
           name.clear();
@@ -122,7 +122,7 @@ class _SignupState extends State<Signup> {
                       backgroundColor: Colors.grey,
                       radius: 40,
                       backgroundImage:
-                      (profilepic != null) ? FileImage(profilepic!) : null,
+                          (profilepic != null) ? FileImage(profilepic!) : null,
                     ),
                   ),
                   TextField(
@@ -252,7 +252,7 @@ class _SignupState extends State<Signup> {
                           } else {
                             right = "Invalid";
                           }
-                          if (right == "Valid"&&profilepic!=null) {
+                          if (right == "Valid" && profilepic != null) {
                             add();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
