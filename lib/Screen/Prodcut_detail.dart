@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:users/Screen/checkout.dart';
 import '../Model/Product_Model.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -227,6 +228,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                         .instance.currentUser?.uid
                                         .toString(),
                                     "total": total,
+                                    "pid":product.id
                                   }).then((value) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
@@ -251,7 +253,25 @@ class _ProductDetailState extends State<ProductDetail> {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  double total = (double.parse(qty) *
+                                      double.parse(product.product_newprice));
+                                  FirebaseFirestore.instance
+                                      .collection("Cart")
+                                      .doc(product.id)
+                                      .set({
+                                    "images": product.images,
+                                    "price_new": product.product_newprice,
+                                    "price_old": product.product_price,
+                                    "product_name": product.product_name,
+                                    "qty": qty,
+                                    "Uid": FirebaseAuth
+                                        .instance.currentUser?.uid
+                                        .toString(),
+                                    "total": total,
+                                    "pid":product.id
+                                  }).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Checkout(productid: product.id,),)));
+                                },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.orange),
                                 child: const Text(

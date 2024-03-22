@@ -90,72 +90,79 @@ class _CartState extends State<Cart> {
                                           color: Colors.green,
                                         ),
                                       ),
-                                      IconButton(
-                                        onPressed: () {
-                                          var abc = int.parse(cart.qty);
-                                          abc = abc - 1;
-                                          FirebaseFirestore.instance
-                                              .collection("Cart")
-                                              .doc(cart.id)
-                                              .update({
-                                            "qty": abc.toString(),
-                                            "total": double.parse(cart.qty) *
-                                                double.parse(cart.price_new)
-                                          });
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              var abc = int.parse(cart.qty);
+                                              abc = abc - 1;
+                                              if(abc==0){
+                                                FirebaseFirestore.instance
+                                                    .collection("Cart")
+                                                    .doc(cart.id)
+                                                    .delete();
+                                              }
+                                              FirebaseFirestore.instance
+                                                  .collection("Cart")
+                                                  .doc(cart.id)
+                                                  .update({
+                                                "qty": abc.toString(),
+                                                "total": double.parse(cart.qty) *
+                                                    double.parse(cart.price_new)
+                                              });
 
-                                          setState(() {});
-                                        },
-                                        icon: const Icon(Icons.minimize),
-                                      ),
-                                      Text(
-                                        "Qty: ${cart.qty.toString()}",
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          var abc = int.parse(cart.qty);
-                                          abc = abc + 1;
-                                          FirebaseFirestore.instance
-                                              .collection("Cart")
-                                              .doc(cart.id)
-                                              .update({
-                                            "qty": abc.toString(),
-                                            "total": double.parse(cart.qty) *
-                                                double.parse(cart.price_new)
-                                          });
+                                              setState(() {});
+                                            },
+                                            icon: const Icon(Icons.minimize),
+                                          ),
+                                          Text(
+                                            "Qty: ${cart.qty.toString()}",
+                                            style: const TextStyle(fontSize: 14),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              var abc = int.parse(cart.qty);
+                                              abc = abc + 1;
+                                              FirebaseFirestore.instance
+                                                  .collection("Cart")
+                                                  .doc(cart.id)
+                                                  .update({
+                                                "qty": abc.toString(),
+                                                "total": double.parse(cart.qty) *
+                                                    double.parse(cart.price_new)
+                                              });
 
-                                          setState(() {});
-                                        },
-                                        icon: const Icon(Icons.add),
+                                              setState(() {});
+                                            },
+                                            icon: const Icon(Icons.add),
+                                          ),
+
+                                        ],
+
                                       ),
-                                    ],
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
                                       Text(
                                         "Sub-total=${int.parse(cart.qty) * int.parse(cart.price_new)}",
                                         style: const TextStyle(fontSize: 15),
                                       ),
-                                      IconButton(
-                                        onPressed: () {
-                                          FirebaseFirestore.instance
-                                              .collection("Cart")
-                                              .doc(cart.id)
-                                              .delete()
-                                              .then((value) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    "Removed from the cart"),
-                                              ),
-                                            );
-                                          });
-                                        },
-                                        icon: const Icon(Icons.delete),
-                                      ),
                                     ],
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection("Cart")
+                                          .doc(cart.id)
+                                          .delete()
+                                          .then((value) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                "Removed from the cart"),
+                                          ),
+                                        );
+                                      });
+                                    },
+                                    icon: const Icon(Icons.delete),
                                   ),
                                 ),
                               ),

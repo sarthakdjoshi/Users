@@ -124,6 +124,7 @@ class _FavState extends State<Fav> {
                                             .instance.currentUser?.uid
                                             .toString(),
                                         "total": product.total,
+                                        "pid":product.id
                                       }).then((value) {
                                         FirebaseFirestore.instance
                                             .collection("Product")
