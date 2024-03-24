@@ -7,7 +7,7 @@ import '../Model/Cart_Model.dart';
 import 'Prodcut_detail.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({Key? key}) : super(key: key);
+  const Cart({super.key});
 
   @override
   State<Cart> createState() => _CartState();
@@ -37,10 +37,10 @@ class _CartState extends State<Cart> {
 
             // Calculate total price
             double totalPrice = 0;
-            carts.forEach((cart) {
+            for (var cart in carts) {
               totalPrice +=
                   double.parse(cart.qty) * double.parse(cart.price_new);
-            });
+            }
 
             return Column(
               children: [
@@ -183,11 +183,11 @@ class _CartState extends State<Cart> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          (totalPrice==0)?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No Item Added"),duration: Duration(seconds: 2),)):
+                          (totalPrice==0)?ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("No Item Added"),duration: Duration(seconds: 2),)):
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Checkout(),
+                                builder: (context) => const Checkout(),
                               ));
                         },
                         child: const Text("Checkout"),
