@@ -1,21 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:users/Screen/Address.dart';
 import '../Model/Cart_Model.dart';
+import 'Address.dart';
 import 'Prodcut_detail.dart';
 
 class Checkout extends StatefulWidget {
   final String? productid;
 
-  const Checkout({super.key, this.productid});
+  const Checkout({Key? key, this.productid}) : super(key: key);
 
   @override
   State<Checkout> createState() => _CheckoutState();
 }
 
 class _CheckoutState extends State<Checkout> {
-  var _abcStream = FirebaseFirestore.instance.collection("Cart").snapshots();
+  late Stream<QuerySnapshot<Map<String, dynamic>>> _abcStream;
 
   @override
   void initState() {
@@ -25,6 +25,8 @@ class _CheckoutState extends State<Checkout> {
           .collection("Cart")
           .where("pid", isEqualTo: widget.productid)
           .snapshots();
+    } else {
+      _abcStream = FirebaseFirestore.instance.collection("Cart").snapshots();
     }
   }
 
@@ -230,7 +232,12 @@ class _CheckoutState extends State<Checkout> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Address(),));
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Address(cartList: carts),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               shape: const RoundedRectangleBorder(
@@ -238,7 +245,7 @@ class _CheckoutState extends State<Checkout> {
                               ),
                             ),
                             child: const Text(
-                              "Place Order",
+                              "Place order",
                               style: TextStyle(
                                 color: Colors.indigo,
                                 fontSize: 15,

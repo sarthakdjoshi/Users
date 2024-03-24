@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:users/Model/address_Model.dart';
+import 'package:uuid/uuid.dart';
 
 
 class Address_New extends StatefulWidget{
@@ -13,9 +17,9 @@ class Address_New extends StatefulWidget{
 }
 
 class _Address_NewState extends State<Address_New> {
-  String countryValue = "";
-  String stateValue = "";
-  String cityValue = "";
+  String countryValue = " ";
+  String stateValue = " ";
+  String cityValue = " ";
   var name=TextEditingController();
   var phoneno=TextEditingController();
   var pincode=TextEditingController();
@@ -59,6 +63,42 @@ class _Address_NewState extends State<Address_New> {
       shop.text = placemarks.isNotEmpty ? placemarks[0].name ?? '' : '';
     });
   }
+  Future<void>adddata() async{
+    try{
+      FirebaseFirestore.instance.collection("Customeraddress").add(
+          {
+            "fullname":name.text.trim().toString(),
+            "phoneno":phoneno.text.trim().toString(),
+            "pincode":pincode.text.trim().toString(),
+            "country":countryValue,
+            "state":stateValue,
+            "city":cityValue,
+            "houseno":houseno.text.trim().toString(),
+            "roadname": roadname.text.trim().toString(),
+            "nearbyshop":shop.text.trim().toString(),
+            "Uid":FirebaseAuth.instance.currentUser?.uid,
+            "add_id":Uuid().v1()
+          }).then((value) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Address Saved"),duration: Duration(seconds: 2),));
+          /*  name.clear();
+            phoneno.clear();
+            pincode.clear();
+            countryValue="";
+            stateValue="";
+            cityValue="";
+            stateValue=="";
+            houseno.clear();
+            roadname.clear();
+            shop.clear();
+
+           */
+
+
+      });
+    }catch(e){
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +115,16 @@ class _Address_NewState extends State<Address_New> {
                  controller: name,
                 decoration: const InputDecoration(
                   hintText: "Full Name",
-                  border: OutlineInputBorder(
+                  border:  OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
-                  )
+                  ),
                 ),
               ),
               const SizedBox(height: 10,),
                TextField(
                  controller: phoneno,
+                maxLength: 10,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   hintText: "Phone No.",
                   border: OutlineInputBorder(
@@ -97,6 +139,8 @@ class _Address_NewState extends State<Address_New> {
                     width: 150,
                     child: TextField(
                       controller: pincode,
+                      maxLength: 6,
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                           hintText: "Pincode",
                           border: OutlineInputBorder(
@@ -120,28 +164,28 @@ class _Address_NewState extends State<Address_New> {
                       ),
                     ),
                   ),
-        
+
                 ],
               ),
             const  SizedBox(height: 8,),
               CSCPicker(
                 onCountryChanged: (value) {
                   setState(() {
-                    countryValue = value;
+                    countryValue = value ?? '';
                   });
                 },
-                onStateChanged:(value) {
+                onStateChanged: (value) {
                   setState(() {
-                    stateValue = value!;
+                    stateValue = value ?? '';
                   });
                 },
-                onCityChanged:(value) {
+                onCityChanged: (value) {
                   setState(() {
-                    cityValue = value!;
+                    cityValue = value ?? '';
                   });
+
                 },
-              ),
-              const SizedBox(height: 8,),
+              ), const SizedBox(height: 8,),
                TextField(
                  controller: houseno,
                 decoration: const InputDecoration(
@@ -173,8 +217,40 @@ class _Address_NewState extends State<Address_New> {
               ),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(onPressed: (){},style: ElevatedButton.styleFrom(shape:const RoundedRectangleBorder(borderRadius: BorderRadius.zero)), child: const Text("Save Address")),
-              )
+                child: ElevatedButton(
+                    onPressed: () {
+                      String errorMessage = '';
+
+                      if (name.text.isEmpty) {
+                        errorMessage = 'Please enter your name';
+                      } else if (phoneno.text.isEmpty) {
+                        errorMessage = 'Please enter your phone number';
+                      } else if (pincode.text.isEmpty) {
+                        errorMessage = 'Please enter the pincode';
+                      } else if (countryValue.isEmpty) {
+                        errorMessage = 'Please select a country';
+                      } else if (stateValue.isEmpty) {
+                        errorMessage = 'Please select a state';
+                      } else if (cityValue.isEmpty) {
+                        errorMessage = 'Please select a city';
+                      } else if (houseno.text.isEmpty) {
+                        errorMessage = 'Please enter the house/building number';
+                      } else if (roadname.text.isEmpty) {
+                        errorMessage = 'Please enter the road/area/colony';
+                      } else if (shop.text.isEmpty) {
+                        errorMessage = 'Please enter a nearby shop/mall/landmark';
+                      }
+
+                      if (errorMessage.isNotEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(errorMessage),duration: Duration(seconds: 2),
+                        ));
+                      } else {
+                        adddata();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(shape:const RoundedRectangleBorder(borderRadius: BorderRadius.zero)), child: const Text("Save Address")),
+              ),
             ],
           ),
         ),

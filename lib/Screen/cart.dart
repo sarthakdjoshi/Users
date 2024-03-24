@@ -183,6 +183,7 @@ class _CartState extends State<Cart> {
                       ),
                       ElevatedButton(
                         onPressed: () {
+                          (totalPrice==0)?ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No Item Added"),duration: Duration(seconds: 2),)):
                           Navigator.push(
                               context,
                               MaterialPageRoute(
