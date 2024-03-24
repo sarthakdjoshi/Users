@@ -1,7 +1,9 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/widgets.dart';
 import 'package:users/Screen/checkout.dart';
 import '../Model/Product_Model.dart';
 
@@ -318,8 +320,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      width: 220,
+                                     SizedBox(
+                                      width: MediaQuery.of(context).size.width*0.5,
                                     ),
                                     Column(
                                       children: [
