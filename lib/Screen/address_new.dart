@@ -8,8 +8,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:users/Model/address_Model.dart';
 import 'package:uuid/uuid.dart';
 
-
-class Address_New extends StatefulWidget{
+class Address_New extends StatefulWidget {
   const Address_New({super.key});
 
   @override
@@ -20,12 +19,12 @@ class _Address_NewState extends State<Address_New> {
   String countryValue = " ";
   String stateValue = " ";
   String cityValue = " ";
-  var name=TextEditingController();
-  var phoneno=TextEditingController();
-  var pincode=TextEditingController();
-  var houseno=TextEditingController();
-  var roadname=TextEditingController();
-  var shop=TextEditingController();
+  var name = TextEditingController();
+  var phoneno = TextEditingController();
+  var pincode = TextEditingController();
+  var houseno = TextEditingController();
+  var roadname = TextEditingController();
+  var shop = TextEditingController();
 
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled;
@@ -57,30 +56,36 @@ class _Address_NewState extends State<Address_New> {
     );
 
     setState(() {
-      pincode.text = placemarks.isNotEmpty ? placemarks[0].postalCode ?? '' : '';
-      houseno.text = placemarks.isNotEmpty ? placemarks[0].subThoroughfare ?? '' : '';
-      roadname.text = placemarks.isNotEmpty ? placemarks[0].thoroughfare ?? '' : '';
+      pincode.text =
+          placemarks.isNotEmpty ? placemarks[0].postalCode ?? '' : '';
+      houseno.text =
+          placemarks.isNotEmpty ? placemarks[0].subThoroughfare ?? '' : '';
+      roadname.text =
+          placemarks.isNotEmpty ? placemarks[0].thoroughfare ?? '' : '';
       shop.text = placemarks.isNotEmpty ? placemarks[0].name ?? '' : '';
     });
   }
-  Future<void>adddata() async{
-    try{
-      FirebaseFirestore.instance.collection("Customeraddress").add(
-          {
-            "fullname":name.text.trim().toString(),
-            "phoneno":phoneno.text.trim().toString(),
-            "pincode":pincode.text.trim().toString(),
-            "country":countryValue,
-            "state":stateValue,
-            "city":cityValue,
-            "houseno":houseno.text.trim().toString(),
-            "roadname": roadname.text.trim().toString(),
-            "nearbyshop":shop.text.trim().toString(),
-            "Uid":FirebaseAuth.instance.currentUser?.uid,
-            "add_id":Uuid().v1()
-          }).then((value) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Address Saved"),duration: Duration(seconds: 2),));
-          /*  name.clear();
+
+  Future<void> adddata() async {
+    try {
+      FirebaseFirestore.instance.collection("Customeraddress").add({
+        "fullname": name.text.trim().toString(),
+        "phoneno": phoneno.text.trim().toString(),
+        "pincode": pincode.text.trim().toString(),
+        "country": countryValue,
+        "state": stateValue,
+        "city": cityValue,
+        "houseno": houseno.text.trim().toString(),
+        "roadname": roadname.text.trim().toString(),
+        "nearbyshop": shop.text.trim().toString(),
+        "Uid": FirebaseAuth.instance.currentUser?.uid,
+        "add_id": Uuid().v1()
+      }).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Address Saved"),
+          duration: Duration(seconds: 2),
+        ));
+        /*  name.clear();
             phoneno.clear();
             pincode.clear();
             countryValue="";
@@ -92,10 +97,8 @@ class _Address_NewState extends State<Address_New> {
             shop.clear();
 
            */
-
-
       });
-    }catch(e){
+    } catch (e) {
       print(e.toString());
     }
   }
@@ -106,36 +109,39 @@ class _Address_NewState extends State<Address_New> {
       appBar: AppBar(
         title: const Text("Address"),
       ),
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             children: <Widget>[
-               TextField(
-                 controller: name,
+              TextField(
+                controller: name,
                 decoration: const InputDecoration(
                   hintText: "Full Name",
-                  border:  OutlineInputBorder(
+                  border: OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
                   ),
                 ),
               ),
-              const SizedBox(height: 10,),
-               TextField(
-                 controller: phoneno,
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: phoneno,
                 maxLength: 10,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  hintText: "Phone No.",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.zero,
-                  )
-                ),
+                    hintText: "Phone No.",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.zero,
+                    )),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: <Widget>[
-                   SizedBox(
+                  SizedBox(
                     width: 150,
                     child: TextField(
                       controller: pincode,
@@ -145,29 +151,32 @@ class _Address_NewState extends State<Address_New> {
                           hintText: "Pincode",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.zero,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  const SizedBox(width: 10,),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   SizedBox(
                     width: 150,
                     child: InkWell(
                       onTap: _getCurrentLocation,
-
                       child: const Row(
                         children: <Widget>[
                           Icon(Icons.my_location),
-                          SizedBox(width: 8,),
+                          SizedBox(
+                            width: 8,
+                          ),
                           Text("Use My Location")
                         ],
                       ),
                     ),
                   ),
-
                 ],
               ),
-            const  SizedBox(height: 8,),
+              const SizedBox(
+                height: 8,
+              ),
               CSCPicker(
                 onCountryChanged: (value) {
                   setState(() {
@@ -183,37 +192,40 @@ class _Address_NewState extends State<Address_New> {
                   setState(() {
                     cityValue = value ?? '';
                   });
-
                 },
-              ), const SizedBox(height: 8,),
-               TextField(
-                 controller: houseno,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextField(
+                controller: houseno,
                 decoration: const InputDecoration(
                     hintText: "House No.,Building Name",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.zero,
-                    )
-                ),
+                    )),
               ),
-              const SizedBox(height: 10,),
-               TextField(
-                 controller: roadname,
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: roadname,
                 decoration: const InputDecoration(
                     hintText: "Road Name,Area,Colony",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.zero,
-                    )
-                ),
+                    )),
               ),
-              const SizedBox(height: 10,),
-               TextField(
-                 controller: shop,
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: shop,
                 decoration: const InputDecoration(
                     hintText: "Near By Shop/Mall/Landmark",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.zero,
-                    )
-                ),
+                    )),
               ),
               SizedBox(
                 width: double.infinity,
@@ -238,18 +250,23 @@ class _Address_NewState extends State<Address_New> {
                       } else if (roadname.text.isEmpty) {
                         errorMessage = 'Please enter the road/area/colony';
                       } else if (shop.text.isEmpty) {
-                        errorMessage = 'Please enter a nearby shop/mall/landmark';
+                        errorMessage =
+                            'Please enter a nearby shop/mall/landmark';
                       }
 
                       if (errorMessage.isNotEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(errorMessage),duration: Duration(seconds: 2),
+                          content: Text(errorMessage),
+                          duration: Duration(seconds: 2),
                         ));
                       } else {
                         adddata();
                       }
                     },
-                    style: ElevatedButton.styleFrom(shape:const RoundedRectangleBorder(borderRadius: BorderRadius.zero)), child: const Text("Save Address")),
+                    style: ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.zero)),
+                    child: const Text("Save Address")),
               ),
             ],
           ),

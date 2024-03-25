@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -230,7 +229,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                         .instance.currentUser?.uid
                                         .toString(),
                                     "total": total,
-                                    "pid":product.id
+                                    "pid": product.id
                                   }).then((value) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
@@ -271,8 +270,14 @@ class _ProductDetailState extends State<ProductDetail> {
                                         .instance.currentUser?.uid
                                         .toString(),
                                     "total": total,
-                                    "pid":product.id
-                                  }).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Checkout(productid: product.id,),)));
+                                    "pid": product.id
+                                  }).then((value) => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Checkout(
+                                              productid: product.id,
+                                            ),
+                                          )));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.orange),
@@ -320,8 +325,9 @@ class _ProductDetailState extends State<ProductDetail> {
                                         ),
                                       ],
                                     ),
-                                     SizedBox(
-                                      width: MediaQuery.of(context).size.width*0.5,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
                                     ),
                                     Column(
                                       children: [

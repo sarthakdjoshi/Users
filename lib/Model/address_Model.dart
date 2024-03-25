@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-class Address_Model{
+
+class Address_Model {
   final String id;
   final String city;
   final String country;
@@ -24,7 +25,8 @@ class Address_Model{
     required this.add_id,
     required this.phoneno,
     required this.pincode,
-});
+  });
+
   factory Address_Model.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
@@ -40,8 +42,6 @@ class Address_Model{
       phoneno: data['phoneno'],
       add_id: data['add_id'],
       pincode: data['pincode'],
-
     );
   }
-
 }

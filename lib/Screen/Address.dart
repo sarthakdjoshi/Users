@@ -50,7 +50,8 @@ class _AddressState extends State<Address> {
             child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection("Customeraddress")
-                  .where("Uid", isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                  .where("Uid",
+                      isEqualTo: FirebaseAuth.instance.currentUser?.uid)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -93,12 +94,15 @@ class _AddressState extends State<Address> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => InvoiceScreen(add_id: _selectedAddressId, cartList: widget.cartList),
+                      builder: (context) => InvoiceScreen(
+                          add_id: _selectedAddressId,
+                          cartList: widget.cartList),
                     ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                  shape:
+                      RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                 ),
                 child: Text(
                   "Continue",
@@ -112,4 +116,3 @@ class _AddressState extends State<Address> {
     );
   }
 }
-

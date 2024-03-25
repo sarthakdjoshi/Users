@@ -96,7 +96,7 @@ class _CartState extends State<Cart> {
                                             onPressed: () {
                                               var abc = int.parse(cart.qty);
                                               abc = abc - 1;
-                                              if(abc==0){
+                                              if (abc == 0) {
                                                 FirebaseFirestore.instance
                                                     .collection("Cart")
                                                     .doc(cart.id)
@@ -107,7 +107,8 @@ class _CartState extends State<Cart> {
                                                   .doc(cart.id)
                                                   .update({
                                                 "qty": abc.toString(),
-                                                "total": double.parse(cart.qty) *
+                                                "total": double.parse(
+                                                        cart.qty) *
                                                     double.parse(cart.price_new)
                                               });
 
@@ -117,7 +118,8 @@ class _CartState extends State<Cart> {
                                           ),
                                           Text(
                                             "Qty: ${cart.qty.toString()}",
-                                            style: const TextStyle(fontSize: 14),
+                                            style:
+                                                const TextStyle(fontSize: 14),
                                           ),
                                           IconButton(
                                             onPressed: () {
@@ -128,7 +130,8 @@ class _CartState extends State<Cart> {
                                                   .doc(cart.id)
                                                   .update({
                                                 "qty": abc.toString(),
-                                                "total": double.parse(cart.qty) *
+                                                "total": double.parse(
+                                                        cart.qty) *
                                                     double.parse(cart.price_new)
                                               });
 
@@ -136,9 +139,7 @@ class _CartState extends State<Cart> {
                                             },
                                             icon: const Icon(Icons.add),
                                           ),
-
                                         ],
-
                                       ),
                                       Text(
                                         "Sub-total=${int.parse(cart.qty) * int.parse(cart.price_new)}",
@@ -156,8 +157,8 @@ class _CartState extends State<Cart> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                            content: Text(
-                                                "Removed from the cart"),
+                                            content:
+                                                Text("Removed from the cart"),
                                           ),
                                         );
                                       });
@@ -183,12 +184,17 @@ class _CartState extends State<Cart> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          (totalPrice==0)?ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("No Item Added"),duration: Duration(seconds: 2),)):
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Checkout(),
-                              ));
+                          (totalPrice == 0)
+                              ? ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                  content: Text("No Item Added"),
+                                  duration: Duration(seconds: 2),
+                                ))
+                              : Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Checkout(),
+                                  ));
                         },
                         child: const Text("Checkout"),
                       ),

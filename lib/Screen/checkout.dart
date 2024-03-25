@@ -62,9 +62,9 @@ class _CheckoutState extends State<Checkout> {
                   double.parse(cart.qty) * double.parse(cart.price_old);
             }
             double total = totalOldPrice - totalNewPrice;
-            double subtotal=totalNewPrice;
-            if(subtotal<10000){
-              subtotal+=50;
+            double subtotal = totalNewPrice;
+            if (subtotal < 10000) {
+              subtotal += 50;
             }
 
             return Column(
@@ -75,72 +75,72 @@ class _CheckoutState extends State<Checkout> {
                     itemBuilder: (context, index) {
                       var cart = carts[index];
                       return (cart.uid ==
-                          FirebaseAuth.instance.currentUser?.uid)
+                              FirebaseAuth.instance.currentUser?.uid)
                           ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          margin: const EdgeInsets.all(8),
-                          elevation: 4,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProductDetail(
-                                    productname: cart.product_name,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ListTile(
-                              leading: Image.network(
-                                cart.images[0],
-                                fit: BoxFit.cover,
-                                width: 80,
-                              ),
-                              title: Text(
-                                cart.product_name,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    "MRP: ₹${cart.price_old}",
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.red,
-                                      decoration:
-                                      TextDecoration.lineThrough,
-                                      decorationColor: Colors.red,
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                margin: const EdgeInsets.all(8),
+                                elevation: 4,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProductDetail(
+                                          productname: cart.product_name,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: ListTile(
+                                    leading: Image.network(
+                                      cart.images[0],
+                                      fit: BoxFit.cover,
+                                      width: 80,
+                                    ),
+                                    title: Text(
+                                      cart.product_name,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          "MRP: ₹${cart.price_old}",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.red,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            decorationColor: Colors.red,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          "Qty: ${cart.qty.toString()}",
+                                          style: const TextStyle(fontSize: 14),
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          "Price: ₹${cart.price_new}",
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    "Qty: ${cart.qty.toString()}",
-                                    style: const TextStyle(fontSize: 14),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    "Price: ₹${cart.price_new}",
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      )
+                            )
                           : const SizedBox.shrink();
                     },
                   ),
@@ -239,7 +239,8 @@ class _CheckoutState extends State<Checkout> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Address(cartList: carts),
+                                  builder: (context) =>
+                                      Address(cartList: carts),
                                 ),
                               );
                             },

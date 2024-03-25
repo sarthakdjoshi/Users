@@ -8,7 +8,8 @@ class InvoiceScreen extends StatefulWidget {
   final String add_id;
   final List<Cart_Model> cartList;
 
-  const InvoiceScreen({super.key, required this.add_id, required this.cartList});
+  const InvoiceScreen(
+      {super.key, required this.add_id, required this.cartList});
 
   @override
   State<InvoiceScreen> createState() => _InvoiceScreenState();
@@ -107,7 +108,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             title: Text(cartItem.product_name),
-                            subtitle: Text("Price: ${cartItem.price_new}, Qty: ${cartItem.qty}"),
+                            subtitle: Text(
+                                "Price: ${cartItem.price_new}, Qty: ${cartItem.qty}"),
                           ),
                         );
                       }).toList(),
@@ -136,8 +138,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: double.infinity,
-                        child: ElevatedButton(onPressed: (){}, child: Text("Place",style: TextStyle(fontSize: 20,color: Colors.indigo),)))
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Place",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.indigo),
+                            )))
                   ],
                 );
               },
