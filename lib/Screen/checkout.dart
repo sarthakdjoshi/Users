@@ -62,6 +62,10 @@ class _CheckoutState extends State<Checkout> {
                   double.parse(cart.qty) * double.parse(cart.price_old);
             }
             double total = totalOldPrice - totalNewPrice;
+            double subtotal=totalNewPrice;
+            if(subtotal<10000){
+              subtotal+=50;
+            }
 
             return Column(
               children: [
@@ -170,7 +174,7 @@ class _CheckoutState extends State<Checkout> {
                                 children: [
                                   buildPriceDetailRow(
                                     "Product Price:",
-                                    totalNewPrice.toString(),
+                                    totalOldPrice.toString(),
                                   ),
                                   buildPriceDetailRow(
                                     "Total Discount:",
@@ -202,7 +206,7 @@ class _CheckoutState extends State<Checkout> {
                               ),
                             ),
                             Text(
-                              totalNewPrice.toString(),
+                              subtotal.toString(),
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -219,7 +223,7 @@ class _CheckoutState extends State<Checkout> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Total: ₹${totalNewPrice.toStringAsFixed(2)}",
+                        "Total: ₹${subtotal.toStringAsFixed(2)}",
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

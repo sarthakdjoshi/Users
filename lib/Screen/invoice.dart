@@ -20,6 +20,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     for (var cart in widget.cartList) {
       grandTotal += double.parse(cart.price_new) * double.parse(cart.qty);
     }
+    if (grandTotal < 10000) {
+      grandTotal += 50;
+    }
     return grandTotal;
   }
 
