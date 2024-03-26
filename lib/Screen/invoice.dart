@@ -141,7 +141,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                             onPressed: () {},
-                            child: Text(
+                            child: const Text(
                               "Place",
                               style:
                                   TextStyle(fontSize: 20, color: Colors.indigo),
