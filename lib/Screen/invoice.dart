@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:users/Screen/orderconfirm.dart';
 
 import '../Model/Cart_Model.dart';
 import '../Model/address_Model.dart';
@@ -31,14 +32,13 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    // Payment successful, handle the success logic
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Payment Successful')),
     );
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    // Payment failed, handle the failure logic
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Payment Failed')),
     );
@@ -76,7 +76,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     return grandTotal;
   }
 
-  // Function to retrieve user's contact number from Firestore
+
   void getUserContact() async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     QuerySnapshot userSnapshot = await FirebaseFirestore.instance
@@ -86,7 +86,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     if (userSnapshot.docs.isNotEmpty) {
       setState(() {
         userContact = userSnapshot.docs[0][
-            'contact']; // Assuming 'contact' is the field name for contact number in Firestore
+            'contact'];
       });
     }
   }
@@ -211,9 +211,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Cash on Delivery')),
-                          );
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => OrderConfirmationScreen(),));
                         },
                         child: const Text(
                           "Cash on Delivery",
