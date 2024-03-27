@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../Model/Cart_Model.dart';
 import '../Model/address_Model.dart';
@@ -8,14 +10,61 @@ class InvoiceScreen extends StatefulWidget {
   final String add_id;
   final List<Cart_Model> cartList;
 
-  const InvoiceScreen(
-      {super.key, required this.add_id, required this.cartList});
+  const InvoiceScreen({Key? key, required this.add_id, required this.cartList})
+      : super(key: key);
 
   @override
   State<InvoiceScreen> createState() => _InvoiceScreenState();
 }
 
 class _InvoiceScreenState extends State<InvoiceScreen> {
+  Razorpay _razorpay = Razorpay();
+  String userContact = ''; // Variable to store user's contact number
+
+  @override
+  void initState() {
+    super.initState();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    getUserContact();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Payment successful, handle the success logic
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Payment Successful')),
+    );
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Payment failed, handle the failure logic
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Payment Failed')),
+    );
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {}
+
+  void openCheckout() {
+    var options = {
+      'key': 'rzp_test_nLQYAWuOKvzENb',
+      'amount': calculateGrandTotal() * 100,
+      'name': 'Unicorn',
+      'description': "Payment of Your Order",
+      'prefill': {
+        'contact': userContact,
+        'email': FirebaseAuth.instance.currentUser!.email.toString(),
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   double calculateGrandTotal() {
     double grandTotal = 0;
     for (var cart in widget.cartList) {
@@ -25,6 +74,27 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       grandTotal += 50;
     }
     return grandTotal;
+  }
+
+  // Function to retrieve user's contact number from Firestore
+  void getUserContact() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    QuerySnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('Customeraddress')
+        .where("Uid", isEqualTo: uid)
+        .get();
+    if (userSnapshot.docs.isNotEmpty) {
+      setState(() {
+        userContact = userSnapshot.docs[0][
+            'contact']; // Assuming 'contact' is the field name for contact number in Firestore
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
   }
 
   @override
@@ -138,14 +208,31 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       ),
                     ),
                     SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "Place",
-                              style:
-                                  TextStyle(fontSize: 20, color: Colors.indigo),
-                            )))
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Cash on Delivery')),
+                          );
+                        },
+                        child: const Text(
+                          "Cash on Delivery",
+                          style: TextStyle(fontSize: 20, color: Colors.indigo),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          openCheckout();
+                        },
+                        child: const Text(
+                          "Pay with Razorpay",
+                          style: TextStyle(fontSize: 20, color: Colors.indigo),
+                        ),
+                      ),
+                    ),
                   ],
                 );
               },

@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/widgets.dart';
+import 'package:users/Screen/cart.dart';
 import 'package:users/Screen/checkout.dart';
 import '../Model/Product_Model.dart';
 
@@ -218,32 +221,52 @@ class _ProductDetailState extends State<ProductDetail> {
                                       double.parse(product.product_newprice));
                                   FirebaseFirestore.instance
                                       .collection("Cart")
-                                      .doc(product.id)
-                                      .set({
-                                    "images": product.images,
-                                    "price_new": product.product_newprice,
-                                    "price_old": product.product_price,
-                                    "product_name": product.product_name,
-                                    "qty": qty,
-                                    "Uid": FirebaseAuth
-                                        .instance.currentUser?.uid
-                                        .toString(),
-                                    "total": total,
-                                    "pid": product.id
-                                  }).then((value) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Added to the cart Successfully"),
-                                      ),
-                                    );
+                                      .where("pid", isEqualTo: product.id)
+                                      .where("Uid",
+                                          isEqualTo: FirebaseAuth
+                                              .instance.currentUser?.uid)
+                                      .get()
+                                      .then((QuerySnapshot querySnapshot) {
+                                    if (querySnapshot.docs.isNotEmpty) {
+                                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Cart(),
+                                        ),
+                                      );
+                                    } else {
+                                      FirebaseFirestore.instance
+                                          .collection("Cart")
+                                          .doc(product.id)
+                                          .set({
+                                        "images": product.images,
+                                        "price_new": product.product_newprice,
+                                        "price_old": product.product_price,
+                                        "product_name": product.product_name,
+                                        "qty": qty,
+                                        "Uid": FirebaseAuth
+                                            .instance.currentUser?.uid
+                                            .toString(),
+                                        "total": total,
+                                        "pid": product.id
+                                      }).then((value) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                "Added to the cart Successfully"),
+                                          ),
+                                        );
+                                      });
+                                    }
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.orangeAccent),
-                                child: const Text(
-                                  "Add To Cart",
-                                  style: TextStyle(
+                                  backgroundColor: Colors.orangeAccent,
+                                ),
+                                child: Text(
+                                  "Add to cart",
+                                  style: const TextStyle(
                                       color: Colors.black, fontSize: 20),
                                 ),
                               ),
@@ -253,36 +276,56 @@ class _ProductDetailState extends State<ProductDetail> {
                             ),
                             SizedBox(
                               width: double.infinity,
-                              child: ElevatedButton(
+                              child: // Inside the StreamBuilder's ListView.builder itemBuilder method
+                                  ElevatedButton(
                                 onPressed: () {
                                   double total = (double.parse(qty) *
                                       double.parse(product.product_newprice));
                                   FirebaseFirestore.instance
                                       .collection("Cart")
                                       .doc(product.id)
-                                      .set({
-                                    "images": product.images,
-                                    "price_new": product.product_newprice,
-                                    "price_old": product.product_price,
-                                    "product_name": product.product_name,
-                                    "qty": qty,
-                                    "Uid": FirebaseAuth
-                                        .instance.currentUser?.uid
-                                        .toString(),
-                                    "total": total,
-                                    "pid": product.id
-                                  }).then((value) => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Checkout(
-                                              productid: product.id,
-                                            ),
-                                          )));
+                                      .get()
+                                      .then((DocumentSnapshot docSnapshot) {
+                                    if (docSnapshot.exists) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Cart(), // Replace CartScreen with your actual cart screen
+                                        ),
+                                      );
+                                    } else {
+                                      FirebaseFirestore.instance
+                                          .collection("Cart")
+                                          .doc(product.id)
+                                          .set({
+                                        "images": product.images,
+                                        "price_new": product.product_newprice,
+                                        "price_old": product.product_price,
+                                        "product_name": product.product_name,
+                                        "qty": qty,
+                                        "Uid": FirebaseAuth
+                                            .instance.currentUser?.uid
+                                            .toString(),
+                                        "total": total,
+                                        "pid": product.id
+                                      }).then((value) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => Checkout(
+                                                productid: product.id,
+                                              ),
+                                            ));
+                                      });
+                                    }
+                                  });
                                 },
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.orange),
+                                  backgroundColor: Colors.orangeAccent,
+                                ),
                                 child: const Text(
-                                  "Buy Now",
+                                  "Buy",
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 20),
                                 ),
