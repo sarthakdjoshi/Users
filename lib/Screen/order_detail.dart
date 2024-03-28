@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Model/order_model.dart';
 
-
-class order_detail extends StatefulWidget{
+class order_detail extends StatefulWidget {
   final String oid;
 
   const order_detail({super.key, required this.oid});
+
   @override
   State<order_detail> createState() => _order_detailState();
 }
@@ -36,7 +36,7 @@ class _order_detailState extends State<order_detail> {
                 .map((doc) => Order_Model.fromFirestore(doc))
                 .toList();
 
-         return   ListView.builder(
+            return ListView.builder(
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 var order = orders[index];
@@ -73,7 +73,6 @@ class _order_detailState extends State<order_detail> {
                 );
               },
             );
-
           }
         },
       ),

@@ -51,24 +51,27 @@ class _Category_DetailState extends State<Category_Detail> {
                       var category = categories[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: InkWell(
-                          onTap: () {
-                            sub = category.Sub_Category;
-                            setState(() {});
-                          },
-                          child: Column(
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(category.Image),
-                                radius: 45.0,
-                              ),
-                              Text(
-                                category.Sub_Category,
-                                style: const TextStyle(
-                                  fontSize: 16,
+                        child: Visibility(
+                          visible: (sub.isEmpty) ? true : false,
+                          child: InkWell(
+                            onTap: () {
+                              sub = category.Sub_Category;
+                              setState(() {});
+                            },
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(category.Image),
+                                  radius: 45.0,
                                 ),
-                              ),
-                            ],
+                                Text(
+                                  category.Sub_Category,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );

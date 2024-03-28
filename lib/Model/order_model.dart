@@ -17,7 +17,7 @@ class Order_Model {
     required this.user_name,
     required this.Payment_Method,
     required this.orderid,
-     });
+  });
 
   factory Order_Model.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
@@ -28,8 +28,8 @@ class Order_Model {
       product_name: data['product_name'],
       product_price: data['product_price'],
       user_name: data['user_name'],
-      Payment_Method: data['Payment_Method']??"",
+      Payment_Method: data['Payment_Method'] ?? "",
       orderid: data['orderid'],
-   );
+    );
   }
 }
