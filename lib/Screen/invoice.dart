@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:users/Screen/orderconfirm.dart';
+import 'package:uuid/uuid.dart';
 
 import '../Model/Cart_Model.dart';
 import '../Model/address_Model.dart';
@@ -11,16 +12,22 @@ class InvoiceScreen extends StatefulWidget {
   final String add_id;
   final List<Cart_Model> cartList;
 
-  const InvoiceScreen({Key? key, required this.add_id, required this.cartList})
-      : super(key: key);
+  const InvoiceScreen(
+      {super.key, required this.add_id, required this.cartList});
 
   @override
   State<InvoiceScreen> createState() => _InvoiceScreenState();
 }
 
 class _InvoiceScreenState extends State<InvoiceScreen> {
-  Razorpay _razorpay = Razorpay();
-  String userContact = ''; // Variable to store user's contact number
+  final Razorpay _razorpay = Razorpay();
+  String userContact = '';
+  var name = "";
+  var price = "";
+  var id = "";
+  var fname = "";
+  var oid = const Uuid().v1() ;
+  var uid=FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
@@ -30,13 +37,51 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     getUserContact();
   }
-
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Payment Successful')),
-    );
+    // First, add your code to save order details
+    List<String> productNames = [];
+    for (var cartItem in widget.cartList) {
+      productNames.add(cartItem.product_name);
+    }
+    FirebaseFirestore.instance.collection("Orders").add({
+      "Uid": FirebaseAuth.instance.currentUser!.uid,
+      "product_name": productNames,
+      "product_price": price,
+      "user_name": fname,
+      "Payment_Method": "online",
+      "orderid": oid
+    }).then((value) {
+      // After saving order details, delete the cart items
+      for (var cartItem in widget.cartList) {
+        FirebaseFirestore.instance.collection("Cart")
+           .where("Uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .get()
+            .then((querySnapshot) {
+          querySnapshot.docs.forEach((doc) {
+            doc.reference.delete();
+          });
+        });
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OrderConfirmationScreen(oid: oid),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Payment Successful')),
+      );
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to delete cart documents')),
+      );
+    });
   }
+
+
+
+
+
 
   void _handlePaymentError(PaymentFailureResponse response) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +121,6 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     return grandTotal;
   }
 
-
   void getUserContact() async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     QuerySnapshot userSnapshot = await FirebaseFirestore.instance
@@ -85,8 +129,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         .get();
     if (userSnapshot.docs.isNotEmpty) {
       setState(() {
-        userContact = userSnapshot.docs[0][
-            'contact'];
+        userContact = userSnapshot.docs[0]['contact'];
       });
     }
   }
@@ -211,7 +254,50 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context,MaterialPageRoute(builder: (context) => OrderConfirmationScreen(),));
+                          fname=address.fullname;
+                          widget.cartList.map((cartItem) {
+                            name = cartItem.product_name;
+                            price = calculateGrandTotal().toString();
+                            id=cartItem.id;
+                          }).toList();
+                          // First, add your code to save order details
+                          List<String> productNames = [];
+                          for (var cartItem in widget.cartList) {
+                            productNames.add(cartItem.product_name);
+                          }
+                          FirebaseFirestore.instance.collection("Orders").add({
+                            "Uid": FirebaseAuth.instance.currentUser!.uid,
+                            "product_name": productNames,
+                            "product_price": price,
+                            "user_name": fname,
+                            "Payment_Method": "cod",
+                            "orderid": oid
+                          }).then((value) {
+                            // After saving order details, delete the cart items
+                            for (var cartItem in widget.cartList) {
+                              FirebaseFirestore.instance.collection("Cart")
+                                  .where("Uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                                  .get()
+                                  .then((querySnapshot) {
+                                querySnapshot.docs.forEach((doc) {
+                                  doc.reference.delete();
+                                });
+                              });
+                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OrderConfirmationScreen(oid: oid),
+                              ),
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Payment Successful')),
+                            );
+                          }).catchError((error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Failed to delete cart documents')),
+                            );
+                          });
                         },
                         child: const Text(
                           "Cash on Delivery",
@@ -223,7 +309,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
+                          fname=address.fullname;
+                          widget.cartList.map((cartItem) {
+                            name = cartItem.product_name;
+                            price = calculateGrandTotal().toString();
+                            id=cartItem.id;
+                          }).toList();
                           openCheckout();
+
                         },
                         child: const Text(
                           "Pay with Razorpay",

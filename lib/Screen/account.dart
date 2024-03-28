@@ -44,6 +44,7 @@ class _AccountState extends State<Account> {
         backgroundColor: Colors.indigo,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: ListView.builder(
@@ -73,14 +74,7 @@ class _AccountState extends State<Account> {
                 );
               },
             ),
-          ),
-          const Text(
-            "Contact Information",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-          ),
-          const Text(
-            "Mobile=0123456789",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+
           ),
         ],
       ),

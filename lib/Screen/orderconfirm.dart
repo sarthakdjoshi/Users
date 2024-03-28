@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:users/Screen/order_detail.dart';
+
+import 'bottomnavidate.dart';
 
 class OrderConfirmationScreen extends StatelessWidget {
-  const OrderConfirmationScreen({super.key});
+final String oid;
+  const OrderConfirmationScreen({super.key, required this.oid});
 
   @override
   Widget build(BuildContext context) {
@@ -11,23 +15,29 @@ class OrderConfirmationScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Order Confirmation'),
         ),
-        body:Center(
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(
+              const Icon(
                 Icons.check_circle,
                 color: Colors.green,
                 size: 80,
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const  Text(
                 'Order Confirmed!',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              ElevatedButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder:  (context) => order_detail(oid: oid),));
+              }, child: const Text("My Order Detail")),
+              ElevatedButton(onPressed: (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Bottomnavigate(),));
+              }, child: const Text("Continue Shoopping")),
             ],
           ),
         )
