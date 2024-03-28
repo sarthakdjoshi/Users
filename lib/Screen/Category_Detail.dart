@@ -52,7 +52,7 @@ class _Category_DetailState extends State<Category_Detail> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Visibility(
-                          visible: (sub.isEmpty) ? true : false,
+                          visible: (sub.isEmpty)?true:false,
                           child: InkWell(
                             onTap: () {
                               sub = category.Sub_Category;

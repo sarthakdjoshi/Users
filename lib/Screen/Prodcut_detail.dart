@@ -25,7 +25,6 @@ class _ProductDetailState extends State<ProductDetail> {
   String buttonText = "Add to cart";
   bool isInCart = false;
   late Product_Model product;
-
   void getProductDetails() {
     FirebaseFirestore.instance
         .collection("Product")
@@ -34,8 +33,7 @@ class _ProductDetailState extends State<ProductDetail> {
         .then((QuerySnapshot querySnapshot) {
       if (querySnapshot.docs.isNotEmpty) {
         final List<Product_Model> products = querySnapshot.docs
-            .map((doc) => Product_Model.fromFirestore(
-                doc as QueryDocumentSnapshot<Map<String, dynamic>>))
+            .map((doc) => Product_Model.fromFirestore(doc as QueryDocumentSnapshot<Map<String, dynamic>> ))
             .toList();
         setState(() {
           product = products.first;
@@ -44,7 +42,6 @@ class _ProductDetailState extends State<ProductDetail> {
       }
     });
   }
-
   void checkCartStatus() {
     FirebaseFirestore.instance
         .collection("Cart")
@@ -54,18 +51,15 @@ class _ProductDetailState extends State<ProductDetail> {
         .then((QuerySnapshot querySnapshot) {
       setState(() {
         isInCart = querySnapshot.docs.isNotEmpty;
-        buttonText =
-            isInCart ? "Go to Cart" : "Add to Cart"; // Update button text
+        buttonText = isInCart ? "Go to Cart" : "Add to Cart"; // Update button text
       });
     });
   }
-
   @override
   void initState() {
     super.initState();
     getProductDetails();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -258,16 +252,14 @@ class _ProductDetailState extends State<ProductDetail> {
                             ),
                             SizedBox(
                               width: double.infinity,
-                              child: ElevatedButton(
+                              child:ElevatedButton(
                                 onPressed: () {
                                   double total = (double.parse(qty) *
                                       double.parse(product.product_newprice));
                                   FirebaseFirestore.instance
                                       .collection("Cart")
                                       .where("pid", isEqualTo: product.id)
-                                      .where("Uid",
-                                          isEqualTo: FirebaseAuth
-                                              .instance.currentUser?.uid)
+                                      .where("Uid", isEqualTo: FirebaseAuth.instance.currentUser?.uid)
                                       .get()
                                       .then((QuerySnapshot querySnapshot) {
                                     if (querySnapshot.docs.isNotEmpty) {
@@ -289,17 +281,13 @@ class _ProductDetailState extends State<ProductDetail> {
                                         "price_old": product.product_price,
                                         "product_name": product.product_name,
                                         "qty": qty,
-                                        "Uid": FirebaseAuth
-                                            .instance.currentUser?.uid
-                                            .toString(),
+                                        "Uid": FirebaseAuth.instance.currentUser?.uid.toString(),
                                         "total": total,
                                         "pid": product.id
                                       }).then((value) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
+                                        ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(
-                                            content: Text(
-                                                "Added to the cart Successfully"),
+                                            content: Text("Added to the cart Successfully"),
                                           ),
                                         );
                                         setState(() {
@@ -314,11 +302,10 @@ class _ProductDetailState extends State<ProductDetail> {
                                 ),
                                 child: Text(
                                   buttonText,
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                  style: const TextStyle(color: Colors.black, fontSize: 20),
                                 ),
                               ),
-                            ),
+                                 ),
                             const SizedBox(
                               height: 8,
                             ),

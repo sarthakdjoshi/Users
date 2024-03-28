@@ -18,9 +18,10 @@ class _My_SettingState extends State<My_Setting> {
         title: const Text("My Setting"),
         centerTitle: true,
       ),
-      body: InkWell(
+      body:  InkWell(
         onTap: () {
-          Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+          Provider.of<ThemeProvider>(context, listen: false)
+              .toggleTheme();
         },
         child: const ListTile(
           title: Text("Theme"),

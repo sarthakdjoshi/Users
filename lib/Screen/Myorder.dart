@@ -32,8 +32,8 @@ class _MyOrderState extends State<MyOrder> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           final orders = snapshot.data!.docs
-              .map((doc) => Order_Model.fromFirestore(
-                  doc as DocumentSnapshot<Map<String, dynamic>>))
+              .map((doc) =>
+              Order_Model.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>))
               .toList();
           if (orders.isEmpty) {
             return Center(child: Text("No orders found."));
@@ -58,9 +58,9 @@ class _MyOrderState extends State<MyOrder> {
                     title: Text('Order ID: ${order.orderid}'),
                     subtitle: Text(
                       'Total Price: ${order.product_price}\n'
-                      'Payment Method: ${order.Payment_Method}\n'
-                      'User Name: ${order.user_name}\n'
-                      'Products: ${order.product_name.join(", ")}',
+                          'Payment Method: ${order.Payment_Method}\n'
+                          'User Name: ${order.user_name}\n'
+                          'Products: ${order.product_name.join(", ")}',
                     ),
                     leading: CircleAvatar(
                       backgroundColor: Colors.indigo,
@@ -75,7 +75,7 @@ class _MyOrderState extends State<MyOrder> {
               );
             },
             separatorBuilder: (BuildContext context, int index) =>
-                const Divider(height: 0),
+            const Divider(height: 0),
           );
         },
       ),
