@@ -21,7 +21,7 @@ class _Category_DetailState extends State<Category_Detail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Brands"),
+        title:  Text("${widget.category.toString()}'s Brands"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -142,7 +142,7 @@ class _Category_DetailState extends State<Category_Detail> {
                                     padding: const EdgeInsets.only(
                                         left: 8.0, right: 8.0, bottom: 8.0),
                                     child: Text(
-                                      product.product_price,
+                                      "₹${product.product_price}",
                                       style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.green,
@@ -158,10 +158,7 @@ class _Category_DetailState extends State<Category_Detail> {
                     }
                   },
                 )
-              : Text(
-                  "Product Of $sub",
-                  style: const TextStyle(fontSize: 20, color: Colors.indigo),
-                ),
+              :
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: FirebaseFirestore.instance
                 .collection("Product")
@@ -221,7 +218,7 @@ class _Category_DetailState extends State<Category_Detail> {
                               padding: const EdgeInsets.only(
                                   left: 8.0, right: 8.0, bottom: 8.0),
                               child: Text(
-                                product.product_price,
+                                "₹${product.product_price}",
                                 style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.green,

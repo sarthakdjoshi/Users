@@ -286,7 +286,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                 });
                               });
                             }
-                            Navigator.push(
+                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => OrderConfirmationScreen(oid: oid),

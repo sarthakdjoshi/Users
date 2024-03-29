@@ -97,9 +97,7 @@ class _HomeState extends State<Home> {
                                       Text(
                                         category.Category_Name,
                                         style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.black
-                                        ),
+                                            fontSize: 16, color: Colors.black),
                                       ),
                                     ],
                                   ),
@@ -206,66 +204,6 @@ class _HomeState extends State<Home> {
                                         fit: BoxFit.cover,
                                       ),
                                     ),
-                                    IconButton(
-                                      onPressed: () {
-                                        double total = (1 *
-                                            double.parse(
-                                                product.product_newprice));
-                                        try {
-                                          if (product.fav == "no") {
-                                            FirebaseFirestore.instance
-                                                .collection("Favorites")
-                                                .doc(product.id)
-                                                .set({
-                                              "images": product.images,
-                                              "price_new":
-                                                  product.product_newprice,
-                                              "price_old":
-                                                  product.product_price,
-                                              "product_name":
-                                                  product.product_name,
-                                              "qty": "1",
-                                              "Uid": FirebaseAuth
-                                                  .instance.currentUser?.uid
-                                                  .toString(),
-                                              "total": total
-                                            }).then((value) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                      content:
-                                                          Text("Fav Added")));
-                                            });
-                                            FirebaseFirestore.instance
-                                                .collection("Product")
-                                                .doc(product.id)
-                                                .update({"fav": "yes"});
-                                          } else if (product.fav == "yes") {
-                                            FirebaseFirestore.instance
-                                                .collection("Favorites")
-                                                .doc(product.id)
-                                                .delete()
-                                                .then((value) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                      content:
-                                                          Text("Fav Removed")));
-                                            });
-                                            FirebaseFirestore.instance
-                                                .collection("Product")
-                                                .doc(product.id)
-                                                .update({"fav": "no"});
-                                          }
-                                        } catch (e) {
-                                          print(e.toString());
-                                        }
-                                      },
-                                      icon: (product.fav == "no")
-                                          ? const Icon(Icons.favorite_border)
-                                          : const Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                            ),
-                                    ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
@@ -280,25 +218,91 @@ class _HomeState extends State<Home> {
                                       padding: const EdgeInsets.only(
                                           left: 8.0, right: 8.0, bottom: 8.0),
                                       child: Text(
-                                        product.product_newprice,
+                                        "₹${product.product_price}",
                                         style: const TextStyle(
-                                          fontSize: 24,
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, right: 8.0, bottom: 8.0),
-                                      child: Text(
-                                        product.product_price,
-                                        style: const TextStyle(
-                                          fontSize: 20,
                                           decoration:
                                               TextDecoration.lineThrough,
                                           color: Colors.red,
                                         ),
                                       ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0,
+                                              right: 8.0,
+                                              bottom: 8.0),
+                                          child: Text(
+                                            "MRP ₹${product.product_newprice}",
+                                            style: const TextStyle(
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            double total = (1 *
+                                                double.parse(
+                                                    product.product_newprice));
+                                            try {
+                                              if (product.fav == "no") {
+                                                FirebaseFirestore.instance
+                                                    .collection("Favorites")
+                                                    .doc(product.id)
+                                                    .set({
+                                                  "images": product.images,
+                                                  "price_new":
+                                                      product.product_newprice,
+                                                  "price_old":
+                                                      product.product_price,
+                                                  "product_name":
+                                                      product.product_name,
+                                                  "qty": "1",
+                                                  "Uid": FirebaseAuth
+                                                      .instance.currentUser?.uid
+                                                      .toString(),
+                                                  "total": total
+                                                }).then((value) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                          const SnackBar(
+                                                              content: Text(
+                                                                  "Fav Added")));
+                                                });
+                                                FirebaseFirestore.instance
+                                                    .collection("Product")
+                                                    .doc(product.id)
+                                                    .update({"fav": "yes"});
+                                              } else if (product.fav == "yes") {
+                                                FirebaseFirestore.instance
+                                                    .collection("Favorites")
+                                                    .doc(product.id)
+                                                    .delete()
+                                                    .then((value) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(const SnackBar(
+                                                          content: Text(
+                                                              "Fav Removed")));
+                                                });
+                                                FirebaseFirestore.instance
+                                                    .collection("Product")
+                                                    .doc(product.id)
+                                                    .update({"fav": "no"});
+                                              }
+                                            } catch (e) {
+                                              print(e.toString());
+                                            }
+                                          },
+                                          icon: (product.fav == "no")
+                                              ? const Icon(
+                                                  Icons.favorite_border)
+                                              : const Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.red,
+                                                ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

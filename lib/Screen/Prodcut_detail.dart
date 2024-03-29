@@ -199,12 +199,16 @@ class _ProductDetailState extends State<ProductDetail> {
                                   style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
+
                                   ),
                                 ),
+                                SizedBox(width: 8,),
                                 Text(
                                   product.product_price,
                                   style: const TextStyle(
                                       fontSize: 20,
+                                      color: Colors.red,
+                                      decorationColor: Colors.red,
                                       decoration: TextDecoration.lineThrough),
                                 ),
                               ],
@@ -216,12 +220,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                   TextStyle(fontSize: 20, color: Colors.green),
                             ),
                             const SizedBox(height: 8),
-                            Text(
-                              "Category: ${product.category}",
-                              style: const TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
+
                             Row(
                               children: [
                                 const Text(
@@ -369,7 +368,7 @@ class _ProductDetailState extends State<ProductDetail> {
                             const SizedBox(height: 8),
                             const Text(
                               "Details",
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 25),
                             ),
                             const SizedBox(
                               height: 8,
@@ -411,23 +410,23 @@ class _ProductDetailState extends State<ProductDetail> {
                                       children: [
                                         Text(
                                           product.product_title1_delail,
-                                          style: const TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           product.product_title2_delail,
-                                          style: const TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           product.product_title3_delail,
-                                          style: const TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           product.product_title4_delail,
-                                          style: const TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           product.product_color,
-                                          style: const TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
@@ -438,10 +437,10 @@ class _ProductDetailState extends State<ProductDetail> {
                             const Text(
                               "About this item",
                               style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w800),
+                                  fontSize: 25),
                             ),
                             Text(
-                              "${product.product_all}",
+                              product.product_all,
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w800),
                             ),

@@ -33,9 +33,11 @@ final String oid;
                 ),
               ),
               ElevatedButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder:  (context) => order_detail(oid: oid),));
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.push(context, MaterialPageRoute(builder:  (context) => OrderDetail(oid: oid),));
               }, child: const Text("My Order Detail")),
               ElevatedButton(onPressed: (){
+                Navigator.of(context).popUntil((route) => route.isFirst);
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Bottomnavigate(),));
               }, child: const Text("Continue Shoopping")),
             ],
