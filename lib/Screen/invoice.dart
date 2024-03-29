@@ -49,9 +49,9 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
       "product_price": price,
       "user_name": fname,
       "Payment_Method": "online",
-      "orderid": oid
+      "orderid": oid,
+      "orderstatus":"pending"
     }).then((value) {
-      // After saving order details, delete the cart items
       for (var cartItem in widget.cartList) {
         FirebaseFirestore.instance.collection("Cart")
            .where("Uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -62,6 +62,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           });
         });
       }
+      Navigator.of(context).popUntil((route) => route.isFirst);
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -271,7 +272,8 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                             "product_price": price,
                             "user_name": fname,
                             "Payment_Method": "cod",
-                            "orderid": oid
+                            "orderid": oid,
+                            "orderstatus":"pending"
                           }).then((value) {
                             // After saving order details, delete the cart items
                             for (var cartItem in widget.cartList) {

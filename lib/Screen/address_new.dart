@@ -178,6 +178,7 @@ class _Address_NewState extends State<Address_New> {
                 height: 8,
               ),
               CSCPicker(
+                dropdownDecoration: BoxDecoration(color: Colors.blueGrey),
                 onCountryChanged: (value) {
                   setState(() {
                     countryValue = value ?? '';

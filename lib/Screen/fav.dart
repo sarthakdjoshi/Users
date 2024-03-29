@@ -54,7 +54,7 @@ class _FavState extends State<Fav> {
                         child: SizedBox(
                           height: 100,
                           child: Card(
-                            color: Colors.grey,
+                            color: Colors.blueGrey,
                             child: ListTile(
                               leading: Image.network(
                                 product.images[0],

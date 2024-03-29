@@ -8,6 +8,7 @@ class Order_Model {
   final String user_name;
   final String Payment_Method;
   final String orderid;
+  final String orderstatus;
 
   Order_Model({
     required this.id,
@@ -17,6 +18,7 @@ class Order_Model {
     required this.user_name,
     required this.Payment_Method,
     required this.orderid,
+    required this.orderstatus,
   });
 
   factory Order_Model.fromFirestore(
@@ -30,6 +32,7 @@ class Order_Model {
       user_name: data['user_name'],
       Payment_Method: data['Payment_Method'] ?? "",
       orderid: data['orderid'],
+      orderstatus: data['orderstatus']??"",
     );
   }
 }

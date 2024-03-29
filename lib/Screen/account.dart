@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Screen/Account_Detail.dart';
 import 'package:users/Screen/Logout.dart';
 import 'package:users/Screen/Myorder.dart';
 import 'package:users/Screen/Setting.dart';
 import 'package:users/Screen/fav.dart';
+
+import '../main.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -18,21 +21,19 @@ class _AccountState extends State<Account> {
     "MY Order",
     "MY Wishlist",
     "MY Setting",
-    "Logout"
-  ];
+   ];
   List<Icon> icons = [
     const Icon(Icons.person),
     const Icon(Icons.shopping_cart),
     const Icon(Icons.favorite_border_outlined),
     const Icon(Icons.settings),
-    const Icon(Icons.logout_sharp),
   ];
   List<Widget> screen = [
     const Account_Detail(),
     const MyOrder(),
     const Fav(),
     const My_Setting(),
-    const Logout()
+
   ];
 
   @override
@@ -70,11 +71,28 @@ class _AccountState extends State<Account> {
                         ),
                       ),
                     ),
+
                   ],
                 );
               },
             ),
           ),
+          InkWell(
+            child: const ListTile(
+              title: Text("Logout"),
+              trailing: Icon(Icons.logout),
+            ),
+            onTap: (){
+              FirebaseAuth.instance
+                  .signOut()
+                  .then((value) => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    const MyHomePage(title: "Login"),
+                  )));
+            },
+          )
         ],
       ),
     );

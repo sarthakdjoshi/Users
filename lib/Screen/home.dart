@@ -98,6 +98,7 @@ class _HomeState extends State<Home> {
                                         category.Category_Name,
                                         style: const TextStyle(
                                           fontSize: 16,
+                                          color: Colors.black
                                         ),
                                       ),
                                     ],

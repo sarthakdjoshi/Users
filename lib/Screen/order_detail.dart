@@ -68,6 +68,9 @@ class _order_detailState extends State<order_detail> {
                     ListTile(
                       title: Text("User Name: ${order.user_name}"),
                     ),
+                    ListTile(
+                      title: Text("Order Status: ${order.orderstatus}"),
+                    ),
                     const Divider(),
                   ],
                 );

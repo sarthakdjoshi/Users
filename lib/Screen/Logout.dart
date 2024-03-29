@@ -13,7 +13,6 @@ class Logout extends StatefulWidget {
 
 class _LogoutState extends State<Logout> {
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +43,7 @@ class _LogoutState extends State<Logout> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          MyHomePage(title: "Login"),
+                                          const MyHomePage(title: "Login"),
                                     )));
                           },
                           child: const Text("Yes"),
