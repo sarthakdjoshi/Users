@@ -6,6 +6,7 @@ import 'package:users/Screen/Myorder.dart';
 import 'package:users/Screen/Setting.dart';
 import 'package:users/Screen/fav.dart';
 
+import '../Appcolor.dart';
 import '../main.dart';
 
 class Account extends StatefulWidget {
@@ -42,7 +43,7 @@ class _AccountState extends State<Account> {
       appBar: AppBar(
         title: const Text("Account"),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor:AppColors.lightBlue,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

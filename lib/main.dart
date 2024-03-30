@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:users/Appcolor.dart';
 import 'package:users/Screen/Signup.dart';
 import 'package:users/Splash.dart';
 import 'Provider.dart';
@@ -51,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         title: Text(widget.title),
         centerTitle: true,
       ),

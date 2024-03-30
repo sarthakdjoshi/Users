@@ -66,6 +66,7 @@ class _ProductDetailState extends State<ProductDetail> {
       appBar: AppBar(
         title: Text(widget.productname),
         centerTitle: true,
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

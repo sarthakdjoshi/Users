@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../Appcolor.dart';
 import '../Model/Product_Model.dart';
 import 'Prodcut_detail.dart';
 
@@ -20,7 +21,7 @@ class _SubcategoryDetailState extends State<SubcategoryDetail> {
       appBar: AppBar(
         title: Text("${widget.sub}'sProduct"),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor:AppColors.lightBlue,
       ),
       body:      StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:users/Model/order_model.dart';
 import 'package:users/Model/product_model.dart';
 
+import '../Appcolor.dart';
+
 class OrderDetail extends StatefulWidget {
   final String oid;
 
@@ -18,7 +20,7 @@ class _OrderDetailState extends State<OrderDetail> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Order Detail"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
       ),
       body: StreamBuilder(

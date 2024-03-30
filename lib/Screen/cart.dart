@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Screen/checkout.dart';
 
+import '../Appcolor.dart';
 import '../Model/Cart_Model.dart';
 import 'Prodcut_detail.dart';
 
@@ -20,7 +21,7 @@ class _CartState extends State<Cart> {
       appBar: AppBar(
         title: const Text("Cart"),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor:AppColors.lightBlue,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection("Cart").snapshots(),

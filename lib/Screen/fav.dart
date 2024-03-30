@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:users/Model/Favorites_Model.dart';
 import 'package:users/Screen/Prodcut_detail.dart';
 
+import '../Appcolor.dart';
+
 class Fav extends StatefulWidget {
   const Fav({super.key});
 
@@ -20,7 +22,7 @@ class _FavState extends State<Fav> {
       appBar: AppBar(
         title: const Text("Favorites"),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor:AppColors.lightBlue,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection("Favorites").snapshots(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../Appcolor.dart';
 import '../Model/Cart_Model.dart';
 import '../Model/address_Model.dart';
 import 'address_new.dart';
@@ -24,7 +25,7 @@ class _AddressState extends State<Address> {
       appBar: AppBar(
         title: Text("Address"),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor:AppColors.lightBlue,
       ),
       body: Column(
         children: <Widget>[

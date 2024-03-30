@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:users/Screen/order_detail.dart';
+import '../Appcolor.dart';
 import '../Model/order_model.dart';
 
 class MyOrder extends StatefulWidget {
@@ -18,7 +19,7 @@ class _MyOrderState extends State<MyOrder> {
       appBar: AppBar(
         title: const Text("My Orders"),
         centerTitle: true,
-        backgroundColor: Colors.blue, // Change app bar color
+        backgroundColor: AppColors.lightBlue, // Change app bar color
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance.collection('Orders').where("Uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid).get(),

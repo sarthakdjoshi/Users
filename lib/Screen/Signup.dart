@@ -9,6 +9,8 @@ import 'dart:io';
 
 import 'package:uuid/uuid.dart';
 
+import '../Appcolor.dart';
+
 class Signup extends StatefulWidget {
   const Signup({super.key});
 
@@ -91,7 +93,7 @@ class _SignupState extends State<Signup> {
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
-          backgroundColor: Colors.indigo,
+          backgroundColor:AppColors.lightBlue,
         ),
         body: SingleChildScrollView(
           child: Padding(

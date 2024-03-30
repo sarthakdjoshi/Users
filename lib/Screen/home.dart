@@ -8,6 +8,8 @@ import 'package:users/Model/category-model.dart';
 import 'package:users/Screen/Category_Detail.dart';
 import 'package:users/Screen/Prodcut_detail.dart';
 
+import '../Appcolor.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -25,7 +27,7 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: const Text("Home"),
           centerTitle: true,
-          backgroundColor: Colors.indigo,
+          backgroundColor:AppColors.lightBlue,
           actions: [
             IconButton(
                 onPressed: () {},

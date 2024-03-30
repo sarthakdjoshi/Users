@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../Appcolor.dart';
+
 class Update_Address extends StatefulWidget {
   final String? uid;
 
@@ -31,7 +33,7 @@ class _Update_AddressState extends State<Update_Address> {
       appBar: AppBar(
         title: const Text("Address"),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor:AppColors.lightBlue,
       ),
       body: Column(
         children: <Widget>[

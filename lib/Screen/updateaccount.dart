@@ -10,6 +10,8 @@ import 'dart:io';
 
 import 'package:uuid/uuid.dart';
 
+import '../Appcolor.dart';
+
 class Account_Update extends StatefulWidget {
   final User_Model user;
 
@@ -89,7 +91,7 @@ class _Account_UpdateState extends State<Account_Update> {
         appBar: AppBar(
           title: const Text("Update My Profile"),
           centerTitle: true,
-          backgroundColor: Colors.indigo,
+          backgroundColor: AppColors.lightBlue,
         ),
         body: SingleChildScrollView(
           child: Padding(

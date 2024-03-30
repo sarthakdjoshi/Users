@@ -5,6 +5,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:users/Screen/orderconfirm.dart';
 import 'package:uuid/uuid.dart';
 
+import '../Appcolor.dart';
 import '../Model/Cart_Model.dart';
 import '../Model/address_Model.dart';
 
@@ -146,7 +147,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Invoice"),
-        backgroundColor: Colors.indigo,
+        backgroundColor:AppColors.lightBlue,
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
