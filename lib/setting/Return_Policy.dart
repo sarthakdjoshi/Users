@@ -30,6 +30,7 @@ class ReturnPolicyScreen extends StatelessWidget {
                   "Please contact our customer service team at abc@gmail.com to initiate a return or if you have any questions.\n\n",
               style: TextStyle(
                 fontSize: 16.0,
+                  fontWeight: FontWeight.bold
               ),
             ),
           ],

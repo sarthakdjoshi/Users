@@ -51,6 +51,7 @@ class _Tearm_of_UseState extends State<Tearm_of_Use> {
                   "10.1. These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law principles.\n\n",
               style: TextStyle(
                 fontSize: 16.0,
+                  fontWeight: FontWeight.bold
               ),
             ),
           ],

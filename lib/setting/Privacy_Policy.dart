@@ -48,6 +48,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   "9.1. If you have any questions about this Privacy Policy, please contact us at abc@gmail.com.\n\n",
               style: TextStyle(
                 fontSize: 16.0,
+                fontWeight: FontWeight.bold
               ),
             ),
           ],
