@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:users/Screen/Account_Detail.dart';
 import 'package:users/Screen/Logout.dart';
 import 'package:users/Screen/Myorder.dart';
-import 'package:users/Screen/Setting.dart';
+import 'package:users/setting/Setting.dart';
 import 'package:users/Screen/fav.dart';
 
 import '../Appcolor.dart';
