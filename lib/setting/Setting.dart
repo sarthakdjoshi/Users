@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:users/setting/Help_Center.dart';
 import 'package:users/setting/Privacy_Policy.dart';
 import 'package:users/setting/Return_Policy.dart';
 import 'package:users/setting/Saved_Adress.dart';
@@ -23,7 +24,6 @@ class _My_SettingState extends State<My_Setting> {
         centerTitle: true,
       ),
       body:  Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
             onTap: () {
@@ -48,6 +48,7 @@ class _My_SettingState extends State<My_Setting> {
           ),
           InkWell(
             onTap: () {
+
               Navigator.push(context, MaterialPageRoute(builder: (context) => Saved_Address(),));
             },
             child:  const ListTile(
@@ -94,6 +95,8 @@ class _My_SettingState extends State<My_Setting> {
           ),
           InkWell(
             onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Help_Center(),));
+
             },
             child:  const ListTile(
               title: Text("Help Center"),

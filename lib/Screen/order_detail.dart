@@ -47,7 +47,7 @@ class _OrderDetailState extends State<OrderDetail> {
                   future: _getProductData(order.product_name.first), // Assuming product_name contains only one product
                   builder: (context, AsyncSnapshot<Product_Model> productSnapshot) {
                     if (productSnapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                     if (productSnapshot.hasError) {
                       return Text('Error: ${productSnapshot.error}');
@@ -72,51 +72,51 @@ class _OrderDetailState extends State<OrderDetail> {
                           ListTile(
                             title: const Text(
                               "Product Name:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.product_name.join(", "),
-                              style: const TextStyle(color: Colors.black87),
+                              style: const TextStyle(color: Colors.lightBlue),
                             ),
                           ),
                           ListTile(
                             title: const Text(
                               "Product Price:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.product_price is List ? (order.product_price as List).join(", ") : order.product_price.toString(),
-                              style: const TextStyle(color: Colors.black87),
+                              style: const TextStyle(color: Colors.lightBlue),
                             ),
                           ),
                           ListTile(
                             title: const Text(
                               "Payment Method:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.Payment_Method,
-                              style: const TextStyle(color: Colors.black87),
+                              style: const TextStyle(color: Colors.lightBlue),
                             ),
                           ),
                           ListTile(
                             title: const Text(
                               "User Name:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.user_name,
-                              style: const TextStyle(color: Colors.black87),
+                              style: const TextStyle(color: Colors.lightBlue),
                             ),
                           ),
                           ListTile(
                             title: const Text(
                               "Order Status:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.orderstatus,
-                              style: const TextStyle(color: Colors.black87),
+                              style: const TextStyle(color: Colors.lightBlue),
                             ),
                           ),
                           const Divider(height: 2, thickness: 2, color: Colors.indigo),
