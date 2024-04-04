@@ -72,7 +72,7 @@ class _Help_CenterState extends State<Help_Center> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  children: <Widget>[
+                  children: [
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
@@ -106,7 +106,7 @@ class _Help_CenterState extends State<Help_Center> {
             title: const Text("Map"),
             subtitle: const Text("1600 Amphitheatre Parkway,Mountain+View,CA"),
             onTap: () {
-              _launchMap("1600+Amphitheatre+Parkway,Mountain+View,+CA");
+              launchMap("Indus+University+Ahmedabad+Gujarat");
             },
           ),
         ],
@@ -148,12 +148,8 @@ _launchPhone(String phoneNumber) async {
   }
 }
 
-_launchMap(String address) async {
-  final Uri mapLaunchUri = Uri(
-    scheme: 'geo',
-    query: address,
-  );
-  String url = mapLaunchUri.toString();
+Future<void> launchMap(String query) async {
+  final url = 'https://www.google.com/maps/search/?api=1&query=$query';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
