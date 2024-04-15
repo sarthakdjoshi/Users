@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:users/Appcolor.dart';
 import 'package:users/Screen/Signup.dart';
 import 'package:users/Splash.dart';
+import 'package:users/provider2.dart';
 import 'Provider.dart';
 import 'Screen/bottomnavidate.dart';
 import 'firebase_options.dart';
@@ -15,24 +16,36 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ChangeNotifierProvider(
-      create: (BuildContext context) => ThemeProvider(), child: const MyApp()));
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemePersistenceProvider()..loadTheme()), // Initialize and load theme
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemePersistenceProvider>(context);
     return MaterialApp(
-        title: 'Login',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.light(),
-        darkTheme: ThemeData.dark(),
-        themeMode: Provider.of<ThemeProvider>(context).currentTheme,
-        home: const Splash());
+      title: 'Login',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeProvider.themeMode,
+      home: const Splash(),
+    );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});

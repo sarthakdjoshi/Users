@@ -28,7 +28,7 @@ class _My_SettingState extends State<My_Setting> {
           InkWell(
             onTap: () {
               Provider.of<ThemeProvider>(context, listen: false)
-                  .toggleTheme();
+                  .toggleTheme(context);
             },
             child:  const ListTile(
               title: Text("Change Your Theme"),
