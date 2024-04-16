@@ -20,13 +20,14 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemePersistenceProvider()..loadTheme()), // Initialize and load theme
+        ChangeNotifierProvider(create: (_) => ThemePersistenceProvider()..loadTheme()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: const MyApp(),
     ),
   );
 }
+
 
 
 class MyApp extends StatelessWidget {
