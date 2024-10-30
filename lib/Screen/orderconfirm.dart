@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:users/Screen/order_detail.dart';
+
 import 'bottomnavidate.dart';
 
 class OrderConfirmationScreen extends StatelessWidget {
@@ -44,7 +45,8 @@ class OrderConfirmationScreen extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.indigo,
                     borderRadius: BorderRadius.circular(8),
@@ -71,7 +73,8 @@ class OrderConfirmationScreen extends StatelessWidget {
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   decoration: BoxDecoration(
                     color: Colors.indigo,
                     borderRadius: BorderRadius.circular(8),

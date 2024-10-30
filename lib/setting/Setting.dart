@@ -23,24 +23,28 @@ class _My_SettingState extends State<My_Setting> {
         title: const Text("My Setting"),
         centerTitle: true,
       ),
-      body:  Column(
+      body: Column(
         children: [
           InkWell(
             onTap: () {
               Provider.of<ThemeProvider>(context, listen: false)
                   .toggleTheme(context);
             },
-            child:  const ListTile(
+            child: const ListTile(
               title: Text("Change Your Theme"),
               trailing: Icon(Icons.nightlight),
             ),
           ),
-          const Text("Account Settings",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-          const Divider(height: 3,),
+          const Text(
+            "Account Settings",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const Divider(
+            height: 3,
+          ),
           InkWell(
-            onTap: () {
-            },
-            child:  const ListTile(
+            onTap: () {},
+            child: const ListTile(
               title: Text("Manage Notification"),
               leading: Icon(Icons.notifications),
               trailing: Icon(Icons.keyboard_arrow_right_sharp),
@@ -48,24 +52,37 @@ class _My_SettingState extends State<My_Setting> {
           ),
           InkWell(
             onTap: () {
-
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Saved_Address(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Saved_Address(),
+                  ));
             },
-            child:  const ListTile(
+            child: const ListTile(
               title: Text("Saved Address"),
               leading: Icon(Icons.location_on),
               trailing: Icon(Icons.keyboard_arrow_right_sharp),
             ),
           ),
-          const SizedBox(height: 10,),
-          const Text("Feedback&information",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-
-          const Divider(height: 3,),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            "Feedback&information",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const Divider(
+            height: 3,
+          ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Tearm_of_Use(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Tearm_of_Use(),
+                  ));
             },
-            child:  const ListTile(
+            child: const ListTile(
               title: Text("Tearm of Use"),
               leading: Icon(Icons.integration_instructions_sharp),
               trailing: Icon(Icons.keyboard_arrow_right_sharp),
@@ -73,10 +90,13 @@ class _My_SettingState extends State<My_Setting> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen(),));
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PrivacyPolicyScreen(),
+                  ));
             },
-            child:  const ListTile(
+            child: const ListTile(
               title: Text("Privacy Policy "),
               leading: Icon(Icons.privacy_tip),
               trailing: Icon(Icons.keyboard_arrow_right_sharp),
@@ -84,27 +104,32 @@ class _My_SettingState extends State<My_Setting> {
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ReturnPolicyScreen(),));
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReturnPolicyScreen(),
+                  ));
             },
-            child:  const ListTile(
+            child: const ListTile(
               title: Text("Return Policy "),
-              leading: Icon(Icons.keyboard_return ),
+              leading: Icon(Icons.keyboard_return),
               trailing: Icon(Icons.keyboard_arrow_right_sharp),
             ),
           ),
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Help_Center(),));
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Help_Center(),
+                  ));
             },
-            child:  const ListTile(
+            child: const ListTile(
               title: Text("Help Center"),
-              leading: Icon(Icons.help ),
+              leading: Icon(Icons.help),
               trailing: Icon(Icons.keyboard_arrow_right_sharp),
             ),
           ),
-
         ],
       ),
     );

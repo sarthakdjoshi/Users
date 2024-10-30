@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:users/Model/Favorites_Model.dart';
 import 'package:users/Screen/Prodcut_detail.dart';
 
@@ -22,7 +22,7 @@ class _FavState extends State<Fav> {
       appBar: AppBar(
         title: const Text("Favorites"),
         centerTitle: true,
-        backgroundColor:AppColors.lightBlue,
+        backgroundColor: AppColors.lightBlue,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection("Favorites").snapshots(),

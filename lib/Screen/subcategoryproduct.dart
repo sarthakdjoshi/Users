@@ -5,10 +5,10 @@ import '../Appcolor.dart';
 import '../Model/Product_Model.dart';
 import 'Prodcut_detail.dart';
 
-class SubcategoryDetail extends StatefulWidget{
+class SubcategoryDetail extends StatefulWidget {
   final String sub;
-  const SubcategoryDetail({super.key, required this.sub});
 
+  const SubcategoryDetail({super.key, required this.sub});
 
   @override
   State<SubcategoryDetail> createState() => _SubcategoryDetailState();
@@ -21,9 +21,9 @@ class _SubcategoryDetailState extends State<SubcategoryDetail> {
       appBar: AppBar(
         title: Text("${widget.sub}'sProduct"),
         centerTitle: true,
-        backgroundColor:AppColors.lightBlue,
+        backgroundColor: AppColors.lightBlue,
       ),
-      body:      StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance
             .collection("Product")
             .where("Sub_category", isEqualTo: widget.sub)
@@ -53,8 +53,8 @@ class _SubcategoryDetailState extends State<SubcategoryDetail> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProductDetail(
-                              productname: product.product_name),
+                          builder: (context) =>
+                              ProductDetail(productname: product.product_name),
                         ));
                   },
                   child: Card(
@@ -98,7 +98,6 @@ class _SubcategoryDetailState extends State<SubcategoryDetail> {
           }
         },
       ),
-
     );
   }
 }

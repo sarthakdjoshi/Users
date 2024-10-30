@@ -12,43 +12,53 @@ class _Help_CenterState extends State<Help_Center> {
   List<FAQ> faqData = [
     FAQ(
       question: "What countries do you ship to?",
-      answer: "We ship to most countries worldwide. However, there may be some restrictions depending on the destination. Please check our shipping policy for more details.",
+      answer:
+          "We ship to most countries worldwide. However, there may be some restrictions depending on the destination. Please check our shipping policy for more details.",
     ),
     FAQ(
       question: "What is your return/exchange policy?",
-      answer: "We accept returns and exchanges within 30 days of purchase. Items must be unused and in the same condition as received. Please refer to our returns and exchanges policy for more information.",
+      answer:
+          "We accept returns and exchanges within 30 days of purchase. Items must be unused and in the same condition as received. Please refer to our returns and exchanges policy for more information.",
     ),
     FAQ(
       question: "How long will it take to get my order?",
-      answer: "Delivery times vary depending on the shipping method chosen and the destination. Please refer to our shipping policy for estimated delivery times.",
+      answer:
+          "Delivery times vary depending on the shipping method chosen and the destination. Please refer to our shipping policy for estimated delivery times.",
     ),
     FAQ(
       question: "What payment methods do you accept?",
-      answer: "We accept various payment methods including credit/debit cards, PayPal, and bank transfers. Please check our payment methods page for more details.",
+      answer:
+          "We accept various payment methods including credit/debit cards, PayPal, and bank transfers. Please check our payment methods page for more details.",
     ),
     FAQ(
       question: "Do you have gift packaging options?",
-      answer: "Yes, we offer gift packaging options for select items. You can choose gift packaging during the checkout process.",
+      answer:
+          "Yes, we offer gift packaging options for select items. You can choose gift packaging during the checkout process.",
     ),
     FAQ(
       question: "How long does order processing take?",
-      answer: "Order processing typically takes 1-2 business days. During busy periods, processing times may be slightly longer. Once your order has been processed, you will receive a confirmation email with tracking information.",
+      answer:
+          "Order processing typically takes 1-2 business days. During busy periods, processing times may be slightly longer. Once your order has been processed, you will receive a confirmation email with tracking information.",
     ),
     FAQ(
       question: "How do I cancel/modify an order?",
-      answer: "If you need to cancel or modify your order, please contact our customer support team as soon as possible. Orders can only be modified or canceled before they have been shipped.",
+      answer:
+          "If you need to cancel or modify your order, please contact our customer support team as soon as possible. Orders can only be modified or canceled before they have been shipped.",
     ),
     FAQ(
       question: "How can I track my order?",
-      answer: "Once your order has been shipped, you will receive a tracking number via email. You can use this tracking number to track your order on our website or the courier's website.",
+      answer:
+          "Once your order has been shipped, you will receive a tracking number via email. You can use this tracking number to track your order on our website or the courier's website.",
     ),
     FAQ(
       question: "What if my order arrives damaged?",
-      answer: "If your order arrives damaged, please contact our customer support team immediately. We will arrange for a replacement or refund as necessary.",
+      answer:
+          "If your order arrives damaged, please contact our customer support team immediately. We will arrange for a replacement or refund as necessary.",
     ),
     FAQ(
       question: "Product info Q&A",
-      answer: "For specific product information, please refer to the product description on our website. If you have any additional questions, feel free to contact our customer support team.",
+      answer:
+          "For specific product information, please refer to the product description on our website. If you have any additional questions, feel free to contact our customer support team.",
     ),
   ];
 

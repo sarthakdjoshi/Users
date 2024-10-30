@@ -36,7 +36,8 @@ class _OrderDetailState extends State<OrderDetail> {
             return Center(child: Text("Error: ${snapshot.error}"));
           } else {
             final List<Order_Model> orders = snapshot.data!.docs
-                .map((doc) => Order_Model.fromFirestore(doc as DocumentSnapshot<Map<String, dynamic>>))
+                .map((doc) => Order_Model.fromFirestore(
+                    doc as DocumentSnapshot<Map<String, dynamic>>))
                 .toList();
 
             return ListView.builder(
@@ -44,9 +45,12 @@ class _OrderDetailState extends State<OrderDetail> {
               itemBuilder: (context, index) {
                 var order = orders[index];
                 return FutureBuilder<Product_Model>(
-                  future: _getProductData(order.product_name.first), // Assuming product_name contains only one product
-                  builder: (context, AsyncSnapshot<Product_Model> productSnapshot) {
-                    if (productSnapshot.connectionState == ConnectionState.waiting) {
+                  future: _getProductData(order.product_name.first),
+                  // Assuming product_name contains only one product
+                  builder:
+                      (context, AsyncSnapshot<Product_Model> productSnapshot) {
+                    if (productSnapshot.connectionState ==
+                        ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     }
                     if (productSnapshot.hasError) {
@@ -58,7 +62,12 @@ class _OrderDetailState extends State<OrderDetail> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.network(product.images[0],width: 200,height: 200,), // Display product image
+                          Image.network(
+                            product.images[0],
+                            width: 200,
+                            height: 200,
+                          ),
+                          // Display product image
 
                           const Text(
                             "Order Detail:",
@@ -72,7 +81,9 @@ class _OrderDetailState extends State<OrderDetail> {
                           ListTile(
                             title: const Text(
                               "Product Name:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.product_name.join(", "),
@@ -82,17 +93,23 @@ class _OrderDetailState extends State<OrderDetail> {
                           ListTile(
                             title: const Text(
                               "Product Price:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.lightBlue),
                             ),
                             subtitle: Text(
-                              order.product_price is List ? (order.product_price as List).join(", ") : order.product_price.toString(),
+                              order.product_price is List
+                                  ? (order.product_price as List).join(", ")
+                                  : order.product_price.toString(),
                               style: const TextStyle(color: Colors.lightBlue),
                             ),
                           ),
                           ListTile(
                             title: const Text(
                               "Payment Method:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.Payment_Method,
@@ -102,7 +119,9 @@ class _OrderDetailState extends State<OrderDetail> {
                           ListTile(
                             title: const Text(
                               "User Name:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.user_name,
@@ -112,14 +131,17 @@ class _OrderDetailState extends State<OrderDetail> {
                           ListTile(
                             title: const Text(
                               "Order Status:",
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.lightBlue),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.lightBlue),
                             ),
                             subtitle: Text(
                               order.orderstatus,
                               style: const TextStyle(color: Colors.lightBlue),
                             ),
                           ),
-                          const Divider(height: 2, thickness: 2, color: Colors.indigo),
+                          const Divider(
+                              height: 2, thickness: 2, color: Colors.indigo),
                         ],
                       ),
                     );
@@ -134,9 +156,13 @@ class _OrderDetailState extends State<OrderDetail> {
   }
 
   Future<Product_Model> _getProductData(String productName) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("Product").where("product_name", isEqualTo: productName).get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("Product")
+        .where("product_name", isEqualTo: productName)
+        .get();
     if (querySnapshot.docs.isNotEmpty) {
-      return Product_Model.fromFirestore(querySnapshot.docs.first as DocumentSnapshot<Map<String, dynamic>>);
+      return Product_Model.fromFirestore(
+          querySnapshot.docs.first as DocumentSnapshot<Map<String, dynamic>>);
     } else {
       throw Exception("Product not found");
     }

@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:users/main.dart';
 
-import 'bottomnavidate.dart';
-
 class Logout extends StatefulWidget {
   const Logout({super.key});
 

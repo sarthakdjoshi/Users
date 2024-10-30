@@ -32,7 +32,7 @@ class Order_Model {
       user_name: data['user_name'],
       Payment_Method: data['Payment_Method'] ?? "",
       orderid: data['orderid'],
-      orderstatus: data['orderstatus']??"",
+      orderstatus: data['orderstatus'] ?? "",
     );
   }
 }

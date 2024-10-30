@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:users/Screen/Account_Detail.dart';
-import 'package:users/Screen/Logout.dart';
 import 'package:users/Screen/Myorder.dart';
-import 'package:users/setting/Setting.dart';
 import 'package:users/Screen/fav.dart';
+import 'package:users/setting/Setting.dart';
 
 import '../Appcolor.dart';
 import '../main.dart';
@@ -22,7 +21,7 @@ class _AccountState extends State<Account> {
     "MY Order",
     "MY Wishlist",
     "MY Setting",
-   ];
+  ];
   List<Icon> icons = [
     const Icon(Icons.person),
     const Icon(Icons.shopping_cart),
@@ -34,7 +33,6 @@ class _AccountState extends State<Account> {
     const MyOrder(),
     const Fav(),
     const My_Setting(),
-
   ];
 
   @override
@@ -43,7 +41,7 @@ class _AccountState extends State<Account> {
       appBar: AppBar(
         title: const Text("Account"),
         centerTitle: true,
-        backgroundColor:AppColors.lightBlue,
+        backgroundColor: AppColors.lightBlue,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +70,6 @@ class _AccountState extends State<Account> {
                         ),
                       ),
                     ),
-
                   ],
                 );
               },
@@ -83,15 +80,14 @@ class _AccountState extends State<Account> {
               title: Text("Logout"),
               trailing: Icon(Icons.logout),
             ),
-            onTap: (){
+            onTap: () {
               FirebaseAuth.instance
                   .signOut()
                   .then((value) => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                    const MyHomePage(title: "Login"),
-                  )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyHomePage(title: "Login"),
+                      )));
             },
           )
         ],

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,8 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-
 import 'package:uuid/uuid.dart';
 
 import '../Appcolor.dart';
@@ -93,7 +93,7 @@ class _SignupState extends State<Signup> {
             style: TextStyle(color: Colors.white),
           ),
           centerTitle: true,
-          backgroundColor:AppColors.lightBlue,
+          backgroundColor: AppColors.lightBlue,
         ),
         body: SingleChildScrollView(
           child: Padding(

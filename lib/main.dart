@@ -7,6 +7,7 @@ import 'package:users/Appcolor.dart';
 import 'package:users/Screen/Signup.dart';
 import 'package:users/Splash.dart';
 import 'package:users/provider2.dart';
+
 import 'Provider.dart';
 import 'Screen/bottomnavidate.dart';
 import 'firebase_options.dart';
@@ -20,15 +21,14 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemePersistenceProvider()..loadTheme()),
+        ChangeNotifierProvider(
+            create: (_) => ThemePersistenceProvider()..loadTheme()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: const MyApp(),
     ),
   );
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -198,7 +197,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

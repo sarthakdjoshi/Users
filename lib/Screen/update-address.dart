@@ -33,7 +33,7 @@ class _Update_AddressState extends State<Update_Address> {
       appBar: AppBar(
         title: const Text("Address"),
         centerTitle: true,
-        backgroundColor:AppColors.lightBlue,
+        backgroundColor: AppColors.lightBlue,
       ),
       body: Column(
         children: <Widget>[

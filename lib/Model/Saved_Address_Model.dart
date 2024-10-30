@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Saved_Address_Model{
+class Saved_Address_Model {
   final String id;
   final String add_id;
   final String city;
@@ -12,21 +12,21 @@ class Saved_Address_Model{
   final String pincode;
   final String roadname;
   final String state;
-  Saved_Address_Model(
-      {
-         required this.id,
-        required   this.add_id,
-        required this.city,
-        required  this.country,
-        required this.fullname,
-        required this.houseno,
-        required this.nearbyshop,
-        required this.phoneno,
-        required  this.pincode,
-        required   this.roadname,
-        required this.state,
 
-});
+  Saved_Address_Model({
+    required this.id,
+    required this.add_id,
+    required this.city,
+    required this.country,
+    required this.fullname,
+    required this.houseno,
+    required this.nearbyshop,
+    required this.phoneno,
+    required this.pincode,
+    required this.roadname,
+    required this.state,
+  });
+
   factory Saved_Address_Model.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
@@ -41,7 +41,6 @@ class Saved_Address_Model{
         phoneno: data['phoneno'],
         pincode: data['pincode'],
         roadname: data['roadname'],
-        state: data['state']
-    );
+        state: data['state']);
   }
-  }
+}

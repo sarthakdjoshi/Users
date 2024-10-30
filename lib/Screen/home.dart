@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: const Text("Home"),
           centerTitle: true,
-          backgroundColor:AppColors.lightBlue,
+          backgroundColor: AppColors.lightBlue,
           actions: [
             IconButton(
                 onPressed: () {},

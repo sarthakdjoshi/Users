@@ -22,7 +22,7 @@ class _Category_DetailState extends State<Category_Detail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("${widget.category.toString()}'s Brands"),
+        title: Text("${widget.category.toString()}'s Brands"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -55,7 +55,12 @@ class _Category_DetailState extends State<Category_Detail> {
                         child: InkWell(
                           onTap: () {
                             sub = category.Sub_Category;
-                            Navigator.push(context, MaterialPageRoute(builder:  (context) => SubcategoryDetail(sub: sub),));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SubcategoryDetail(sub: sub),
+                                ));
                             setState(() {});
                           },
                           child: Column(
@@ -80,83 +85,82 @@ class _Category_DetailState extends State<Category_Detail> {
               },
             ),
           ),
-           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: FirebaseFirestore.instance
-                      .collection("Product")
-                      .where("category", isEqualTo: widget.category)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.hasError) {
-                      return Text("Error: ${snapshot.error}");
-                    } else {
-                      final List<Product_Model> products = snapshot.data!.docs
-                          .map((doc) => Product_Model.fromFirestore(doc))
-                          .toList();
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.7,
-                        ),
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          var product = products[index];
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProductDetail(
-                                        productname: product.product_name),
-                                  ));
-                            },
-                            child: Card(
-                              elevation: 4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Image.network(
-                                      product.images[0],
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      product.product_name,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8.0, bottom: 8.0),
-                                    child: Text(
-                                      "₹${product.product_price}",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: FirebaseFirestore.instance
+                .collection("Product")
+                .where("category", isEqualTo: widget.category)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Text("Error: ${snapshot.error}");
+              } else {
+                final List<Product_Model> products = snapshot.data!.docs
+                    .map((doc) => Product_Model.fromFirestore(doc))
+                    .toList();
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    var product = products[index];
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProductDetail(
+                                  productname: product.product_name),
+                            ));
+                      },
+                      child: Card(
+                        elevation: 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Image.network(
+                                product.images[0],
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          );
-                        },
-                      );
-                    }
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                product.product_name,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, right: 8.0, bottom: 8.0),
+                              child: Text(
+                                "₹${product.product_price}",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   },
-                )
-       ],
+                );
+              }
+            },
+          )
+        ],
       )),
     );
   }

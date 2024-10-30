@@ -21,7 +21,7 @@ class _CartState extends State<Cart> {
       appBar: AppBar(
         title: const Text("Cart"),
         centerTitle: true,
-        backgroundColor:AppColors.lightBlue,
+        backgroundColor: AppColors.lightBlue,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection("Cart").snapshots(),

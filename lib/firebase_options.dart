@@ -66,5 +66,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'parctice-f8ca0.appspot.com',
     measurementId: 'G-KLDR5JEP5H',
   );
-
 }
